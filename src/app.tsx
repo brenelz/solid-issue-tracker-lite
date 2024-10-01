@@ -5,6 +5,7 @@ import { Suspense } from "solid-js";
 import "./app.css";
 import "@fontsource/inter"
 import { ClerkProvider } from "clerk-solidjs";
+import MainLayout from "./layouts/MainLayout";
 
 export default function App() {
   return (
@@ -15,7 +16,11 @@ export default function App() {
         >
           <MetaProvider>
             <Title>Solid Issue Tracker Lite - Brenelz</Title>
-            <Suspense>{props.children}</Suspense>
+            <Suspense>
+              <MainLayout>
+                {props.children}
+              </MainLayout>
+            </Suspense>
           </MetaProvider>
         </ClerkProvider>
       )}
