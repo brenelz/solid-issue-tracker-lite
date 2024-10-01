@@ -25,19 +25,22 @@ importers:
         version: 0.14.7(solid-js@1.9.1)
       '@solidjs/start':
         specifier: ^1.0.8
-        version: 1.0.8(solid-js@1.9.1)(vinxi@0.4.3(@libsql/client@0.14.0)(@types/node@22.7.4)(drizzle-orm@0.33.0(@libsql/client@0.14.0))(ioredis@5.4.1)(terser@5.34.1))(vite@5.4.8(@types/node@22.7.4)(terser@5.34.1))
+        version: 1.0.8(solid-js@1.9.1)(vinxi@0.4.3(@libsql/client@0.14.0)(@types/node@22.7.4)(drizzle-orm@0.33.0(@libsql/client@0.14.0)(react@18.3.1))(ioredis@5.4.1)(terser@5.34.1))(vite@5.4.8(@types/node@22.7.4)(terser@5.34.1))
       autoprefixer:
         specifier: ^10.4.20
         version: 10.4.20(postcss@8.4.47)
       class-variance-authority:
         specifier: ^0.7.0
         version: 0.7.0
+      clerk-solidjs:
+        specifier: ^2.0.2
+        version: 2.0.2(@solidjs/router@0.14.7(solid-js@1.9.1))(@solidjs/start@1.0.8(solid-js@1.9.1)(vinxi@0.4.3(@libsql/client@0.14.0)(@types/node@22.7.4)(drizzle-orm@0.33.0(@libsql/client@0.14.0)(react@18.3.1))(ioredis@5.4.1)(terser@5.34.1))(vite@5.4.8(@types/node@22.7.4)(terser@5.34.1)))(react@18.3.1)(solid-js@1.9.1)
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
       drizzle-orm:
         specifier: ^0.33.0
-        version: 0.33.0(@libsql/client@0.14.0)
+        version: 0.33.0(@libsql/client@0.14.0)(react@18.3.1)
       postcss:
         specifier: ^8.4.47
         version: 8.4.47
@@ -55,7 +58,7 @@ importers:
         version: 1.0.7(tailwindcss@3.4.13)
       vinxi:
         specifier: ^0.4.3
-        version: 0.4.3(@libsql/client@0.14.0)(@types/node@22.7.4)(drizzle-orm@0.33.0(@libsql/client@0.14.0))(ioredis@5.4.1)(terser@5.34.1)
+        version: 0.4.3(@libsql/client@0.14.0)(@types/node@22.7.4)(drizzle-orm@0.33.0(@libsql/client@0.14.0)(react@18.3.1))(ioredis@5.4.1)(terser@5.34.1)
     devDependencies:
       drizzle-kit:
         specifier: ^0.24.2
@@ -161,6 +164,26 @@ packages:
   '@babel/types@7.25.6':
     resolution: {integrity: sha512-/l42B1qxpG6RdfYf343Uw1vmDjeNhneUXtzhojE7pDgfpEypmRhI6j1kr17XCVv4Cgl9HdAiQY2x0GwKm7rWCw==}
     engines: {node: '>=6.9.0'}
+
+  '@clerk/backend@1.13.6':
+    resolution: {integrity: sha512-aHQZk/qDk4KEJFlEKB27mxm5rhThPJ+hu/cAmvZumrW/XMile44DhGqltV93qq1AiCl9eEprlSOr5KAfXRIAzg==}
+    engines: {node: '>=18.17.0'}
+
+  '@clerk/shared@2.8.4':
+    resolution: {integrity: sha512-I+V05B/YqEWAaXb+SWb9VFCK6WSjChW01gC9OJxpkvjauNiBtDjFVghodZFg2dxcbwQGQNj6sC1hrf+mcBVBqw==}
+    engines: {node: '>=18.17.0'}
+    peerDependencies:
+      react: '>=18 || >=19.0.0-beta'
+      react-dom: '>=18 || >=19.0.0-beta'
+    peerDependenciesMeta:
+      react:
+        optional: true
+      react-dom:
+        optional: true
+
+  '@clerk/types@4.23.0':
+    resolution: {integrity: sha512-xCAPeKXOt/qAEzhlv35sdNYm9ewoveRMUwVEoGsFIDaeF9N1agCNdzKtCMcHjGZFH4ESnopLmEq2n46aRxPFkA==}
+    engines: {node: '>=18.17.0'}
 
   '@cloudflare/kv-asset-handler@0.3.4':
     resolution: {integrity: sha512-YLPHc8yASwjNkmcDMQMY35yiWjoKAKnhUbPRszBRS0YgH+IXtsMp61j+yTcnCE3oO2DgP0U3iejLC8FTtKDC8Q==}
@@ -1133,6 +1156,16 @@ packages:
     resolution: {integrity: sha512-LtoMMhxAlorcGhmFYI+LhPgbPZCkgP6ra1YL604EeF6U98pLlQ3iWIGMdWSC+vWmPBWBNgmDBAhnAobLROJmwg==}
     engines: {node: '>=18'}
 
+  '@solid-primitives/context@0.2.3':
+    resolution: {integrity: sha512-6/e8qu9qJf48FJ+sxc/B782NdgFw5TvI8+r6U0gHizumfZcWZg8FAJqvRZAiwlygkUNiTQOGTeO10LVbMm0kvg==}
+    peerDependencies:
+      solid-js: ^1.6.12
+
+  '@solid-primitives/destructure@0.1.17':
+    resolution: {integrity: sha512-MTjEIIeiw36Png0tze70XnhQ79IbkreX8v0qpjJ77+CLT5MkVQtFoiNHGkZPyw7UtkZQE08qvV6KAJw8s9dCwg==}
+    peerDependencies:
+      solid-js: ^1.6.12
+
   '@solid-primitives/event-listener@2.3.3':
     resolution: {integrity: sha512-DAJbl+F0wrFW2xmcV8dKMBhk9QLVLuBSW+TR4JmIfTaObxd13PuL7nqaXnaYKDWOYa6otB00qcCUIGbuIhSUgQ==}
     peerDependencies:
@@ -1153,6 +1186,11 @@ packages:
     peerDependencies:
       solid-js: ^1.6.12
 
+  '@solid-primitives/memo@1.3.9':
+    resolution: {integrity: sha512-OIlGcsEPXr6U23fDaSEm8iqezWDT4SNSjLTekWQVOu4qHostnMPlqU8xo1Jf0I7OgRuqA0wTMQ5cu0bYjeR/ZQ==}
+    peerDependencies:
+      solid-js: ^1.6.12
+
   '@solid-primitives/props@3.1.11':
     resolution: {integrity: sha512-jZAKWwvDRHjiydIumDgMj68qviIbowQ1ci7nkEAgzgvanNkhKSQV8iPgR2jMk1uv7S2ZqXYHslVQTgJel/TEyg==}
     peerDependencies:
@@ -1170,6 +1208,11 @@ packages:
 
   '@solid-primitives/rootless@1.4.5':
     resolution: {integrity: sha512-GFJE9GC3ojx0aUKqAUZmQPyU8fOVMtnVNrkdk2yS4kd17WqVSpXpoTmo9CnOwA+PG7FTzdIkogvfLQSLs4lrww==}
+    peerDependencies:
+      solid-js: ^1.6.12
+
+  '@solid-primitives/scheduled@1.4.3':
+    resolution: {integrity: sha512-HfWN5w7b7FEc6VPLBKnnE302h90jsLMuR28Fcf7neRGGf8jBj6wm6/UFQ00VlKexHFMR6KQ2u4VBh5a1ZcqM8g==}
     peerDependencies:
       solid-js: ^1.6.12
 
@@ -1203,6 +1246,14 @@ packages:
 
   '@swc/helpers@0.5.13':
     resolution: {integrity: sha512-UoKGxQ3r5kYI9dALKJapMmuK+1zWM/H17Z1+iwnNmzcJRnfFuevZs375TA5rW31pu4BS4NoSy1fRsexDXfWn5w==}
+
+  '@tanstack/query-core@5.59.0':
+    resolution: {integrity: sha512-WGD8uIhX6/deH/tkZqPNcRyAhDUqs729bWKoByYHSogcshXfFbppOdTER5+qY7mFvu8KEFJwT0nxr8RfPTVh0Q==}
+
+  '@tanstack/solid-query@5.59.0':
+    resolution: {integrity: sha512-2yCObsJ9NHpKSKfHJ3R2TRuYbxtU2Hzg8rxlexl3uHm3VIvQQ1KH18/PYdQAR6oXymCl7ls5QZKvTvgJRtX9bg==}
+    peerDependencies:
+      solid-js: ^1.6.0
 
   '@types/babel__core@7.20.5':
     resolution: {integrity: sha512-qoQprZvz5wQFJwMDqeseRXWv3rqMvhgpbXFfVyWhbx9X47POIA6i/+dXefEmZKoAgOaTdaIgNSMqMIU61yRyzA==}
@@ -1487,9 +1538,20 @@ packages:
   class-variance-authority@0.7.0:
     resolution: {integrity: sha512-jFI8IQw4hczaL4ALINxqLEXQbWcNjoSkloa4IaufXCJr6QawJyw7tuRysRsrE8w2p/4gGaxKIt/hX3qz/IbD1A==}
 
+  clerk-solidjs@2.0.2:
+    resolution: {integrity: sha512-6j2+KISDNX+7WurIVOnqPz9VM4d0fJuC1icnnNkvr/SHB53fb0kZ9GGKTYLyvRxxNi4enzH/gCP45Q4T6JzvAw==}
+    engines: {node: '>=18'}
+    peerDependencies:
+      '@solidjs/router': '>=0.14'
+      '@solidjs/start': '>=1'
+      solid-js: '>=1'
+
   cli-boxes@3.0.0:
     resolution: {integrity: sha512-/lzGpEWL/8PfI0BmBOPRwp0c/wFNX1RdUML3jK/RcSBA9T8mZDdQpqYBKtCFTOfQbwPqWEOpjqW+Fnayc0969g==}
     engines: {node: '>=10'}
+
+  client-only@0.0.1:
+    resolution: {integrity: sha512-IV3Ou0jSMzZrd3pZ48nLkT9DA7Ag1pnPzaiQhpW7c3RbcqqzvzzVu+L8gfqMp/8IM2MQtSiqaCxrrcfu8I8rMA==}
 
   clipboardy@4.0.0:
     resolution: {integrity: sha512-5mOlNS0mhX0707P2I0aZ2V/cmHUEO/fL7VFLqszkhUsxt7RwnmrInf/eEQKlf5GzvYeHIjT+Ov1HRfNmymlG0w==}
@@ -1565,6 +1627,10 @@ packages:
   cookie-es@1.2.2:
     resolution: {integrity: sha512-+W7VmiVINB+ywl1HGXJXmrqkOhpKrIiVZV6tQuV54ZyQC7MMuBt81Vc336GMLoHBq5hV/F9eXgt5Mnx0Rha5Fg==}
 
+  cookie@0.5.0:
+    resolution: {integrity: sha512-YZ3GUyn/o8gfKJlnlX7g7xq4gyO6OSuhGPKaaGssGB2qgDUS0gPgtTvoyZLTt9Ab6dC4hfc9dV5arkvc/OCmrw==}
+    engines: {node: '>= 0.6'}
+
   core-util-is@1.0.3:
     resolution: {integrity: sha512-ZQBvi1DcpJ4GDqanjucZ2Hj3wEO5pZDS89BWbkcrvdxksJorwUDDZamX9ldFkp9aw2lmBDLgkObEA4DWNJ9FYQ==}
 
@@ -1601,6 +1667,9 @@ packages:
   cssstyle@4.1.0:
     resolution: {integrity: sha512-h66W1URKpBS5YMI/V8PyXvTMFT8SupJ1IzoIV8IeBC/ji8WVmrO8dGlTi+2dh6whmdk6BiKJLD/ZBkhWbcg6nA==}
     engines: {node: '>=18'}
+
+  csstype@3.1.1:
+    resolution: {integrity: sha512-DJR/VvkAvSZW9bTouZue2sSxDwdTN92uHjqeKVm+0dAqdfNykRzQ95tay8aXMBAAPpUiq4Qcug2L7neoRh2Egw==}
 
   csstype@3.1.3:
     resolution: {integrity: sha512-M1uQkMl8rQK/szD0LNhtqxIPLpimGm8sOBwU7lLnCpSbTyY3yeU1Vc7l4KT5zT4s/yOxHH5O7tIuuLOCnLADRw==}
@@ -1705,6 +1774,9 @@ packages:
 
   dlv@1.1.3:
     resolution: {integrity: sha512-+HlytyjlPKnIG8XuRG8WvmBP8xs8P71y+SKKS6ZXWoEgLuePxtDoUEiH7WkdePWrQ5JBpE6aoVqfZfJUQkjXwA==}
+
+  dot-case@3.0.4:
+    resolution: {integrity: sha512-Kv5nKlh6yRrdrGvxeJ2e5y2eRUpkUosIW4A2AS38zwSz27zu7ufDwQPi5Jhs3XAlGNetl3bmnGhQsMtkKJnj3w==}
 
   dot-prop@8.0.2:
     resolution: {integrity: sha512-xaBe6ZT4DHPkg0k4Ytbvn5xoxgpG0jOS1dYxSOwAHPuNLjP3/OzN0gH55SrLqpx8cBfSaVt91lXYkApjb+nYdQ==}
@@ -2016,6 +2088,9 @@ packages:
     resolution: {integrity: sha512-XxwI8EOhVQgWp6iDL+3b0r86f4d6AX6zSU55HfB4ydCEuXLXc5FcYeOu+nnGftS4TEju/11rt4KJPTMgbfmv4A==}
     engines: {node: '>=10.13.0'}
 
+  glob-to-regexp@0.4.1:
+    resolution: {integrity: sha512-lkX1HJXwyMcprw/5YUZc2s7DrpAiHB21/V+E1rHUrVNokkvB6bqMzT0VfV6/86ZNabt1k14YOIaT7nDvOX3Iiw==}
+
   glob@10.4.5:
     resolution: {integrity: sha512-7Bv8RF0k6xjo7d4A/PxYLbUCfb6c+Vpd2/mB2yRDlew7Jb5hEXiCD9ibfO7wpk8i4sevK6DFny9h7EYbM3/sHg==}
     hasBin: true
@@ -2238,6 +2313,10 @@ packages:
   js-base64@3.7.7:
     resolution: {integrity: sha512-7rCnleh0z2CkXhH67J8K1Ytz0b2Y+yxTPL+/KOJoa20hfnVQ/3/T6W/KflYI4bRHRagNeXeU2bkNGI3v1oS/lw==}
 
+  js-cookie@3.0.5:
+    resolution: {integrity: sha512-cEiJEAEoIbWfCZYKWhVwFuvPX1gETRYPw6LlaTKoxD3s2AkXzkCjnp6h0V77ozyqj0jakteJ4YqDJT830+lVGw==}
+    engines: {node: '>=14'}
+
   js-tokens@4.0.0:
     resolution: {integrity: sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==}
 
@@ -2313,6 +2392,13 @@ packages:
   lodash@4.17.21:
     resolution: {integrity: sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==}
 
+  loose-envify@1.4.0:
+    resolution: {integrity: sha512-lyuxPGr/Wfhrlem2CL/UcnUc1zcqKAImBDzukY7Y5F/yQiNdko6+fRLevlw1HgMySw7f611UIY408EtxRSoK3Q==}
+    hasBin: true
+
+  lower-case@2.0.2:
+    resolution: {integrity: sha512-7fm3l3NAF9WfN6W3JOmf5drwpVqX78JtoGJ3A6W0a6ZnldM41w2fV5D490psKFTpMds8TJse/eHLFFsNHHjHgg==}
+
   lru-cache@10.4.3:
     resolution: {integrity: sha512-JNAzZcXrCt42VGLuYz0zfAzDfAvJWW6AfYlDBQyDV5DClI2m5sAmK+OIO7s59XfsRsWHp02jAJrRadPRGTt6SQ==}
 
@@ -2327,6 +2413,10 @@ packages:
 
   make-dir@3.1.0:
     resolution: {integrity: sha512-g3FeP20LNwhALb/6Cz6Dd4F2ngze0jz7tbzrD2wAV+o9FeNHe4rL+yK2md0J/fiSf1sa1ADhXqi5+oVwOM/eGw==}
+    engines: {node: '>=8'}
+
+  map-obj@4.3.0:
+    resolution: {integrity: sha512-hdN1wVrZbb29eBGiGjJbeP8JbKjq1urkHJ/LIP/NY48MZ1QVXUsQBV1G1zvYFHn1XE06cwjBsOI2K3Ulnj1YXQ==}
     engines: {node: '>=8'}
 
   merge-anything@5.1.7:
@@ -2433,6 +2523,9 @@ packages:
     peerDependenciesMeta:
       xml2js:
         optional: true
+
+  no-case@3.0.4:
+    resolution: {integrity: sha512-fgAN3jGAh+RoxUGZHTSOLJIqUc2wmoBwGR4tbpNAKmmovFoWq0OdRkb0VkldReO2a2iBT/OEulG9XSUc10r3zg==}
 
   node-addon-api@7.1.1:
     resolution: {integrity: sha512-5m3bsyrjFWE1xf7nz7YXdN4udnVtXK6/Yfgn5qnahL6bCkf2yKt4k3nuTKAtT4r3IG8JNR2ncsIMdZuAzJjHQQ==}
@@ -2675,6 +2768,10 @@ packages:
   react-is@18.3.1:
     resolution: {integrity: sha512-/LLMVyas0ljjAtoYiPqYiL8VWXzUUdThrmU5+n20DZv+a+ClRoevUzw5JxU+Ieh5/c87ytoTBV9G1FiKfNJdmg==}
 
+  react@18.3.1:
+    resolution: {integrity: sha512-wS+hAgJShR0KhEvPJArfuPVN1+Hz1t0Y6n5jLrGQbkb4urgPE/0Rve+1kMB1v/oWgHgm4WIcV+i7F2pTVj+2iQ==}
+    engines: {node: '>=0.10.0'}
+
   read-cache@1.0.0:
     resolution: {integrity: sha512-Owdv/Ft7IjOgm/i0xvNDZ1LrRANRfew4b2prF3OWMQLxLfu3bS8FVhCsrSCMK4lR56Y9ya+AThoTpDCTxCmpRA==}
 
@@ -2840,6 +2937,13 @@ packages:
   smob@1.5.0:
     resolution: {integrity: sha512-g6T+p7QO8npa+/hNx9ohv1E5pVCmWrVCUzUXJyLdMmftX6ER0oiWY/w9knEonLpnOp6b6FenKnMfR8gqwWdwig==}
 
+  snake-case@3.0.4:
+    resolution: {integrity: sha512-LAOh4z89bGQvl9pFfNF8V146i7o7/CqFPbqzYgP+yYzDIDeS9HaNFtXABamRW+AQzEVODcvE79ljJ+8a9YSdMg==}
+
+  snakecase-keys@5.4.4:
+    resolution: {integrity: sha512-YTywJG93yxwHLgrYLZjlC75moVEX04LZM4FHfihjHe1FCXm+QaLOFfSf535aXOAd0ArVQMWUAe8ZPm4VtWyXaA==}
+    engines: {node: '>=12'}
+
   solid-js@1.9.1:
     resolution: {integrity: sha512-Gd6QWRFfO2XKKZqVK4YwbhWZkr0jWw1dYHOt+VYebomeyikGP0SuMflf42XcDuU9HAEYDArFJIYsBNjlE7iZsw==}
 
@@ -2945,6 +3049,11 @@ packages:
     resolution: {integrity: sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==}
     engines: {node: '>= 0.4'}
 
+  swr@2.2.5:
+    resolution: {integrity: sha512-QtxqyclFeAsxEUeZIYmsaQ0UjimSq1RZ9Un7I68/0ClKK/U3LoyQunwkQfJZr2fc22DfIXLNDc2wFyTEikCUpg==}
+    peerDependencies:
+      react: ^16.11.0 || ^17.0.0 || ^18.0.0
+
   symbol-tree@3.2.4:
     resolution: {integrity: sha512-9QNk5KwDF+Bvz+PyObkmSYjI5ksVUYtjW7AU22r2NKcfLJcXp96hkDWU3+XndOsUb+AQ9QhfzfCT2O+CNWT5Tw==}
 
@@ -3028,6 +3137,9 @@ packages:
 
   ts-interface-checker@0.1.13:
     resolution: {integrity: sha512-Y/arvbn+rrz3JCKl9C4kVNfTfSm2/mEp5FSz5EsZSANGPSlQrpRI5M4PKF+mJnE52jOO90PnPSc3Ur3bTQw0gA==}
+
+  tslib@2.4.1:
+    resolution: {integrity: sha512-tGyy4dAjRIEwI7BzsB0lynWgOpfqjUdq91XXAlIWD2OwKBH7oCl/GZG/HT4BOHrTlPMOASlMQ7veyTqpmRcrNA==}
 
   tslib@2.7.0:
     resolution: {integrity: sha512-gLXCKdN1/j47AiHiOkJN69hJmcbGTHI0ImLmbYLHykhgeN0jVGola9yVjFgzCUklsZQMW55o+dW7IXv3RCXDzA==}
@@ -3144,6 +3256,11 @@ packages:
 
   urlpattern-polyfill@8.0.2:
     resolution: {integrity: sha512-Qp95D4TPJl1kC9SKigDcqgyM2VDVO4RiJc2d4qe5GrYm+zbIQCWWKAFaJNQ4BhdFeDGwBmAxqJBwWSJDb9T3BQ==}
+
+  use-sync-external-store@1.2.2:
+    resolution: {integrity: sha512-PElTlVMwpblvbNqQ82d2n6RjStvdSoNe9FG28kNfz3WiXilJm4DdNkEzRhCZuIDwY8U08WVihhGR5iRqAwfDiw==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
 
   util-deprecate@1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
@@ -3450,6 +3567,31 @@ snapshots:
       '@babel/helper-string-parser': 7.24.8
       '@babel/helper-validator-identifier': 7.24.7
       to-fast-properties: 2.0.0
+
+  '@clerk/backend@1.13.6(react@18.3.1)':
+    dependencies:
+      '@clerk/shared': 2.8.4(react@18.3.1)
+      '@clerk/types': 4.23.0
+      cookie: 0.5.0
+      snakecase-keys: 5.4.4
+      tslib: 2.4.1
+    transitivePeerDependencies:
+      - react
+      - react-dom
+
+  '@clerk/shared@2.8.4(react@18.3.1)':
+    dependencies:
+      '@clerk/types': 4.23.0
+      glob-to-regexp: 0.4.1
+      js-cookie: 3.0.5
+      std-env: 3.7.0
+      swr: 2.2.5(react@18.3.1)
+    optionalDependencies:
+      react: 18.3.1
+
+  '@clerk/types@4.23.0':
+    dependencies:
+      csstype: 3.1.1
 
   '@cloudflare/kv-asset-handler@0.3.4':
     dependencies:
@@ -4119,6 +4261,15 @@ snapshots:
 
   '@sindresorhus/merge-streams@2.3.0': {}
 
+  '@solid-primitives/context@0.2.3(solid-js@1.9.1)':
+    dependencies:
+      solid-js: 1.9.1
+
+  '@solid-primitives/destructure@0.1.17(solid-js@1.9.1)':
+    dependencies:
+      '@solid-primitives/utils': 6.2.3(solid-js@1.9.1)
+      solid-js: 1.9.1
+
   '@solid-primitives/event-listener@2.3.3(solid-js@1.9.1)':
     dependencies:
       '@solid-primitives/utils': 6.2.3(solid-js@1.9.1)
@@ -4138,6 +4289,12 @@ snapshots:
       '@solid-primitives/event-listener': 2.3.3(solid-js@1.9.1)
       '@solid-primitives/rootless': 1.4.5(solid-js@1.9.1)
       '@solid-primitives/static-store': 0.0.8(solid-js@1.9.1)
+      '@solid-primitives/utils': 6.2.3(solid-js@1.9.1)
+      solid-js: 1.9.1
+
+  '@solid-primitives/memo@1.3.9(solid-js@1.9.1)':
+    dependencies:
+      '@solid-primitives/scheduled': 1.4.3(solid-js@1.9.1)
       '@solid-primitives/utils': 6.2.3(solid-js@1.9.1)
       solid-js: 1.9.1
 
@@ -4164,6 +4321,10 @@ snapshots:
       '@solid-primitives/utils': 6.2.3(solid-js@1.9.1)
       solid-js: 1.9.1
 
+  '@solid-primitives/scheduled@1.4.3(solid-js@1.9.1)':
+    dependencies:
+      solid-js: 1.9.1
+
   '@solid-primitives/static-store@0.0.8(solid-js@1.9.1)':
     dependencies:
       '@solid-primitives/utils': 6.2.3(solid-js@1.9.1)
@@ -4186,11 +4347,11 @@ snapshots:
     dependencies:
       solid-js: 1.9.1
 
-  '@solidjs/start@1.0.8(solid-js@1.9.1)(vinxi@0.4.3(@libsql/client@0.14.0)(@types/node@22.7.4)(drizzle-orm@0.33.0(@libsql/client@0.14.0))(ioredis@5.4.1)(terser@5.34.1))(vite@5.4.8(@types/node@22.7.4)(terser@5.34.1))':
+  '@solidjs/start@1.0.8(solid-js@1.9.1)(vinxi@0.4.3(@libsql/client@0.14.0)(@types/node@22.7.4)(drizzle-orm@0.33.0(@libsql/client@0.14.0)(react@18.3.1))(ioredis@5.4.1)(terser@5.34.1))(vite@5.4.8(@types/node@22.7.4)(terser@5.34.1))':
     dependencies:
-      '@vinxi/plugin-directives': 0.4.3(vinxi@0.4.3(@libsql/client@0.14.0)(@types/node@22.7.4)(drizzle-orm@0.33.0(@libsql/client@0.14.0))(ioredis@5.4.1)(terser@5.34.1))
-      '@vinxi/server-components': 0.4.3(vinxi@0.4.3(@libsql/client@0.14.0)(@types/node@22.7.4)(drizzle-orm@0.33.0(@libsql/client@0.14.0))(ioredis@5.4.1)(terser@5.34.1))
-      '@vinxi/server-functions': 0.4.3(vinxi@0.4.3(@libsql/client@0.14.0)(@types/node@22.7.4)(drizzle-orm@0.33.0(@libsql/client@0.14.0))(ioredis@5.4.1)(terser@5.34.1))
+      '@vinxi/plugin-directives': 0.4.3(vinxi@0.4.3(@libsql/client@0.14.0)(@types/node@22.7.4)(drizzle-orm@0.33.0(@libsql/client@0.14.0)(react@18.3.1))(ioredis@5.4.1)(terser@5.34.1))
+      '@vinxi/server-components': 0.4.3(vinxi@0.4.3(@libsql/client@0.14.0)(@types/node@22.7.4)(drizzle-orm@0.33.0(@libsql/client@0.14.0)(react@18.3.1))(ioredis@5.4.1)(terser@5.34.1))
+      '@vinxi/server-functions': 0.4.3(vinxi@0.4.3(@libsql/client@0.14.0)(@types/node@22.7.4)(drizzle-orm@0.33.0(@libsql/client@0.14.0)(react@18.3.1))(ioredis@5.4.1)(terser@5.34.1))
       defu: 6.1.4
       error-stack-parser: 2.1.4
       glob: 10.4.5
@@ -4215,6 +4376,13 @@ snapshots:
   '@swc/helpers@0.5.13':
     dependencies:
       tslib: 2.7.0
+
+  '@tanstack/query-core@5.59.0': {}
+
+  '@tanstack/solid-query@5.59.0(solid-js@1.9.1)':
+    dependencies:
+      '@tanstack/query-core': 5.59.0
+      solid-js: 1.9.1
 
   '@types/babel__core@7.20.5':
     dependencies:
@@ -4299,7 +4467,7 @@ snapshots:
     transitivePeerDependencies:
       - uWebSockets.js
 
-  '@vinxi/plugin-directives@0.4.3(vinxi@0.4.3(@libsql/client@0.14.0)(@types/node@22.7.4)(drizzle-orm@0.33.0(@libsql/client@0.14.0))(ioredis@5.4.1)(terser@5.34.1))':
+  '@vinxi/plugin-directives@0.4.3(vinxi@0.4.3(@libsql/client@0.14.0)(@types/node@22.7.4)(drizzle-orm@0.33.0(@libsql/client@0.14.0)(react@18.3.1))(ioredis@5.4.1)(terser@5.34.1))':
     dependencies:
       '@babel/parser': 7.25.6
       acorn: 8.12.1
@@ -4310,29 +4478,29 @@ snapshots:
       magicast: 0.2.11
       recast: 0.23.9
       tslib: 2.7.0
-      vinxi: 0.4.3(@libsql/client@0.14.0)(@types/node@22.7.4)(drizzle-orm@0.33.0(@libsql/client@0.14.0))(ioredis@5.4.1)(terser@5.34.1)
+      vinxi: 0.4.3(@libsql/client@0.14.0)(@types/node@22.7.4)(drizzle-orm@0.33.0(@libsql/client@0.14.0)(react@18.3.1))(ioredis@5.4.1)(terser@5.34.1)
 
-  '@vinxi/server-components@0.4.3(vinxi@0.4.3(@libsql/client@0.14.0)(@types/node@22.7.4)(drizzle-orm@0.33.0(@libsql/client@0.14.0))(ioredis@5.4.1)(terser@5.34.1))':
+  '@vinxi/server-components@0.4.3(vinxi@0.4.3(@libsql/client@0.14.0)(@types/node@22.7.4)(drizzle-orm@0.33.0(@libsql/client@0.14.0)(react@18.3.1))(ioredis@5.4.1)(terser@5.34.1))':
     dependencies:
-      '@vinxi/plugin-directives': 0.4.3(vinxi@0.4.3(@libsql/client@0.14.0)(@types/node@22.7.4)(drizzle-orm@0.33.0(@libsql/client@0.14.0))(ioredis@5.4.1)(terser@5.34.1))
+      '@vinxi/plugin-directives': 0.4.3(vinxi@0.4.3(@libsql/client@0.14.0)(@types/node@22.7.4)(drizzle-orm@0.33.0(@libsql/client@0.14.0)(react@18.3.1))(ioredis@5.4.1)(terser@5.34.1))
       acorn: 8.12.1
       acorn-loose: 8.4.0
       acorn-typescript: 1.4.13(acorn@8.12.1)
       astring: 1.9.0
       magicast: 0.2.11
       recast: 0.23.9
-      vinxi: 0.4.3(@libsql/client@0.14.0)(@types/node@22.7.4)(drizzle-orm@0.33.0(@libsql/client@0.14.0))(ioredis@5.4.1)(terser@5.34.1)
+      vinxi: 0.4.3(@libsql/client@0.14.0)(@types/node@22.7.4)(drizzle-orm@0.33.0(@libsql/client@0.14.0)(react@18.3.1))(ioredis@5.4.1)(terser@5.34.1)
 
-  '@vinxi/server-functions@0.4.3(vinxi@0.4.3(@libsql/client@0.14.0)(@types/node@22.7.4)(drizzle-orm@0.33.0(@libsql/client@0.14.0))(ioredis@5.4.1)(terser@5.34.1))':
+  '@vinxi/server-functions@0.4.3(vinxi@0.4.3(@libsql/client@0.14.0)(@types/node@22.7.4)(drizzle-orm@0.33.0(@libsql/client@0.14.0)(react@18.3.1))(ioredis@5.4.1)(terser@5.34.1))':
     dependencies:
-      '@vinxi/plugin-directives': 0.4.3(vinxi@0.4.3(@libsql/client@0.14.0)(@types/node@22.7.4)(drizzle-orm@0.33.0(@libsql/client@0.14.0))(ioredis@5.4.1)(terser@5.34.1))
+      '@vinxi/plugin-directives': 0.4.3(vinxi@0.4.3(@libsql/client@0.14.0)(@types/node@22.7.4)(drizzle-orm@0.33.0(@libsql/client@0.14.0)(react@18.3.1))(ioredis@5.4.1)(terser@5.34.1))
       acorn: 8.12.1
       acorn-loose: 8.4.0
       acorn-typescript: 1.4.13(acorn@8.12.1)
       astring: 1.9.0
       magicast: 0.2.11
       recast: 0.23.9
-      vinxi: 0.4.3(@libsql/client@0.14.0)(@types/node@22.7.4)(drizzle-orm@0.33.0(@libsql/client@0.14.0))(ioredis@5.4.1)(terser@5.34.1)
+      vinxi: 0.4.3(@libsql/client@0.14.0)(@types/node@22.7.4)(drizzle-orm@0.33.0(@libsql/client@0.14.0)(react@18.3.1))(ioredis@5.4.1)(terser@5.34.1)
 
   abbrev@1.1.1: {}
 
@@ -4589,7 +4757,24 @@ snapshots:
     dependencies:
       clsx: 2.0.0
 
+  clerk-solidjs@2.0.2(@solidjs/router@0.14.7(solid-js@1.9.1))(@solidjs/start@1.0.8(solid-js@1.9.1)(vinxi@0.4.3(@libsql/client@0.14.0)(@types/node@22.7.4)(drizzle-orm@0.33.0(@libsql/client@0.14.0)(react@18.3.1))(ioredis@5.4.1)(terser@5.34.1))(vite@5.4.8(@types/node@22.7.4)(terser@5.34.1)))(react@18.3.1)(solid-js@1.9.1):
+    dependencies:
+      '@clerk/backend': 1.13.6(react@18.3.1)
+      '@clerk/shared': 2.8.4(react@18.3.1)
+      '@solid-primitives/context': 0.2.3(solid-js@1.9.1)
+      '@solid-primitives/destructure': 0.1.17(solid-js@1.9.1)
+      '@solid-primitives/memo': 1.3.9(solid-js@1.9.1)
+      '@solidjs/router': 0.14.7(solid-js@1.9.1)
+      '@solidjs/start': 1.0.8(solid-js@1.9.1)(vinxi@0.4.3(@libsql/client@0.14.0)(@types/node@22.7.4)(drizzle-orm@0.33.0(@libsql/client@0.14.0)(react@18.3.1))(ioredis@5.4.1)(terser@5.34.1))(vite@5.4.8(@types/node@22.7.4)(terser@5.34.1))
+      '@tanstack/solid-query': 5.59.0(solid-js@1.9.1)
+      solid-js: 1.9.1
+    transitivePeerDependencies:
+      - react
+      - react-dom
+
   cli-boxes@3.0.0: {}
+
+  client-only@0.0.1: {}
 
   clipboardy@4.0.0:
     dependencies:
@@ -4653,6 +4838,8 @@ snapshots:
 
   cookie-es@1.2.2: {}
 
+  cookie@0.5.0: {}
+
   core-util-is@1.0.3: {}
 
   crc-32@1.2.2: {}
@@ -4678,6 +4865,8 @@ snapshots:
     dependencies:
       rrweb-cssom: 0.7.1
 
+  csstype@3.1.1: {}
+
   csstype@3.1.3: {}
 
   data-uri-to-buffer@4.0.1: {}
@@ -4692,10 +4881,10 @@ snapshots:
       '@deno/shim-deno': 0.19.2
       undici-types: 5.28.4
 
-  db0@0.1.4(@libsql/client@0.14.0)(drizzle-orm@0.33.0(@libsql/client@0.14.0)):
+  db0@0.1.4(@libsql/client@0.14.0)(drizzle-orm@0.33.0(@libsql/client@0.14.0)(react@18.3.1)):
     optionalDependencies:
       '@libsql/client': 0.14.0
-      drizzle-orm: 0.33.0(@libsql/client@0.14.0)
+      drizzle-orm: 0.33.0(@libsql/client@0.14.0)(react@18.3.1)
 
   debug@2.6.9:
     dependencies:
@@ -4737,6 +4926,11 @@ snapshots:
 
   dlv@1.1.3: {}
 
+  dot-case@3.0.4:
+    dependencies:
+      no-case: 3.0.4
+      tslib: 2.7.0
+
   dot-prop@8.0.2:
     dependencies:
       type-fest: 3.13.1
@@ -4752,9 +4946,10 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  drizzle-orm@0.33.0(@libsql/client@0.14.0):
+  drizzle-orm@0.33.0(@libsql/client@0.14.0)(react@18.3.1):
     optionalDependencies:
       '@libsql/client': 0.14.0
+      react: 18.3.1
 
   duplexer@0.1.2: {}
 
@@ -5032,6 +5227,8 @@ snapshots:
     dependencies:
       is-glob: 4.0.3
 
+  glob-to-regexp@0.4.1: {}
+
   glob@10.4.5:
     dependencies:
       foreground-child: 3.3.0
@@ -5278,6 +5475,8 @@ snapshots:
 
   js-base64@3.7.7: {}
 
+  js-cookie@3.0.5: {}
+
   js-tokens@4.0.0: {}
 
   js-tokens@9.0.0: {}
@@ -5385,6 +5584,14 @@ snapshots:
 
   lodash@4.17.21: {}
 
+  loose-envify@1.4.0:
+    dependencies:
+      js-tokens: 4.0.0
+
+  lower-case@2.0.2:
+    dependencies:
+      tslib: 2.7.0
+
   lru-cache@10.4.3: {}
 
   lru-cache@5.1.1:
@@ -5404,6 +5611,8 @@ snapshots:
   make-dir@3.1.0:
     dependencies:
       semver: 6.3.1
+
+  map-obj@4.3.0: {}
 
   merge-anything@5.1.7:
     dependencies:
@@ -5480,7 +5689,7 @@ snapshots:
 
   nanoid@3.3.7: {}
 
-  nitropack@2.9.7(@libsql/client@0.14.0)(drizzle-orm@0.33.0(@libsql/client@0.14.0)):
+  nitropack@2.9.7(@libsql/client@0.14.0)(drizzle-orm@0.33.0(@libsql/client@0.14.0)(react@18.3.1)):
     dependencies:
       '@cloudflare/kv-asset-handler': 0.3.4
       '@netlify/functions': 2.8.2
@@ -5503,7 +5712,7 @@ snapshots:
       cookie-es: 1.2.2
       croner: 8.1.2
       crossws: 0.2.4
-      db0: 0.1.4(@libsql/client@0.14.0)(drizzle-orm@0.33.0(@libsql/client@0.14.0))
+      db0: 0.1.4(@libsql/client@0.14.0)(drizzle-orm@0.33.0(@libsql/client@0.14.0)(react@18.3.1))
       defu: 6.1.4
       destr: 2.0.3
       dot-prop: 8.0.2
@@ -5569,6 +5778,11 @@ snapshots:
       - supports-color
       - uWebSockets.js
       - webpack-sources
+
+  no-case@3.0.4:
+    dependencies:
+      lower-case: 2.0.2
+      tslib: 2.7.0
 
   node-addon-api@7.1.1: {}
 
@@ -5776,6 +5990,10 @@ snapshots:
 
   react-is@18.3.1: {}
 
+  react@18.3.1:
+    dependencies:
+      loose-envify: 1.4.0
+
   read-cache@1.0.0:
     dependencies:
       pify: 2.3.0
@@ -5964,6 +6182,17 @@ snapshots:
 
   smob@1.5.0: {}
 
+  snake-case@3.0.4:
+    dependencies:
+      dot-case: 3.0.4
+      tslib: 2.7.0
+
+  snakecase-keys@5.4.4:
+    dependencies:
+      map-obj: 4.3.0
+      snake-case: 3.0.4
+      type-fest: 2.19.0
+
   solid-js@1.9.1:
     dependencies:
       csstype: 3.1.3
@@ -6076,6 +6305,12 @@ snapshots:
 
   supports-preserve-symlinks-flag@1.0.0: {}
 
+  swr@2.2.5(react@18.3.1):
+    dependencies:
+      client-only: 0.0.1
+      react: 18.3.1
+      use-sync-external-store: 1.2.2(react@18.3.1)
+
   symbol-tree@3.2.4: {}
 
   system-architecture@0.1.0: {}
@@ -6179,6 +6414,8 @@ snapshots:
       punycode: 2.3.1
 
   ts-interface-checker@0.1.13: {}
+
+  tslib@2.4.1: {}
 
   tslib@2.7.0: {}
 
@@ -6287,11 +6524,15 @@ snapshots:
 
   urlpattern-polyfill@8.0.2: {}
 
+  use-sync-external-store@1.2.2(react@18.3.1):
+    dependencies:
+      react: 18.3.1
+
   util-deprecate@1.0.2: {}
 
   validate-html-nesting@1.2.2: {}
 
-  vinxi@0.4.3(@libsql/client@0.14.0)(@types/node@22.7.4)(drizzle-orm@0.33.0(@libsql/client@0.14.0))(ioredis@5.4.1)(terser@5.34.1):
+  vinxi@0.4.3(@libsql/client@0.14.0)(@types/node@22.7.4)(drizzle-orm@0.33.0(@libsql/client@0.14.0)(react@18.3.1))(ioredis@5.4.1)(terser@5.34.1):
     dependencies:
       '@babel/core': 7.25.2
       '@babel/plugin-syntax-jsx': 7.24.7(@babel/core@7.25.2)
@@ -6313,7 +6554,7 @@ snapshots:
       hookable: 5.5.3
       http-proxy: 1.18.1
       micromatch: 4.0.8
-      nitropack: 2.9.7(@libsql/client@0.14.0)(drizzle-orm@0.33.0(@libsql/client@0.14.0))
+      nitropack: 2.9.7(@libsql/client@0.14.0)(drizzle-orm@0.33.0(@libsql/client@0.14.0)(react@18.3.1))
       node-fetch-native: 1.6.4
       path-to-regexp: 6.3.0
       pathe: 1.1.2
