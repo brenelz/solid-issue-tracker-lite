@@ -10,5 +10,8 @@ This is an example issue tracker project built with [SolidStart](https://start.s
 - Drizzle
 
 ## Services Used
+
 - Netlify
 - Clerk
+- Turso
+- Liveblocks

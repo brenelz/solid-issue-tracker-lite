@@ -17,6 +17,9 @@ importers:
       '@libsql/client':
         specifier: ^0.14.0
         version: 0.14.0
+      '@liveblocks/client':
+        specifier: ^2.8.1
+        version: 2.8.1
       '@solidjs/meta':
         specifier: ^0.29.4
         version: 0.29.4(solid-js@1.9.1)
@@ -869,6 +872,12 @@ packages:
     resolution: {integrity: sha512-57GGurNJhOhq3XIopLdGnCoQ4kQAcmbmzzFoC4tpvDE/KSbwZ/13zqJWhQA41nMGk/PKM1XKfKmbIybKx1+eqA==}
     cpu: [x64]
     os: [win32]
+
+  '@liveblocks/client@2.8.1':
+    resolution: {integrity: sha512-QnPkayNrlolCt2nUEJXiJO/aUbfbkCzX2/u45pOu2nnFCRSrOeJnj9t2Z4d0GMgeNvHK9ZaGycV1tXK9bvyysA==}
+
+  '@liveblocks/core@2.8.1':
+    resolution: {integrity: sha512-4pZUaixWIaQ5Z/Pptjp6xswaaOFW4ubH3cxd+DZO1r4a1kOrQVUpjNrJgQzOi1am1cQ+CfsQX7CQCilHTxc0YQ==}
 
   '@mapbox/node-pre-gyp@1.0.11':
     resolution: {integrity: sha512-Yhlar6v9WQgUp/He7BdgzOz8lqMQ8sU+jkCq7Wx8Myc5YFJLbEe7lgui/V7G1qB1DJykHSGwreceSaD60Y0PUQ==}
@@ -4032,6 +4041,12 @@ snapshots:
 
   '@libsql/win32-x64-msvc@0.4.5':
     optional: true
+
+  '@liveblocks/client@2.8.1':
+    dependencies:
+      '@liveblocks/core': 2.8.1
+
+  '@liveblocks/core@2.8.1': {}
 
   '@mapbox/node-pre-gyp@1.0.11':
     dependencies:
