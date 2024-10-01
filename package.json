@@ -1,5 +1,5 @@
 {
-  "name": "example-basic",
+  "name": "solid-issue-tracker-lite",
   "type": "module",
   "scripts": {
     "dev": "vinxi dev",
