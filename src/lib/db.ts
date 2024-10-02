@@ -27,8 +27,8 @@ export const issuesTable = sqliteTable('issues', {
   title: text('title'),
   description: text('description'),
   stacktrace: text('stacktrace'),
-  createdAt: text("timestamp").default(sql`(CURRENT_TIMESTAMP)`),
-  resolvedAt: text("timestamp")
+  createdAt: text("createdAt").default(sql`(CURRENT_TIMESTAMP)`),
+  resolvedAt: text("resolvedAt")
 });
 
 export const notificationsTable = sqliteTable('notifications', {
@@ -38,3 +38,7 @@ export const notificationsTable = sqliteTable('notifications', {
   createdAt: text("timestamp").default(sql`(CURRENT_TIMESTAMP)`),
   readAt: text("timestamp")
 });
+
+export type IssueRow = typeof issuesTable.$inferSelect;
+export type NotificationRow = typeof notificationsTable.$inferSelect;
+export type UserRow = typeof usersTable.$inferSelect;
