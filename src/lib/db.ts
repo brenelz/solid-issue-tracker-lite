@@ -21,8 +21,8 @@ export const usersTable = sqliteTable('users', {
 
 export const issuesTable = sqliteTable('issues', {
   id: integer('id', { mode: 'number' }).primaryKey({ autoIncrement: true }),
-  ownerId: text('ownerId').notNull().references(() => usersTable.id),
-  assignedId: text('assignedId').references(() => usersTable.id),
+  ownerId: text('ownerId').notNull(),
+  assignedId: text('assignedId'),
   parentIssueId: integer('parentIssueId'),
   title: text('title'),
   description: text('description'),
@@ -33,8 +33,8 @@ export const issuesTable = sqliteTable('issues', {
 
 export const notificationsTable = sqliteTable('notifications', {
   id: integer('id', { mode: 'number' }).primaryKey({ autoIncrement: true }),
-  userId: text('userId').notNull().references(() => usersTable.id),
-  issueId: text('issueId').references(() => issuesTable.id),
+  userId: text('userId').notNull(),
+  issueId: text('issueId'),
   createdAt: text("timestamp").default(sql`(CURRENT_TIMESTAMP)`),
   readAt: text("timestamp")
 });

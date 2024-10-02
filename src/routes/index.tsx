@@ -9,7 +9,7 @@ export default function Home() {
         <SignIn />
       </SignedOut>
       <SignedIn>
-        <Navigate href="/dashboard" />
+        <Navigate href="/dashboard/" />
       </SignedIn>
     </>
   );
