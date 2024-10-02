@@ -1,5 +1,6 @@
 import { ClerkLoaded, ClerkLoading, SignedIn, UserButton } from "clerk-solidjs";
 import { ParentProps } from "solid-js";
+import OnlineUsers from "~/components/OnlineUsers";
 
 export default function MainLayout(props: ParentProps) {
     return (
@@ -10,6 +11,7 @@ export default function MainLayout(props: ParentProps) {
             </ClerkLoading>
             <ClerkLoaded>
                 <SignedIn>
+                    <OnlineUsers />
                     <UserButton />
                 </SignedIn>
             </ClerkLoaded>
