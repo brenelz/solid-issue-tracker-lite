@@ -2,7 +2,7 @@
   display: flex;
   place-content: center;
   position: relative;
-  border: 4px solid #fff;
+  border: 2px solid #219ebc;
   border-radius: 9999px;
   width: 36px;
   height: 36px;
@@ -13,7 +13,7 @@
 .avatar:before {
   content: attr(data-tooltip);
   position: absolute;
-  bottom: 100%;
+  top: 100%;
   opacity: 0;
   transition: opacity 0.15s ease;
   padding: 5px 10px;
@@ -22,7 +22,7 @@
   border-radius: 8px;
   margin-bottom: 10px;
   z-index: 1;
-  background: black;
+  background: #023047;
   white-space: nowrap;
 }
 

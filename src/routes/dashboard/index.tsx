@@ -10,7 +10,9 @@ export default function Dashboard() {
 
     return (
         <>
-            <h2>Dashboard</h2>
+            <div class="flex items-center justify-between space-y-2">
+                <h2 class="text-3xl font-bold tracking-tight">Dashboard</h2>
+            </div>
             <h3>Your Assigned Issues</h3>
             <Show when={issues()}>
                 {issues => (

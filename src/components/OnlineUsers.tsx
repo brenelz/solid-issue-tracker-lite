@@ -1,5 +1,5 @@
 import { BaseUserMeta, JsonObject, User } from "@liveblocks/client";
-import { createSignal, For, onCleanup, onMount } from "solid-js";
+import { createSignal, For, onCleanup, onMount, Show } from "solid-js";
 import { client } from "~/lib/liveblocks";
 import Avatar from "./Avatar";
 import { useUser } from "clerk-solidjs";
@@ -27,12 +27,14 @@ export default function OnlineUsers() {
     });
 
     return (
-        <>
+        <Show when={users().length > 0}>
+            <span class="hidden sm:inline-block text-sm text-muted-foreground mr-6 text-[#8ecae6]">Online Users</span>
             <For each={users()}>
                 {({ presence }) => (
                     <Avatar src={String(presence!.avatar)} name={String(presence.name)} />
                 )}
             </For>
-        </>
+            <hr class="shrink-0 bg-border w-px mx-2 h-6 bg-[#8ecae6]" />
+        </Show>
     );
 }

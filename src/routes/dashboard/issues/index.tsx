@@ -12,7 +12,9 @@ export default function Issues() {
 
     return (
         <>
-            <h2>Issues </h2>
+            <div class="flex items-center justify-between space-y-2">
+                <h2 class="text-3xl font-bold tracking-tight">Issues</h2>
+            </div>
             <Button onClick={generateFakeIssuesAction}>Generate Fake Issues</Button>
             <Show when={issues()}>
                 {issues => (

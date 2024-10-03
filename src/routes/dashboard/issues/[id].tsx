@@ -12,7 +12,9 @@ export default function Issues() {
 
     return (
         <>
-            <h2>Issue Detail</h2>
+            <div class="flex items-center justify-between space-y-2">
+                <h2 class="text-3xl font-bold tracking-tight">Issue Detail</h2>
+            </div>
             <Show when={issue()}>
                 {issue => (
                     <div>

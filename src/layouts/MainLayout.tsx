@@ -1,23 +1,37 @@
-import { ClerkLoaded, ClerkLoading, SignedIn, UserButton } from "clerk-solidjs";
+import { ClerkLoaded, SignedIn, UserButton } from "clerk-solidjs";
 import { ParentProps } from "solid-js";
+import { MainNav } from "~/components/MainNav";
 import OnlineUsers from "~/components/OnlineUsers";
+import styles from '~/components/Avatar.module.css';
 
 export default function MainLayout(props: ParentProps) {
     return (
-        <div>
-            <h1><a href="/">Solid Issue Tracker Lite</a></h1>
-            <ClerkLoading>
-                Loading...
-            </ClerkLoading>
-            <ClerkLoaded>
-                <SignedIn>
-                    <OnlineUsers />
-                    <UserButton />
-                </SignedIn>
-            </ClerkLoaded>
-            <div>
-                {props.children}
+        <>
+            <div class="flex-col md:flex">
+                <div class="border-b">
+                    <div class="flex h-16 items-center px-4 bg-[#023047] text-white">
+                        <a href="/"><span class="font-bold sm:inline-block">Solid Issue Tracker Lite</span></a>
+                        <MainNav class="mx-6" />
+                        <div class="ml-auto flex items-center space-x-4">
+                            <ClerkLoaded>
+                                <SignedIn>
+                                    <div class="flex items-center">
+                                        <OnlineUsers />
+                                    </div>
+                                    <div class="flex items-center ">
+                                        <div class={styles.avatar}>
+                                            <UserButton />
+                                        </div>
+                                    </div>
+                                </SignedIn>
+                            </ClerkLoaded>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex-1 space-y-4 p-8 pt-6">
+                    {props.children}
+                </div>
             </div>
-        </div>
+        </>
     )
 }
