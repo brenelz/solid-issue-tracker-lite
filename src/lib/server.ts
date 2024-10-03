@@ -1,21 +1,45 @@
 import { action, cache, json } from "@solidjs/router";
 import { db, issuesTable } from "./db";
 import { auth } from "clerk-solidjs/server";
-import { and, eq, inArray, or, sql } from "drizzle-orm";
+import { and, eq, inArray, isNotNull, isNull, or, sql } from "drizzle-orm";
 
 export const getAllUserIssues = cache(async (userId: string) => {
     "use server";
 
-    const issues = await db.select().from(issuesTable).where(eq(issuesTable.ownerId, userId))
-    return issues;
+    const unresolved = await db.select().from(issuesTable).where(and(
+        eq(issuesTable.ownerId, userId),
+        isNull(issuesTable.resolvedAt)
+    ));
+
+    const resolved = await db.select().from(issuesTable).where(and(
+        eq(issuesTable.ownerId, userId),
+        isNotNull(issuesTable.resolvedAt)
+    ));
+
+    return {
+        unresolved,
+        resolved
+    };
 
 }, "get-all-user-issues");
+
 
 export const getAllAssignedIssues = cache(async (userId: string) => {
     "use server";
 
-    const issues = await db.select().from(issuesTable).where(eq(issuesTable.assignedId, userId))
-    return issues;
+    const unresolved = await db.select().from(issuesTable).where(and(
+        eq(issuesTable.assignedId, userId), isNull(issuesTable.resolvedAt)
+    ));
+
+    const resolved = await db.select().from(issuesTable).where(and(
+        eq(issuesTable.assignedId, userId),
+        isNotNull(issuesTable.resolvedAt)
+    ));
+
+    return {
+        unresolved,
+        resolved,
+    };
 
 }, "get-all-user-issues");
 
@@ -56,8 +80,17 @@ export const generateFakeIssues = action(async () => {
 export const resolveIssues = action(async (issueIds: number[]) => {
     "use server";
 
-    await db.update(issuesTable).set({ resolvedAt: sql`datetime('now')` }).where(inArray(issuesTable.id, [issueIds]))
+    await db.update(issuesTable).set({ resolvedAt: sql`datetime('now')` }).where(inArray(issuesTable.id, issueIds))
 
     return json({ success: true })
 
-}, "generate-fake-issues");
+}, "resolve-issues");
+
+export const unresolveIssues = action(async (issueIds: number[]) => {
+    "use server";
+
+    await db.update(issuesTable).set({ resolvedAt: sql`NULL` }).where(inArray(issuesTable.id, issueIds))
+
+    return json({ success: true })
+
+}, "unresolve-issues");

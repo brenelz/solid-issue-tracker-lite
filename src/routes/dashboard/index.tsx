@@ -1,7 +1,6 @@
 import { createAsync } from "@solidjs/router";
 import { useAuth } from "clerk-solidjs";
-import { Show } from "solid-js";
-import IssuesList from "~/components/IssuesList";
+import IssueTabs from "~/components/IssueTabs";
 import { getAllAssignedIssues } from "~/lib/server";
 
 export default function Dashboard() {
@@ -14,11 +13,7 @@ export default function Dashboard() {
                 <h2 class="text-3xl font-bold tracking-tight">Dashboard</h2>
             </div>
             <h3>Your Assigned Issues</h3>
-            <Show when={issues()}>
-                {issues => (
-                    <IssuesList issues={issues()} />
-                )}
-            </Show>
+            <IssueTabs issues={issues()} />
         </>
     );
 }
