@@ -9,26 +9,26 @@ export default function OnlineUsers() {
     const [users, setUsers] = createSignal<User<JsonObject, BaseUserMeta>[]>([]);
 
     onMount(() => {
-        const { room } = client.enterRoom("solid-issue-tracker-lite", {
-            initialPresence: {
-                name: clerk.user()?.fullName,
-                avatar: clerk.user()?.imageUrl
-            }
-        });
+        // const { room } = client.enterRoom("solid-issue-tracker-lite", {
+        //     initialPresence: {
+        //         name: clerk.user()?.fullName,
+        //         avatar: clerk.user()?.imageUrl
+        //     }
+        // });
 
-        const unsubscribeOthers = room.subscribe("others", (others) => {
-            const othersWithPresence = others.filter((user) => user?.presence);
-            setUsers(othersWithPresence);
-        });
+        // const unsubscribeOthers = room.subscribe("others", (others) => {
+        //     const othersWithPresence = others.filter((user) => user?.presence);
+        //     setUsers(othersWithPresence);
+        // });
 
-        onCleanup(() => {
-            unsubscribeOthers();
-        });
+        // onCleanup(() => {
+        //     unsubscribeOthers();
+        // });
     });
 
     return (
         <Show when={users().length > 0}>
-            <span class="hidden sm:inline-block text-sm text-muted-foreground mr-6 text-[#8ecae6]">Online Users</span>
+            <span class="hidden sm:inline-block text-sm mr-6 text-[#8ecae6]">Online Users</span>
             <For each={users()}>
                 {({ presence }) => (
                     <Avatar src={String(presence!.avatar)} name={String(presence.name)} />

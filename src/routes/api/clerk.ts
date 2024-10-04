@@ -65,5 +65,4 @@ const handler = async (event: APIEvent) => {
     return json({ success: true });
 
 }
-export const GET = handler;
 export const POST = handler;

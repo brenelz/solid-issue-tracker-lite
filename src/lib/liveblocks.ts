@@ -1,5 +1,5 @@
 import { createClient } from "@liveblocks/client";
 
 export const client = createClient({
-    publicApiKey: import.meta.env.VITE_LIVEBLOCKS_PUBLISHABLE_KEY,
+    authEndpoint: "/api/liveblocks-auth",
 });
