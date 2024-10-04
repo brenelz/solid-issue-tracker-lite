@@ -1,5 +1,6 @@
 import { createAsync, RouteDefinition, useAction } from "@solidjs/router";
 import { useAuth } from "clerk-solidjs";
+import { toast } from "solid-sonner";
 import IssueTabs from "~/components/IssueTabs";
 import { Button } from "~/components/ui/button";
 import { generateFakeIssues } from "~/lib/actions";
@@ -24,7 +25,10 @@ export default function Issues() {
                 <h2 class="text-3xl font-bold tracking-tight">Issues</h2>
             </div>
 
-            <Button onClick={generateFakeIssuesAction}>Generate Fake Issues</Button>
+            <Button onClick={async () => {
+                await generateFakeIssuesAction();
+                toast("Fake issues have been generated")
+            }}>Generate Fake Issues</Button>
 
             <IssueTabs issues={issues()} />
         </>

@@ -3,12 +3,12 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs"
 import { Show } from "solid-js";
 import IssuesList from "./IssuesList";
-import { IssueRow } from "~/lib/db";
+import { IssueWithAssignedUser } from "~/lib/data";
 
 type IssueTabsProps = {
     issues?: {
-        resolved: IssueRow[];
-        unresolved: IssueRow[];
+        resolved: IssueWithAssignedUser[];
+        unresolved: IssueWithAssignedUser[];
     }
 }
 

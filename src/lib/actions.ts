@@ -1,7 +1,7 @@
 import { action, json } from "@solidjs/router";
 import { db, issuesTable } from "./db";
 import { auth } from "clerk-solidjs/server";
-import { inArray, sql } from "drizzle-orm";
+import { eq, inArray, sql } from "drizzle-orm";
 
 export const generateFakeIssues = action(async () => {
     "use server";
@@ -38,3 +38,12 @@ export const unresolveIssues = action(async (issueIds: number[]) => {
     return json({ success: true })
 
 }, "unresolve-issues");
+
+export const assignIssueTo = action(async (issueId: number, id: string) => {
+    "use server";
+
+    await db.update(issuesTable).set({ assignedId: id }).where(eq(issuesTable.id, issueId))
+
+    return json({ success: true })
+
+}, "assign-issue-to");

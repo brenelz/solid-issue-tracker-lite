@@ -1,19 +1,33 @@
 import { cache } from "@solidjs/router";
-import { db, issuesTable } from "./db";
+import { db, IssueRow, issuesTable, UserRow, usersTable } from "./db";
 import { and, eq, isNotNull, isNull, or } from "drizzle-orm";
+
+export type IssueWithAssignedUser = IssueRow & {
+    assignedUser?: UserRow
+}
 
 export const getAllUserIssues = cache(async (userId: string) => {
     "use server";
 
-    const unresolved = await db.select().from(issuesTable).where(and(
+    const unresolvedQuery = await db.select().from(issuesTable).where(and(
         eq(issuesTable.ownerId, userId),
         isNull(issuesTable.resolvedAt)
-    ));
+    )).innerJoin(usersTable, eq(usersTable.id, issuesTable.assignedId));
 
-    const resolved = await db.select().from(issuesTable).where(and(
+    const resolvedQuery = await db.select().from(issuesTable).where(and(
         eq(issuesTable.ownerId, userId),
         isNotNull(issuesTable.resolvedAt)
-    ));
+    )).innerJoin(usersTable, eq(usersTable.id, issuesTable.assignedId));
+
+    const unresolved = unresolvedQuery.map(query => ({
+        ...query.issues,
+        assignedUser: query.users
+    }));
+
+    const resolved = resolvedQuery.map(query => ({
+        ...query.issues,
+        assignedUser: query.users
+    }));
 
     return {
         unresolved,
@@ -25,14 +39,24 @@ export const getAllUserIssues = cache(async (userId: string) => {
 export const getAllAssignedIssues = cache(async (userId: string) => {
     "use server";
 
-    const unresolved = await db.select().from(issuesTable).where(and(
+    const unresolvedQuery = await db.select().from(issuesTable).where(and(
         eq(issuesTable.assignedId, userId), isNull(issuesTable.resolvedAt)
-    ));
+    )).innerJoin(usersTable, eq(usersTable.id, issuesTable.assignedId))
 
-    const resolved = await db.select().from(issuesTable).where(and(
+    const resolvedQuery = await db.select().from(issuesTable).where(and(
         eq(issuesTable.assignedId, userId),
         isNotNull(issuesTable.resolvedAt)
-    ));
+    )).innerJoin(usersTable, eq(usersTable.id, issuesTable.assignedId));
+
+    const unresolved = unresolvedQuery.map(query => ({
+        ...query.issues,
+        assignedUser: query.users
+    }));
+
+    const resolved = resolvedQuery.map(query => ({
+        ...query.issues,
+        assignedUser: query.users
+    }));
 
     return {
         unresolved,
@@ -52,6 +76,26 @@ export const getIssue = cache(async (userId: string, issueId: number) => {
             ),
         ));
 
-    return issues[0];
+    let assignedUser = null;
+    if (issues.length > 0 && issues[0].assignedId) {
+        const user = await db.select().from(usersTable).where(eq(usersTable.id, issues[0].assignedId));
+        assignedUser = user[0];
+    }
+
+    const issue = {
+        ...issues[0],
+        assignedUser: assignedUser
+    }
+
+    return issue
 
 }, "get-issue");
+
+export const getUsers = cache(async () => {
+    "use server";
+
+    const users = await db.select().from(usersTable);
+
+    return users;
+
+}, "get-users");

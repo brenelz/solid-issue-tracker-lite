@@ -17,17 +17,14 @@ export default function IssueLink(props: IssueProps) {
     }
     return (
         <>
-            <a
-                href={`/dashboard/issues/${props.issue.id}`}
-                class={cn(
-                    "flex flex-row items-center gap-6 rounded-lg border p-3 text-left text-sm transition-all hover:bg-[#8ecae633] w-full",
-                )}
-            >
+            <div class={cn(
+                "flex flex-row items-center gap-6 rounded-lg border p-3 text-left text-sm transition-all hover:bg-[#8ecae633] w-full",
+            )}>
                 <div>
                     <Checkbox checked={props.checked} onClick={handleClick} />
                 </div>
                 <IssueDetail issue={props.issue} />
-            </a>
+            </div>
         </>
     )
 }

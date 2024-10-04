@@ -4,7 +4,8 @@ const IMAGE_SIZE = 28;
 
 type AvatarProps = {
     name: string;
-    src: string;
+    src: string | null;
+    onClick?: () => void;
 }
 
 export default function Avatar(props: AvatarProps) {
@@ -12,10 +13,11 @@ export default function Avatar(props: AvatarProps) {
         <div class={styles.avatar} data-tooltip={props.name}>
             <img
                 alt={props.name}
-                src={props.src}
+                src={props.src || 'https://www.gravatar.com/avatar/?d=mp'}
                 height={IMAGE_SIZE}
                 width={IMAGE_SIZE}
                 class={styles.avatar_picture}
+                onClick={props.onClick}
             />
         </div>
     );

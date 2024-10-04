@@ -3,6 +3,7 @@ import { ParentProps } from "solid-js";
 import { MainNav } from "~/components/MainNav";
 import OnlineUsers from "~/components/OnlineUsers";
 import styles from '~/components/Avatar.module.css';
+import { Toaster } from "solid-sonner";
 
 export default function MainLayout(props: ParentProps) {
     return (
@@ -31,6 +32,7 @@ export default function MainLayout(props: ParentProps) {
                 <div class="flex-1 space-y-4 p-8 pt-6">
                     {props.children}
                 </div>
+                <Toaster />
             </div>
         </>
     )
