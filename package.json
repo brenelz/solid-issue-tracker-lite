@@ -36,6 +36,7 @@
     "node": ">=18"
   },
   "devDependencies": {
-    "drizzle-kit": "^0.24.2"
+    "drizzle-kit": "^0.24.2",
+    "shiki": "^1.21.0"
   }
 }

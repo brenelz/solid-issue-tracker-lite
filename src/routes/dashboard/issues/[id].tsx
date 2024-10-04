@@ -2,7 +2,9 @@ import { createAsync, RouteDefinition, useParams } from "@solidjs/router";
 import { useAuth } from "clerk-solidjs";
 import { Show } from "solid-js";
 import IssueDetail from "~/components/IssueDetail";
-import { getIssue } from "~/lib/data";
+import { getIssue, renderCode } from "~/lib/data";
+
+
 
 export const route = {
     preload: ({ params }) => {
@@ -15,6 +17,7 @@ export default function Issues() {
     const params = useParams();
     const auth = useAuth();
     const issue = createAsync(() => getIssue(String(auth.userId()), +params.id));
+    const code = createAsync(() => renderCode(String(issue()?.stacktrace)));
 
     return (
         <>
@@ -26,6 +29,7 @@ export default function Issues() {
                     {issue => <IssueDetail issue={issue()} />}
                 </Show>
             </div>
+            <div innerHTML={code()} />
         </>
     );
 }

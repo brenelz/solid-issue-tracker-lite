@@ -1,6 +1,7 @@
 import { cache } from "@solidjs/router";
 import { db, IssueRow, issuesTable, UserRow, usersTable } from "./db";
 import { and, eq, isNotNull, isNull, or, sql } from "drizzle-orm";
+import { codeToHtml } from 'shiki'
 
 export type IssueWithAssignedUser = IssueRow & {
     assignedUser?: UserRow
@@ -103,3 +104,12 @@ export const getUsers = cache(async () => {
     return users;
 
 }, "get-users");
+
+export const renderCode = cache(async (srcCode: string) => {
+    "use server";
+
+    return codeToHtml(srcCode, {
+        lang: "jsx",
+        theme: "material-theme-ocean",
+    });
+}, "render-code");
