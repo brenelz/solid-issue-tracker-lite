@@ -47,7 +47,7 @@ export default function IssueDetail(props: IssueDetailsProps) {
                     "text-muted-foreground"
                 )}
             >
-                {timeAgo(new Date(String(props.issue.createdAt)))}
+                {timeAgo(new Date(String(props.issue.createdAt + ' UTC')))}
             </div>
 
             <div>

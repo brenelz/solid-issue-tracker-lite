@@ -1,6 +1,6 @@
 import { cache } from "@solidjs/router";
 import { db, IssueRow, issuesTable, UserRow, usersTable } from "./db";
-import { and, eq, isNotNull, isNull, or } from "drizzle-orm";
+import { and, eq, isNotNull, isNull, or, sql } from "drizzle-orm";
 
 export type IssueWithAssignedUser = IssueRow & {
     assignedUser?: UserRow
@@ -12,12 +12,14 @@ export const getAllUserIssues = cache(async (userId: string) => {
     const unresolvedQuery = await db.select().from(issuesTable).where(and(
         eq(issuesTable.ownerId, userId),
         isNull(issuesTable.resolvedAt)
-    )).innerJoin(usersTable, eq(usersTable.id, issuesTable.assignedId));
+    )).innerJoin(usersTable, eq(usersTable.id, issuesTable.assignedId))
+        .orderBy(sql`${issuesTable.createdAt} desc`);
 
     const resolvedQuery = await db.select().from(issuesTable).where(and(
         eq(issuesTable.ownerId, userId),
         isNotNull(issuesTable.resolvedAt)
-    )).innerJoin(usersTable, eq(usersTable.id, issuesTable.assignedId));
+    )).innerJoin(usersTable, eq(usersTable.id, issuesTable.assignedId))
+        .orderBy(sql`${issuesTable.createdAt} desc`);
 
     const unresolved = unresolvedQuery.map(query => ({
         ...query.issues,
@@ -42,11 +44,13 @@ export const getAllAssignedIssues = cache(async (userId: string) => {
     const unresolvedQuery = await db.select().from(issuesTable).where(and(
         eq(issuesTable.assignedId, userId), isNull(issuesTable.resolvedAt)
     )).innerJoin(usersTable, eq(usersTable.id, issuesTable.assignedId))
+        .orderBy(sql`${issuesTable.createdAt} desc`);
 
     const resolvedQuery = await db.select().from(issuesTable).where(and(
         eq(issuesTable.assignedId, userId),
         isNotNull(issuesTable.resolvedAt)
-    )).innerJoin(usersTable, eq(usersTable.id, issuesTable.assignedId));
+    )).innerJoin(usersTable, eq(usersTable.id, issuesTable.assignedId))
+        .orderBy(sql`${issuesTable.createdAt} desc`);;
 
     const unresolved = unresolvedQuery.map(query => ({
         ...query.issues,
