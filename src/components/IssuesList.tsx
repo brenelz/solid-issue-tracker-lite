@@ -52,6 +52,9 @@ export default function IssuesList(props: IssuesListProps) {
                     </Show>
                 </div>
             </div>
+            <div class="mb-2 text-sm">
+                {props.issues.length} Issues
+            </div>
             <For each={props.issues}>
                 {(issue) => (
                     <IssueLink issue={issue} checked={selected().includes(issue.id)} toggleSelect={toggleSelect} />

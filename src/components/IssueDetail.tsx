@@ -54,7 +54,7 @@ export default function IssueDetail(props: IssueDetailsProps) {
                 <Popover>
                     <PopoverTrigger>
                         <Avatar
-                            name={String(props.issue.assignedUser?.firstName)}
+                            name={String(props.issue.assignedUser?.firstName || 'unknown')}
                             src={props.issue.assignedUser?.avatar || null}
                         />
                     </PopoverTrigger>
@@ -68,7 +68,7 @@ export default function IssueDetail(props: IssueDetailsProps) {
                                         toast(`Issue has been assigned to ${user.firstName}`)
                                     }}
                                     src={user.avatar}
-                                    name={String(user.firstName)}
+                                    name={String(user.firstName || 'unknown')}
                                 />
                             )}
                         </For>

@@ -13,13 +13,13 @@ export const getAllUserIssues = cache(async (userId: string) => {
     const unresolvedQuery = await db.select().from(issuesTable).where(and(
         eq(issuesTable.ownerId, userId),
         isNull(issuesTable.resolvedAt)
-    )).innerJoin(usersTable, eq(usersTable.id, issuesTable.assignedId))
+    )).leftJoin(usersTable, eq(usersTable.id, issuesTable.assignedId))
         .orderBy(sql`${issuesTable.createdAt} desc`);
 
     const resolvedQuery = await db.select().from(issuesTable).where(and(
         eq(issuesTable.ownerId, userId),
         isNotNull(issuesTable.resolvedAt)
-    )).innerJoin(usersTable, eq(usersTable.id, issuesTable.assignedId))
+    )).leftJoin(usersTable, eq(usersTable.id, issuesTable.assignedId))
         .orderBy(sql`${issuesTable.createdAt} desc`);
 
     const unresolved = unresolvedQuery.map(query => ({

@@ -2,20 +2,25 @@ import { action, json } from "@solidjs/router";
 import { db, issuesTable } from "./db";
 import { auth } from "clerk-solidjs/server";
 import { eq, inArray, sql } from "drizzle-orm";
+import { fakeIssues } from "./fakeIssues";
 
 export const generateFakeIssues = action(async () => {
     "use server";
     const user = auth();
 
-    await db.insert(issuesTable).values({
-        ownerId: String(user.userId),
-        assignedId: String(user.userId),
-        parentIssueId: null,
-        title: 'Cannot login to the system',
-        description: 'Users are unable to log in after the recent deployment. The login button becomes unresponsive.',
-        stacktrace: 'Error: Uncaught TypeError: Cannot read properties of undefined (reading "user") at LoginPage.js:45:12',
-        resolvedAt: null
-    });
+    for (let i = 0; i < 10; i++) {
+        const fakeIssue = fakeIssues[Math.floor(Math.random() * fakeIssues.length)];
+
+        await db.insert(issuesTable).values({
+            ownerId: String(user.userId),
+            assignedId: null,
+            parentIssueId: null,
+            title: fakeIssue.title,
+            description: fakeIssue.description,
+            stacktrace: fakeIssue.stacktrace,
+            resolvedAt: null
+        });
+    }
 
     return json({ success: true })
 
