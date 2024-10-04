@@ -3,7 +3,7 @@ import { IssueRow } from "~/lib/db";
 import { cn, timeAgo } from "~/lib/utils";
 import { Button } from "./ui/button";
 import { useAction } from "@solidjs/router";
-import { resolveIssues, unresolveIssues } from "~/lib/server";
+import { resolveIssues, unresolveIssues } from "~/lib/actions";
 
 type IssueDetailsProps = {
     issue: IssueRow;
@@ -37,9 +37,15 @@ export default function IssueDetail(props: IssueDetailsProps) {
             </div>
             <div>
                 <Show when={props.issue.resolvedAt} fallback={
-                    <Button onClick={() => resolveIssuesAction([props.issue.id])}>Resolve</Button>
+                    <Button onClick={(e: Event) => {
+                        e.stopPropagation();
+                        resolveIssuesAction([props.issue.id])
+                    }}>Resolve</Button>
                 }>
-                    <Button onClick={() => unresolveIssuesAction([props.issue.id])}>Unresolve</Button>
+                    <Button onClick={(e: Event) => {
+                        e.stopPropagation();
+                        unresolveIssuesAction([props.issue.id])
+                    }}>Unresolve</Button>
                 </Show>
             </div>
         </>

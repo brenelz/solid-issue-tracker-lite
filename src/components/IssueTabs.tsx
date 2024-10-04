@@ -13,7 +13,6 @@ type IssueTabsProps = {
 }
 
 export default function IssueTabs(props: IssueTabsProps) {
-
     return (
         <Tabs defaultValue="unresolved">
             <TabsList class="grid w-full grid-cols-2">

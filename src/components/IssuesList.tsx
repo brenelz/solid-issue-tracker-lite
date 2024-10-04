@@ -1,8 +1,8 @@
 import { createEffect, createSignal, For, JSXElement, Show } from "solid-js";
 import { Button } from "./ui/button";
 import { useAction } from "@solidjs/router";
-import { resolveIssues, unresolveIssues } from "~/lib/server";
-import IssueButton from "./Issue";
+import { resolveIssues, unresolveIssues } from "~/lib/actions";
+import IssueLink from "./IssueLink";
 import { IssueRow } from "~/lib/db";
 
 type IssuesListProps = {
@@ -47,7 +47,7 @@ export default function IssuesList(props: IssuesListProps) {
             </div>
             <For each={props.issues}>
                 {(issue) => (
-                    <IssueButton issue={issue} checked={selected().includes(issue.id)} toggleSelect={toggleSelect} />
+                    <IssueLink issue={issue} checked={selected().includes(issue.id)} toggleSelect={toggleSelect} />
                 )}
             </For>
         </Show>

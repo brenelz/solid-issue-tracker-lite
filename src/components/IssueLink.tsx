@@ -10,29 +10,24 @@ type IssueProps = {
     checked: boolean;
 }
 
-export default function IssueButton(props: IssueProps) {
-    const navigate = useNavigate();
-
+export default function IssueLink(props: IssueProps) {
     const handleClick = (e: Event) => {
         e.stopPropagation();
         props.toggleSelect(props.issue.id)
     }
     return (
         <>
-            <button
-                type="button"
+            <a
+                href={`/dashboard/issues/${props.issue.id}`}
                 class={cn(
                     "flex flex-row items-center gap-6 rounded-lg border p-3 text-left text-sm transition-all hover:bg-[#8ecae633] w-full",
                 )}
-                onClick={() => {
-                    navigate(`/dashboard/issues/${props.issue.id}`)
-                }}
             >
                 <div>
                     <Checkbox checked={props.checked} onClick={handleClick} />
                 </div>
                 <IssueDetail issue={props.issue} />
-            </button>
+            </a>
         </>
     )
 }

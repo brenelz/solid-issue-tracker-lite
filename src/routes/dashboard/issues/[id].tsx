@@ -1,8 +1,15 @@
-import { createAsync, useParams } from "@solidjs/router";
+import { createAsync, RouteDefinition, useParams } from "@solidjs/router";
 import { useAuth } from "clerk-solidjs";
 import { Show } from "solid-js";
 import IssueDetail from "~/components/IssueDetail";
-import { getIssue } from "~/lib/server";
+import { getIssue } from "~/lib/data";
+
+export const route = {
+    preload: ({ params }) => {
+        const auth = useAuth();
+        void getIssue(String(auth.userId()), +params.id)
+    }
+} satisfies RouteDefinition;
 
 export default function Issues() {
     const params = useParams();

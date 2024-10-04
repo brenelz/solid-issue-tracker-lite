@@ -1,8 +1,16 @@
-import { createAsync, useAction } from "@solidjs/router";
+import { createAsync, RouteDefinition, useAction } from "@solidjs/router";
 import { useAuth } from "clerk-solidjs";
 import IssueTabs from "~/components/IssueTabs";
 import { Button } from "~/components/ui/button";
-import { generateFakeIssues, getAllUserIssues } from "~/lib/server";
+import { generateFakeIssues } from "~/lib/actions";
+import { getAllUserIssues } from "~/lib/data";
+
+export const route = {
+    preload() {
+        const auth = useAuth();
+        void getAllUserIssues(String(auth.userId()));
+    }
+} satisfies RouteDefinition;
 
 export default function Issues() {
     const auth = useAuth();
