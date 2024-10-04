@@ -4,13 +4,14 @@ import { MainNav } from "~/components/MainNav";
 import OnlineUsers from "~/components/OnlineUsers";
 import styles from '~/components/Avatar.module.css';
 import { Toaster } from "solid-sonner";
+import { cn } from "~/lib/utils";
 
 export default function MainLayout(props: ParentProps) {
     return (
         <>
             <div class="flex-col md:flex">
                 <div class="border-b">
-                    <div class="flex h-16 items-center px-4 bg-[#023047] text-white">
+                    <div class="flex h-16 items-center px-4 bg-primary text-white">
                         <a href="/"><span class="font-bold sm:inline-block">Solid Issue Tracker Lite</span></a>
                         <MainNav class="mx-6" />
                         <div class="ml-auto flex items-center space-x-4">
@@ -20,7 +21,7 @@ export default function MainLayout(props: ParentProps) {
                                         <OnlineUsers />
                                     </div>
                                     <div class="flex items-center ">
-                                        <div class={styles.avatar}>
+                                        <div class={cn(styles.avatar_online)}>
                                             <UserButton />
                                         </div>
                                     </div>

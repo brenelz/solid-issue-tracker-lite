@@ -1,13 +1,18 @@
-.avatar {
+.avatar,
+.avatar_online {
   display: flex;
   place-content: center;
   position: relative;
-  border: 2px solid #219ebc;
   border-radius: 9999px;
   width: 36px;
   height: 36px;
-  background-color: #9ca3af;
+  border: 2px solid #9ca3af;
   margin-left: -0.75rem;
+}
+
+.avatar.online,
+.avatar_online {
+  border: 2px solid #219ebc;
 }
 
 .avatar:before {

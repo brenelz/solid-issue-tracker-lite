@@ -25,11 +25,12 @@ export default function Issues() {
                 <h2 class="text-3xl font-bold tracking-tight">Issues</h2>
             </div>
 
-            <Button onClick={async () => {
-                await generateFakeIssuesAction();
-                toast("Fake issues have been generated")
-            }}>Generate Fake Issues</Button>
-
+            <div>
+                <Button onClick={async () => {
+                    await generateFakeIssuesAction();
+                    toast("Fake issues have been generated")
+                }}>Generate Fake Issues</Button>
+            </div>
             <IssueTabs issues={issues()} />
         </>
     );

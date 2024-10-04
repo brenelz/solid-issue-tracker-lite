@@ -6,6 +6,7 @@ type AvatarProps = {
     name: string;
     src: string | null;
     onClick?: () => void;
+    online?: boolean;
 }
 
 export default function Avatar(props: AvatarProps) {
@@ -18,6 +19,7 @@ export default function Avatar(props: AvatarProps) {
                 width={IMAGE_SIZE}
                 class={styles.avatar_picture}
                 onClick={props.onClick}
+                classList={{ "online": props.online }}
             />
         </div>
     );

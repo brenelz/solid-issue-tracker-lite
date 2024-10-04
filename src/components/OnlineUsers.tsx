@@ -28,13 +28,13 @@ export default function OnlineUsers() {
 
     return (
         <Show when={users().length > 0}>
-            <span class="hidden sm:inline-block text-sm mr-6 text-[#8ecae6]">Online Users</span>
+            <span class="hidden sm:inline-block text-sm mr-6 text-secondary">Online Users</span>
             <For each={users()}>
                 {({ presence }) => (
-                    <Avatar src={String(presence!.avatar)} name={String(presence.name)} />
+                    <Avatar src={String(presence!.avatar)} name={String(presence.name)} online={true} />
                 )}
             </For>
-            <hr class="shrink-0 bg-border w-px mx-2 h-6 bg-[#8ecae6]" />
+            <hr class="shrink-0 bg-border w-px mx-2 h-6 bg-secondary" />
         </Show>
     );
 }
