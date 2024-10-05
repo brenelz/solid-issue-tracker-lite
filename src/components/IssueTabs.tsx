@@ -1,7 +1,7 @@
 
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs"
-import { Show } from "solid-js";
+import { Show, Suspense } from "solid-js";
 import IssuesList from "./IssuesList";
 import { IssueWithAssignedUser } from "~/lib/data";
 
@@ -21,18 +21,10 @@ export default function IssueTabs(props: IssueTabsProps) {
                 <TabsTrigger value="resolved">Resolved</TabsTrigger>
             </TabsList>
             <TabsContent value="unresolved">
-                <Show when={props.issues?.unresolved}>
-                    {issues => (
-                        <IssuesList onDateFilterChange={props.onDateFilterChange} issues={issues()} type="unresolved" />
-                    )}
-                </Show>{ }
+                <IssuesList onDateFilterChange={props.onDateFilterChange} issues={props.issues?.unresolved} type="unresolved" />
             </TabsContent>
             <TabsContent value="resolved">
-                <Show when={props.issues?.resolved}>
-                    {issues => (
-                        <IssuesList onDateFilterChange={props.onDateFilterChange} issues={issues()} type="resolved" />
-                    )}
-                </Show>
+                <IssuesList onDateFilterChange={props.onDateFilterChange} issues={props.issues?.resolved} type="resolved" />
             </TabsContent>
         </Tabs>
     )

@@ -1,4 +1,4 @@
-import { createEffect, createSignal, For, JSXElement, Show } from "solid-js";
+import { createEffect, createSignal, For, JSXElement, Show, Suspense } from "solid-js";
 import { Button } from "./ui/button";
 import { useAction } from "@solidjs/router";
 import { resolveIssues, unresolveIssues } from "~/lib/actions";
@@ -8,7 +8,7 @@ import { cn } from "~/lib/utils";
 import IssueDatePicker from "./IssueDatePicker";
 
 type IssuesListProps = {
-    issues: IssueRow[];
+    issues?: IssueRow[];
     type: 'resolved' | 'unresolved';
     onDateFilterChange: (date: string) => void;
 }
@@ -31,7 +31,7 @@ export default function IssuesList(props: IssuesListProps) {
     };
 
     const toggleSelectAll = () => {
-        if (selected().length === 0) {
+        if (props.issues && selected().length === 0) {
             setSelected(props.issues.map(issue => issue.id));
         } else {
             setSelected([]);
@@ -53,21 +53,23 @@ export default function IssuesList(props: IssuesListProps) {
                     </Show>
                 </div>
             </div>
-            <div class="mb-2 text-sm">
-                {props.issues.length} Issues
-            </div>
+            <Suspense fallback="Loading issues...">
+                <div class="mb-2 text-sm">
+                    {props.issues?.length || 0} Issues
+                </div>
 
-            <Show when={props.issues.length > 0} fallback={<div class={cn(
-                "flex flex-row items-center gap-6 rounded-lg border p-3 text-left text-sm w-full font-semibold",
-            )}>
-                No issues found
-            </div>}>
-                <For each={props.issues}>
-                    {(issue) => (
-                        <IssueLink issue={issue} checked={selected().includes(issue.id)} toggleSelect={toggleSelect} />
-                    )}
-                </For>
-            </ Show>
+                <Show when={props.issues && props.issues.length > 0} fallback={<div class={cn(
+                    "flex flex-row items-center gap-6 rounded-lg border p-3 text-left text-sm w-full font-semibold",
+                )}>
+                    No issues found
+                </div>}>
+                    <For each={props.issues}>
+                        {(issue) => (
+                            <IssueLink issue={issue} checked={selected().includes(issue.id)} toggleSelect={toggleSelect} />
+                        )}
+                    </For>
+                </ Show>
+            </Suspense>
         </>
     )
 }
