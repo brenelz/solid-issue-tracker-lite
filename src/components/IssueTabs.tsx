@@ -9,7 +9,8 @@ type IssueTabsProps = {
     issues?: {
         resolved: IssueWithAssignedUser[];
         unresolved: IssueWithAssignedUser[];
-    }
+    },
+    onDateFilterChange: (date: string) => void;
 }
 
 export default function IssueTabs(props: IssueTabsProps) {
@@ -22,14 +23,14 @@ export default function IssueTabs(props: IssueTabsProps) {
             <TabsContent value="unresolved">
                 <Show when={props.issues?.unresolved}>
                     {issues => (
-                        <IssuesList issues={issues()} type="unresolved" />
+                        <IssuesList onDateFilterChange={props.onDateFilterChange} issues={issues()} type="unresolved" />
                     )}
                 </Show>{ }
             </TabsContent>
             <TabsContent value="resolved">
                 <Show when={props.issues?.resolved}>
                     {issues => (
-                        <IssuesList issues={issues()} type="resolved" />
+                        <IssuesList onDateFilterChange={props.onDateFilterChange} issues={issues()} type="resolved" />
                     )}
                 </Show>
             </TabsContent>

@@ -7,66 +7,132 @@ export type IssueWithAssignedUser = IssueRow & {
     assignedUser?: UserRow
 }
 
-export const getAllUserIssues = cache(async (userId: string) => {
+export const getAllUserIssues = cache(async (userId: string, date: string) => {
     "use server";
 
-    const unresolvedQuery = await db.select().from(issuesTable).where(and(
-        eq(issuesTable.ownerId, userId),
-        isNull(issuesTable.resolvedAt)
-    )).leftJoin(usersTable, eq(usersTable.id, issuesTable.assignedId))
-        .orderBy(sql`${issuesTable.createdAt} desc`);
 
-    const resolvedQuery = await db.select().from(issuesTable).where(and(
-        eq(issuesTable.ownerId, userId),
-        isNotNull(issuesTable.resolvedAt)
-    )).leftJoin(usersTable, eq(usersTable.id, issuesTable.assignedId))
-        .orderBy(sql`${issuesTable.createdAt} desc`);
+    if (date && date !== '') {
+        const unresolvedQuery = await db.select().from(issuesTable).where(and(
+            eq(issuesTable.createdAt, date),
+            eq(issuesTable.ownerId, userId),
+            isNull(issuesTable.resolvedAt)
+        )).leftJoin(usersTable, eq(usersTable.id, issuesTable.assignedId))
+            .orderBy(sql`${issuesTable.createdAt} desc`);
 
-    const unresolved = unresolvedQuery.map(query => ({
-        ...query.issues,
-        assignedUser: query.users
-    }));
+        const resolvedQuery = await db.select().from(issuesTable).where(and(
+            eq(issuesTable.createdAt, date),
+            eq(issuesTable.ownerId, userId),
+            isNotNull(issuesTable.resolvedAt)
+        )).leftJoin(usersTable, eq(usersTable.id, issuesTable.assignedId))
+            .orderBy(sql`${issuesTable.createdAt} desc`);
 
-    const resolved = resolvedQuery.map(query => ({
-        ...query.issues,
-        assignedUser: query.users
-    }));
 
-    return {
-        unresolved,
-        resolved
-    };
+        const unresolved = unresolvedQuery.map(query => ({
+            ...query.issues,
+            assignedUser: query.users
+        }));
+
+        const resolved = resolvedQuery.map(query => ({
+            ...query.issues,
+            assignedUser: query.users
+        }));
+
+        return {
+            unresolved,
+            resolved
+        };
+    } else {
+        const unresolvedQuery = await db.select().from(issuesTable).where(and(
+            eq(issuesTable.ownerId, userId),
+            isNull(issuesTable.resolvedAt)
+        )).leftJoin(usersTable, eq(usersTable.id, issuesTable.assignedId))
+            .orderBy(sql`${issuesTable.createdAt} desc`);
+
+        const resolvedQuery = await db.select().from(issuesTable).where(and(
+            eq(issuesTable.ownerId, userId),
+            isNotNull(issuesTable.resolvedAt)
+        )).leftJoin(usersTable, eq(usersTable.id, issuesTable.assignedId))
+            .orderBy(sql`${issuesTable.createdAt} desc`);
+
+
+        const unresolved = unresolvedQuery.map(query => ({
+            ...query.issues,
+            assignedUser: query.users
+        }));
+
+        const resolved = resolvedQuery.map(query => ({
+            ...query.issues,
+            assignedUser: query.users
+        }));
+
+        return {
+            unresolved,
+            resolved
+        };
+    }
 
 }, "get-all-user-issues");
 
-export const getAllAssignedIssues = cache(async (userId: string) => {
+export const getAllAssignedIssues = cache(async (userId: string, date: string) => {
     "use server";
 
-    const unresolvedQuery = await db.select().from(issuesTable).where(and(
-        eq(issuesTable.assignedId, userId), isNull(issuesTable.resolvedAt)
-    )).innerJoin(usersTable, eq(usersTable.id, issuesTable.assignedId))
-        .orderBy(sql`${issuesTable.createdAt} desc`);
+    if (date !== '') {
+        const unresolvedQuery = await db.select().from(issuesTable).where(and(
+            eq(issuesTable.createdAt, date),
+            eq(issuesTable.assignedId, userId),
+            isNull(issuesTable.resolvedAt)
+        )).innerJoin(usersTable, eq(usersTable.id, issuesTable.assignedId))
+            .orderBy(sql`${issuesTable.createdAt} desc`);
 
-    const resolvedQuery = await db.select().from(issuesTable).where(and(
-        eq(issuesTable.assignedId, userId),
-        isNotNull(issuesTable.resolvedAt)
-    )).innerJoin(usersTable, eq(usersTable.id, issuesTable.assignedId))
-        .orderBy(sql`${issuesTable.createdAt} desc`);;
+        const resolvedQuery = await db.select().from(issuesTable).where(and(
+            eq(issuesTable.createdAt, date),
+            eq(issuesTable.assignedId, userId),
+            isNotNull(issuesTable.resolvedAt)
+        )).innerJoin(usersTable, eq(usersTable.id, issuesTable.assignedId))
+            .orderBy(sql`${issuesTable.createdAt} desc`);
 
-    const unresolved = unresolvedQuery.map(query => ({
-        ...query.issues,
-        assignedUser: query.users
-    }));
+        const unresolved = unresolvedQuery.map(query => ({
+            ...query.issues,
+            assignedUser: query.users
+        }));
 
-    const resolved = resolvedQuery.map(query => ({
-        ...query.issues,
-        assignedUser: query.users
-    }));
+        const resolved = resolvedQuery.map(query => ({
+            ...query.issues,
+            assignedUser: query.users
+        }));
 
-    return {
-        unresolved,
-        resolved,
-    };
+        return {
+            unresolved,
+            resolved,
+        };
+    } else {
+        const unresolvedQuery = await db.select().from(issuesTable).where(and(
+            eq(issuesTable.assignedId, userId),
+            isNull(issuesTable.resolvedAt)
+        )).innerJoin(usersTable, eq(usersTable.id, issuesTable.assignedId))
+            .orderBy(sql`${issuesTable.createdAt} desc`);
+
+        const resolvedQuery = await db.select().from(issuesTable).where(and(
+            eq(issuesTable.assignedId, userId),
+            isNotNull(issuesTable.resolvedAt)
+        )).innerJoin(usersTable, eq(usersTable.id, issuesTable.assignedId))
+            .orderBy(sql`${issuesTable.createdAt} desc`);
+
+        const unresolved = unresolvedQuery.map(query => ({
+            ...query.issues,
+            assignedUser: query.users
+        }));
+
+        const resolved = resolvedQuery.map(query => ({
+            ...query.issues,
+            assignedUser: query.users
+        }));
+
+        return {
+            unresolved,
+            resolved,
+        };
+    }
 
 }, "get-all-assigned-issues");
 

@@ -1,5 +1,6 @@
 import { createAsync, RouteDefinition, useAction } from "@solidjs/router";
 import { useAuth } from "clerk-solidjs";
+import { createSignal } from "solid-js";
 import { toast } from "solid-sonner";
 import IssueTabs from "~/components/IssueTabs";
 import { Button } from "~/components/ui/button";
@@ -9,14 +10,14 @@ import { getAllUserIssues } from "~/lib/data";
 export const route = {
     preload() {
         const auth = useAuth();
-        void getAllUserIssues(String(auth.userId()));
+        void getAllUserIssues(String(auth.userId()), '');
     }
 } satisfies RouteDefinition;
 
 export default function Issues() {
     const auth = useAuth();
-    const issues = createAsync(() => getAllUserIssues(String(auth.userId())));
-
+    const [dateFilter, setDateFilter] = createSignal('');
+    const issues = createAsync(() => getAllUserIssues(String(auth.userId()), dateFilter()));
     const generateFakeIssuesAction = useAction(generateFakeIssues);
 
     return (
@@ -31,7 +32,9 @@ export default function Issues() {
                     toast("Fake issues have been generated")
                 }}>Generate Fake Issues</Button>
             </div>
-            <IssueTabs issues={issues()} />
+            <IssueTabs issues={issues()} onDateFilterChange={(date) => {
+                setDateFilter(date)
+            }} />
         </>
     );
 }

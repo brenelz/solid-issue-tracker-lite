@@ -1,18 +1,20 @@
 import { createAsync, RouteDefinition } from "@solidjs/router";
 import { useAuth } from "clerk-solidjs";
+import { createSignal } from "solid-js";
 import IssueTabs from "~/components/IssueTabs";
 import { getAllAssignedIssues } from "~/lib/data";
 
 export const route = {
     preload() {
         const auth = useAuth();
-        void getAllAssignedIssues(String(auth.userId()));
+        void getAllAssignedIssues(String(auth.userId()), '');
     }
 } satisfies RouteDefinition;
 
 export default function Dashboard() {
     const auth = useAuth();
-    const issues = createAsync(() => getAllAssignedIssues(String(auth.userId())));
+    const [dateFilter, setDateFilter] = createSignal('');
+    const issues = createAsync(() => getAllAssignedIssues(String(auth.userId()), dateFilter()));
 
     return (
         <>
@@ -20,7 +22,9 @@ export default function Dashboard() {
                 <h2 class="text-3xl font-bold tracking-tight">Dashboard</h2>
             </div>
             <h3>Your Assigned Issues</h3>
-            <IssueTabs issues={issues()} />
+            <IssueTabs issues={issues()} onDateFilterChange={(date) => {
+                setDateFilter(date)
+            }} />
         </>
     );
 }
