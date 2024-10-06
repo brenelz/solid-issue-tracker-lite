@@ -1,4 +1,4 @@
-import { createEffect, createSignal, For, JSXElement, Show, Suspense, useTransition } from "solid-js";
+import { createSignal, For, Show, Suspense, useTransition } from "solid-js";
 import { Button } from "./ui/button";
 import { useAction } from "@solidjs/router";
 import { resolveIssues, unresolveIssues } from "~/lib/actions";

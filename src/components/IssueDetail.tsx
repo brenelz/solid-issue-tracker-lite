@@ -1,5 +1,4 @@
-import { createEffect, For, Show, Suspense, useTransition } from "solid-js";
-import { IssueRow, UserRow } from "~/lib/db";
+import { For, Show } from "solid-js";
 import { cn, timeAgo } from "~/lib/utils";
 import { Button } from "./ui/button";
 import { createAsync, RouteDefinition, useAction, useSubmission } from "@solidjs/router";
@@ -85,14 +84,12 @@ export default function IssueDetail(props: IssueDetailsProps) {
             </div >
             <div>
                 <Show when={props.issue.resolvedAt} fallback={
-                    <Button onClick={async (e: Event) => {
-                        e.stopPropagation();
+                    <Button onClick={async () => {
                         await resolveIssuesAction([props.issue.id])
                         toast("Issue has been resolved");
                     }}>Resolve</Button>
                 }>
-                    <Button onClick={async (e: Event) => {
-                        e.stopPropagation();
+                    <Button onClick={async () => {
                         await unresolveIssuesAction([props.issue.id])
                         toast("Issue has been unresolved");
                     }}>Unresolve</Button>

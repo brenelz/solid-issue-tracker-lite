@@ -1,4 +1,3 @@
-import { useNavigate } from "@solidjs/router"
 import { Checkbox } from "./ui/checkbox";
 import { IssueRow } from "~/lib/db";
 import { cn } from "~/lib/utils";
@@ -11,8 +10,7 @@ type IssueProps = {
 }
 
 export default function IssueLink(props: IssueProps) {
-    const handleClick = (e: Event) => {
-        e.stopPropagation();
+    const handleClick = () => {
         props.toggleSelect(props.issue.id)
     }
     return (

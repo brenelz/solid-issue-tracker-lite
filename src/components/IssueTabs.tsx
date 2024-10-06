@@ -1,7 +1,6 @@
 
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs"
-import { Show, Suspense } from "solid-js";
 import IssuesList from "./IssuesList";
 import { IssueWithAssignedUser } from "~/lib/data";
 

@@ -33,6 +33,7 @@ export default function Issues() {
                     toast("Fake issues have been generated")
                 }}>Generate Fake Issues</Button>
             </div>
+
             <IssueTabs issues={issues()} onDateFilterChange={(date) => {
                 setDateFilter(date)
             }} />

@@ -23,6 +23,7 @@ export default function Dashboard() {
                 <h2 class="text-3xl font-bold tracking-tight">Dashboard</h2>
             </div>
             <h3>Your Assigned Issues</h3>
+
             <IssueTabs issues={issues()} onDateFilterChange={(date) => {
                 setDateFilter(date)
             }} />
