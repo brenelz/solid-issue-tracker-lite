@@ -1,4 +1,4 @@
-import { createAsync, RouteDefinition, useAction } from "@solidjs/router";
+import { createAsyncStore, RouteDefinition, useAction } from "@solidjs/router";
 import { useAuth } from "clerk-solidjs";
 import { createSignal } from "solid-js";
 import { toast } from "solid-sonner";
@@ -18,7 +18,7 @@ export const route = {
 export default function Issues() {
     const auth = useAuth();
     const [dateFilter, setDateFilter] = createSignal('');
-    const issues = createAsync(() => getAllUserIssues(String(auth.userId()), dateFilter()));
+    const issues = createAsyncStore(() => getAllUserIssues(String(auth.userId()), dateFilter()));
     const generateFakeIssuesAction = useAction(generateFakeIssues);
 
     return (

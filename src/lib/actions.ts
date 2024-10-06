@@ -3,6 +3,7 @@ import { db, issuesTable } from "./db";
 import { auth } from "clerk-solidjs/server";
 import { eq, inArray, sql } from "drizzle-orm";
 import { fakeIssues } from "./fakeIssues";
+import { getAllAssignedIssues, getAllUserIssues, getIssue } from "./data";
 
 export const generateFakeIssues = action(async () => {
     "use server";
@@ -31,7 +32,7 @@ export const resolveIssues = action(async (issueIds: number[]) => {
 
     await db.update(issuesTable).set({ resolvedAt: sql`datetime('now')` }).where(inArray(issuesTable.id, issueIds))
 
-    return json({ success: true })
+    return json({ success: true }, { revalidate: [getIssue.key, getAllAssignedIssues.key, getAllUserIssues.key] })
 
 }, "resolve-issues");
 
@@ -40,7 +41,7 @@ export const unresolveIssues = action(async (issueIds: number[]) => {
 
     await db.update(issuesTable).set({ resolvedAt: sql`NULL` }).where(inArray(issuesTable.id, issueIds))
 
-    return json({ success: true })
+    return json({ success: true }, { revalidate: [getIssue.key, getAllAssignedIssues.key, getAllUserIssues.key] })
 
 }, "unresolve-issues");
 
@@ -49,6 +50,6 @@ export const assignIssueTo = action(async (issueId: number, id: string) => {
 
     await db.update(issuesTable).set({ assignedId: id }).where(eq(issuesTable.id, issueId))
 
-    return json({ success: true })
+    return json({ success: true }, { revalidate: [getIssue.key, getAllAssignedIssues.key, getAllUserIssues.key] })
 
 }, "assign-issue-to");

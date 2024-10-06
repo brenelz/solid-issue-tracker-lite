@@ -1,4 +1,4 @@
-import { createAsync, RouteDefinition, useParams } from "@solidjs/router";
+import { createAsync, createAsyncStore, RouteDefinition, useParams } from "@solidjs/router";
 import { useAuth } from "clerk-solidjs";
 import { Show, Suspense } from "solid-js";
 import IssueDetail from "~/components/IssueDetail";
@@ -15,7 +15,7 @@ export const route = {
 export default function Issues() {
     const params = useParams();
     const auth = useAuth();
-    const issue = createAsync(() => getIssue(String(auth.userId()), +params.id));
+    const issue = createAsyncStore(() => getIssue(String(auth.userId()), +params.id));
     const code = createAsync(async () => {
         if (issue()) {
             return renderCode(String(issue()?.stacktrace))

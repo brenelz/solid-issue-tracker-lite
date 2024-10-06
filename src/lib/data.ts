@@ -10,7 +10,6 @@ export type IssueWithAssignedUser = IssueRow & {
 export const getAllUserIssues = cache(async (userId: string, date: string) => {
     "use server";
 
-
     if (date && date !== '') {
         const unresolvedQuery = await db.select().from(issuesTable).where(and(
             eq(issuesTable.createdAt, date),

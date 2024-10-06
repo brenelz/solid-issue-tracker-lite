@@ -1,4 +1,4 @@
-import { createAsync, RouteDefinition } from "@solidjs/router";
+import { createAsyncStore, RouteDefinition } from "@solidjs/router";
 import { useAuth } from "clerk-solidjs";
 import { createSignal } from "solid-js";
 import IssueTabs from "~/components/IssueTabs";
@@ -15,7 +15,7 @@ export const route = {
 export default function Dashboard() {
     const auth = useAuth();
     const [dateFilter, setDateFilter] = createSignal('');
-    const issues = createAsync(() => getAllAssignedIssues(String(auth.userId()), dateFilter()));
+    const issues = createAsyncStore(() => getAllAssignedIssues(String(auth.userId()), dateFilter()));
 
     return (
         <>
