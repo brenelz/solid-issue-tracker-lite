@@ -2,12 +2,13 @@ import { createAsync, RouteDefinition } from "@solidjs/router";
 import { useAuth } from "clerk-solidjs";
 import { createSignal } from "solid-js";
 import IssueTabs from "~/components/IssueTabs";
-import { getAllAssignedIssues } from "~/lib/data";
+import { getAllAssignedIssues, getUsers } from "~/lib/data";
 
 export const route = {
     preload() {
         const auth = useAuth();
         void getAllAssignedIssues(String(auth.userId()), '');
+        void getUsers();
     }
 } satisfies RouteDefinition;
 

@@ -1,4 +1,4 @@
-import { For, Show } from "solid-js";
+import { For, Show, Suspense } from "solid-js";
 import { IssueRow, UserRow } from "~/lib/db";
 import { cn, timeAgo } from "~/lib/utils";
 import { Button } from "./ui/button";

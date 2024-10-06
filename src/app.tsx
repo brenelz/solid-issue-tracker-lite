@@ -16,11 +16,11 @@ export default function App() {
         >
           <MetaProvider>
             <Title>Solid Issue Tracker Lite - Brenelz</Title>
-            <Suspense>
-              <MainLayout>
+            <MainLayout>
+              <Suspense>
                 {props.children}
-              </MainLayout>
-            </Suspense>
+              </Suspense>
+            </MainLayout>
           </MetaProvider>
         </ClerkProvider>
       )}

@@ -5,12 +5,13 @@ import { toast } from "solid-sonner";
 import IssueTabs from "~/components/IssueTabs";
 import { Button } from "~/components/ui/button";
 import { generateFakeIssues } from "~/lib/actions";
-import { getAllUserIssues } from "~/lib/data";
+import { getAllUserIssues, getUsers } from "~/lib/data";
 
 export const route = {
     preload() {
         const auth = useAuth();
         void getAllUserIssues(String(auth.userId()), '');
+        void getUsers();
     }
 } satisfies RouteDefinition;
 
