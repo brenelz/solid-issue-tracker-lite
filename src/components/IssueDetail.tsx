@@ -1,8 +1,8 @@
-import { For, Show, Suspense } from "solid-js";
+import { createEffect, For, Show, Suspense, useTransition } from "solid-js";
 import { IssueRow, UserRow } from "~/lib/db";
 import { cn, timeAgo } from "~/lib/utils";
 import { Button } from "./ui/button";
-import { createAsync, RouteDefinition, useAction } from "@solidjs/router";
+import { createAsync, RouteDefinition, useAction, useSubmission } from "@solidjs/router";
 import { assignIssueTo, resolveIssues, unresolveIssues } from "~/lib/actions";
 import Avatar from "./Avatar";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
@@ -20,13 +20,21 @@ type IssueDetailsProps = {
 }
 
 export default function IssueDetail(props: IssueDetailsProps) {
+    const users = createAsync(() => getUsers());
+
     const resolveIssuesAction = useAction(resolveIssues);
     const unresolveIssuesAction = useAction(unresolveIssues);
     const assignIssueToAction = useAction(assignIssueTo);
-    const users = createAsync(() => getUsers());
+
+    const resolveIssuesSubmission = useSubmission(resolveIssues);
+    const unresolveIssuesSubmission = useSubmission(unresolveIssues);
+    const assignIssueToSubmission = useSubmission(assignIssueTo);
 
     return (
-        <>
+        <div class="flex flex-row items-center gap-6 w-full"
+            classList={
+                { 'opacity-50': resolveIssuesSubmission.pending || unresolveIssuesSubmission.pending || assignIssueToSubmission.pending }
+            }>
             <a href={`/dashboard/issues/${props.issue.id}`} class="flex-grow">
                 <div>
                     <div class="flex flex-grow w-full flex-col gap-1">
@@ -44,7 +52,7 @@ export default function IssueDetail(props: IssueDetailsProps) {
             <div
                 class={cn(
                     "text-xs",
-                    "text-muted-foreground"
+                    "text-muted-foreground",
                 )}
             >
                 {timeAgo(new Date(String(props.issue.createdAt + ' UTC')))}
@@ -90,6 +98,6 @@ export default function IssueDetail(props: IssueDetailsProps) {
                     }}>Unresolve</Button>
                 </Show>
             </div>
-        </>
+        </div>
     )
 }
