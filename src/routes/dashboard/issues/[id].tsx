@@ -1,7 +1,10 @@
 import { createAsync, createAsyncStore, RouteDefinition, useParams } from "@solidjs/router";
 import { useAuth } from "clerk-solidjs";
-import { Show, Suspense } from "solid-js";
+import { createSignal, Show, Suspense } from "solid-js";
+import AiDescription from "~/components/AiDescription";
 import IssueDetail from "~/components/IssueDetail";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "~/components/ui/accordion";
+import { Button } from "~/components/ui/button";
 import { getIssue, getUsers, renderCode } from "~/lib/data";
 
 export const route = {
@@ -21,6 +24,7 @@ export default function Issues() {
             return renderCode(String(issue()?.stacktrace))
         }
     });
+    const [showAiDescription, setShowAiDescription] = createSignal(false);
 
     return (
         <>
@@ -33,7 +37,23 @@ export default function Issues() {
                         {issue => <IssueDetail issue={issue()} />}
                     </Show>
                 </div>
-            </Suspense>
+
+                <Accordion multiple={false} collapsible>
+                    <AccordionItem value="item-1">
+                        <AccordionTrigger>
+                            <Button onClick={() => setShowAiDescription(true)}>Ask AI</Button>
+                        </AccordionTrigger>
+                        <AccordionContent>
+                            <Suspense fallback="Asking AI...">
+                                <Show when={showAiDescription()}>
+                                    <AiDescription issueId={issue()?.id!} />
+                                </Show>
+                            </Suspense>
+                        </AccordionContent>
+                    </AccordionItem>
+                </Accordion>
+
+            </Suspense >
             <Suspense fallback={<div class="flex items-center gap-2"><div class="font-semibold">Loading Code...</div></div>}>
                 <div innerHTML={code()} />
             </Suspense>

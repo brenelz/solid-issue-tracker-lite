@@ -24,6 +24,7 @@
     "clerk-solidjs": "^2.0.2",
     "clsx": "^2.1.1",
     "drizzle-orm": "^0.33.0",
+    "openai": "^4.67.2",
     "postcss": "^8.4.47",
     "solid-js": "^1.9.1",
     "solid-sonner": "^0.2.8",

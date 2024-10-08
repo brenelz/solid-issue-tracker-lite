@@ -25,7 +25,6 @@ export const getAllUserIssues = cache(async (userId: string, date: string) => {
         )).leftJoin(usersTable, eq(usersTable.id, issuesTable.assignedId))
             .orderBy(sql`${issuesTable.createdAt} desc`);
 
-
         const unresolved = unresolvedQuery.map(query => ({
             ...query.issues,
             assignedUser: query.users
@@ -135,7 +134,7 @@ export const getAllAssignedIssues = cache(async (userId: string, date: string) =
 
 }, "get-all-assigned-issues");
 
-export const getIssue = cache(async (userId: string, issueId: number) => {
+export const getIssueFromDb = async (userId: string, issueId: number) => {
     "use server";
 
     const issues = await db.select().from(issuesTable).where(
@@ -146,18 +145,26 @@ export const getIssue = cache(async (userId: string, issueId: number) => {
             ),
         ));
 
+    return issues[0];
+}
+
+export const getIssue = cache(async (userId: string, issueId: number) => {
+    "use server";
+
+    const issue = await getIssueFromDb(userId, issueId);
+
     let assignedUser = null;
-    if (issues.length > 0 && issues[0].assignedId) {
-        const user = await db.select().from(usersTable).where(eq(usersTable.id, issues[0].assignedId));
+    if (issue.assignedId) {
+        const user = await db.select().from(usersTable).where(eq(usersTable.id, issue.assignedId));
         assignedUser = user[0];
     }
 
-    const issue = {
-        ...issues[0],
+    const issueToReturn = {
+        ...issue,
         assignedUser: assignedUser
     }
 
-    return issue
+    return issueToReturn
 
 }, "get-issue");
 
