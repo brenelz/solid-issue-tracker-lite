@@ -4,8 +4,16 @@ import { useAction } from "@solidjs/router";
 import { resolveIssues, unresolveIssues } from "~/lib/actions";
 import IssueLink from "./IssueLink";
 import { IssueRow } from "~/lib/db";
-import { cn } from "~/lib/utils";
+import { cn, paginate } from "~/lib/utils";
 import IssueDatePicker from "./IssueDatePicker";
+import {
+    Pagination,
+    PaginationEllipsis,
+    PaginationItem,
+    PaginationItems,
+    PaginationNext,
+    PaginationPrevious
+} from "~/components/ui/pagination"
 
 type IssuesListProps = {
     issues?: IssueRow[];
@@ -13,11 +21,14 @@ type IssuesListProps = {
     onDateFilterChange: (date: string) => void;
 }
 
+const ITEMS_PER_PAGE = 25;
+
 export default function IssuesList(props: IssuesListProps) {
     const resolveIssuesAction = useAction(resolveIssues);
     const unresolveIssuesAction = useAction(unresolveIssues);
     const [selected, setSelected] = createSignal<number[]>([]);
     const [pending, startTransition] = useTransition();
+    const [page, setPage] = createSignal(1);
 
     const toggleSelect = (id: number) => {
         const idExist = selected().find(sel => sel === id);
@@ -47,6 +58,7 @@ export default function IssuesList(props: IssuesListProps) {
                     <IssueDatePicker onValueChange={(details) => {
                         startTransition(() => {
                             props.onDateFilterChange(details.valueAsString[0]);
+                            setPage(1);
                         })
                     }} />
                     <Show when={props.type === 'resolved'} fallback={
@@ -67,11 +79,40 @@ export default function IssuesList(props: IssuesListProps) {
                     )}>
                         No issues found
                     </div>}>
-                        <For each={props.issues}>
+
+                        <Pagination
+                            count={Math.ceil(props.issues!.length / ITEMS_PER_PAGE)}
+                            fixedItems
+                            itemComponent={(props) => <PaginationItem page={props.page}>{props.page}</PaginationItem>}
+                            ellipsisComponent={() => <PaginationEllipsis />}
+                            class="mb-4"
+                            onPageChange={(page) => {
+                                setPage(page);
+                            }}
+                        >
+                            <PaginationPrevious />
+                            <PaginationItems />
+                            <PaginationNext />
+                        </Pagination>
+                        <For each={paginate(props.issues!, page(), ITEMS_PER_PAGE)}>
                             {(issue) => (
                                 <IssueLink issue={issue} checked={selected().includes(issue.id)} toggleSelect={toggleSelect} />
                             )}
                         </For>
+                        <Pagination
+                            count={Math.ceil(props.issues!.length / ITEMS_PER_PAGE)}
+                            fixedItems
+                            itemComponent={(props) => <PaginationItem page={props.page}>{props.page}</PaginationItem>}
+                            ellipsisComponent={() => <PaginationEllipsis />}
+                            class="mt-4"
+                            onPageChange={(page) => {
+                                setPage(page);
+                            }}
+                        >
+                            <PaginationPrevious />
+                            <PaginationItems />
+                            <PaginationNext />
+                        </Pagination>
                     </Show>
                 </div>
             </Suspense>

@@ -31,3 +31,9 @@ export function timeAgo(value: Date) {
   }
   return rtf.format(-Math.floor(interval), "second")
 }
+
+export function paginate(array: any[], pageNumber: number, pageSize: number) {
+  const start = (pageNumber - 1) * pageSize;
+  const end = start + pageSize;
+  return array.slice(start, end);
+}
