@@ -56,6 +56,9 @@ importers:
       postcss:
         specifier: ^8.4.47
         version: 8.4.47
+      solid-icons:
+        specifier: ^1.1.0
+        version: 1.1.0(solid-js@1.9.1)
       solid-js:
         specifier: ^1.9.1
         version: 1.9.1
@@ -3340,6 +3343,11 @@ packages:
   snakecase-keys@5.4.4:
     resolution: {integrity: sha512-YTywJG93yxwHLgrYLZjlC75moVEX04LZM4FHfihjHe1FCXm+QaLOFfSf535aXOAd0ArVQMWUAe8ZPm4VtWyXaA==}
     engines: {node: '>=12'}
+
+  solid-icons@1.1.0:
+    resolution: {integrity: sha512-IesTfr/F1ElVwH2E1110s2RPXH4pujKfSs+koT8rwuTAdleO5s26lNSpqJV7D1+QHooJj18mcOiz2PIKs0ic+A==}
+    peerDependencies:
+      solid-js: '*'
 
   solid-js@1.9.1:
     resolution: {integrity: sha512-Gd6QWRFfO2XKKZqVK4YwbhWZkr0jWw1dYHOt+VYebomeyikGP0SuMflf42XcDuU9HAEYDArFJIYsBNjlE7iZsw==}
@@ -7410,6 +7418,10 @@ snapshots:
       map-obj: 4.3.0
       snake-case: 3.0.4
       type-fest: 2.19.0
+
+  solid-icons@1.1.0(solid-js@1.9.1):
+    dependencies:
+      solid-js: 1.9.1
 
   solid-js@1.9.1:
     dependencies:

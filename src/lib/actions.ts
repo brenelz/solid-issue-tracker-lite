@@ -1,9 +1,10 @@
-import { action, json } from "@solidjs/router";
+import { action, json, redirect } from "@solidjs/router";
 import { db, issuesTable } from "./db";
 import { auth } from "clerk-solidjs/server";
 import { eq, inArray, sql } from "drizzle-orm";
 import { fakeIssues } from "./fakeIssues";
 import { getAllAssignedIssues, getAllUserIssues, getIssue } from "./data";
+import { Liveblocks } from "@liveblocks/node";
 
 export const generateFakeIssues = action(async () => {
     "use server";
@@ -47,8 +48,31 @@ export const unresolveIssues = action(async (issueIds: number[]) => {
 
 export const assignIssueTo = action(async (issueId: number, id: string) => {
     "use server";
+    await db.update(issuesTable).set({ assignedId: id }).where(eq(issuesTable.id, issueId));
 
-    await db.update(issuesTable).set({ assignedId: id }).where(eq(issuesTable.id, issueId))
+    // trigger notification
+    const liveblocks = new Liveblocks({
+        secret: process.env.LIVEBLOCKS_SECRET_KEY!,
+    });
+
+    await liveblocks.triggerInboxNotification({
+        // The ID of the user that will receive the inbox notification
+        userId: id,
+
+        // The custom notification kind, must start with a $
+        kind: "$assignedTo",
+
+        // Custom ID for this specific notification
+        subjectId: "assignedTo",
+
+        // Custom data related to the activity that you need to render the inbox notification
+        activityData: {
+            title: "You've been assigned to:",
+            description: "Dashboard not loading data",
+            issueId,
+        },
+    });
+
 
     return json({ success: true }, { revalidate: [getIssue.key, getAllAssignedIssues.key, getAllUserIssues.key] })
 

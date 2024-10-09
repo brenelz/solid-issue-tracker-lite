@@ -26,6 +26,7 @@
     "drizzle-orm": "^0.33.0",
     "openai": "^4.67.2",
     "postcss": "^8.4.47",
+    "solid-icons": "^1.1.0",
     "solid-js": "^1.9.1",
     "solid-sonner": "^0.2.8",
     "svix": "^1.37.0",

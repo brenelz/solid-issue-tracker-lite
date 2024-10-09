@@ -5,6 +5,7 @@ import OnlineUsers from "~/components/OnlineUsers";
 import styles from '~/components/Avatar.module.css';
 import { Toaster } from "solid-sonner";
 import { cn } from "~/lib/utils";
+import InboxNotifications from "~/components/InboxNotifcations";
 
 export default function MainLayout(props: ParentProps) {
     return (
@@ -19,6 +20,7 @@ export default function MainLayout(props: ParentProps) {
                                 <SignedIn>
                                     <div class="flex items-center">
                                         <OnlineUsers />
+                                        <InboxNotifications />
                                     </div>
                                     <div class="flex items-center ">
                                         <div class={cn(styles.avatar_online)}>

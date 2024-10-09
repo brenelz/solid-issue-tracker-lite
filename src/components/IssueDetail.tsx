@@ -65,20 +65,24 @@ export default function IssueDetail(props: IssueDetailsProps) {
                             src={props.issue.assignedUser?.avatar || null}
                         />
                     </PopoverTrigger>
-                    <PopoverContent class="flex items-center">
-                        <span class="hidden sm:inline-block text-sm mr-6">Assign to:</span>
-                        <For each={users()?.filter(user => user.id !== props.issue.assignedUser?.id)}>
-                            {(user) => (
-                                <Avatar
-                                    onClick={async () => {
-                                        await assignIssueToAction(props.issue.id, user.id!);
-                                        toast(`Issue has been assigned to ${user.firstName}`)
-                                    }}
-                                    src={user.avatar}
-                                    name={String(user.firstName || 'unknown')}
-                                />
-                            )}
-                        </For>
+                    <PopoverContent >
+                        <div class="flex items-center" classList={
+                            { 'opacity-50': assignIssueToSubmission.pending }
+                        }>
+                            <span class="hidden sm:inline-block text-sm mr-6">Assign to:</span>
+                            <For each={users()?.filter(user => user.id !== props.issue.assignedUser?.id)}>
+                                {(user) => (
+                                    <Avatar
+                                        onClick={async () => {
+                                            await assignIssueToAction(props.issue.id, user.id!);
+                                            toast(`Issue has been assigned to ${user.firstName}`)
+                                        }}
+                                        src={user.avatar}
+                                        name={String(user.firstName || 'unknown')}
+                                    />
+                                )}
+                            </For>
+                        </div>
                     </PopoverContent>
                 </Popover>
             </div >

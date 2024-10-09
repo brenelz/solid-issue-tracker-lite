@@ -1,12 +1,13 @@
 import { Liveblocks } from "@liveblocks/node";
 import { auth } from "clerk-solidjs/server";
 
-const liveblocks = new Liveblocks({
-    secret: process.env.LIVEBLOCKS_SECRET_KEY!,
-});
-
 const handler = async () => {
     const authObject = auth();
+
+    const liveblocks = new Liveblocks({
+        secret: process.env.LIVEBLOCKS_SECRET_KEY!,
+    });
+
     // Start an auth session inside your endpoint
     const session = liveblocks.prepareSession(
         String(authObject.userId),
