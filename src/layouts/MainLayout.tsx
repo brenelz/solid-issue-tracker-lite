@@ -1,5 +1,5 @@
 import { ClerkLoaded, SignedIn, UserButton } from "clerk-solidjs";
-import { ParentProps } from "solid-js";
+import { ParentProps, Suspense } from "solid-js";
 import { MainNav } from "~/components/MainNav";
 import OnlineUsers from "~/components/OnlineUsers";
 import styles from '~/components/Avatar.module.css';
@@ -20,7 +20,9 @@ export default function MainLayout(props: ParentProps) {
                                 <SignedIn>
                                     <div class="flex items-center">
                                         <OnlineUsers />
-                                        <InboxNotifications />
+                                        <Suspense>
+                                            <InboxNotifications />
+                                        </Suspense>
                                     </div>
                                     <div class="flex items-center ">
                                         <div class={cn(styles.avatar_online)}>

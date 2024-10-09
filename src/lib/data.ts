@@ -1,5 +1,5 @@
 import { cache } from "@solidjs/router";
-import { db, IssueRow, issuesTable, UserRow, usersTable } from "./db";
+import { db, IssueRow, issuesTable, notificationsTable, UserRow, usersTable } from "./db";
 import { and, eq, isNotNull, isNull, or, sql } from "drizzle-orm";
 import { codeToHtml } from 'shiki'
 
@@ -185,3 +185,16 @@ export const renderCode = cache(async (srcCode: string) => {
         theme: "material-theme-ocean",
     });
 }, "render-code");
+
+export const getNotificationsForUser = cache(async (userId: string) => {
+    "use server";
+
+    const notifications = await db.select().from(notificationsTable)
+        .innerJoin(issuesTable, eq(issuesTable.id, notificationsTable.issueId))
+        .where(eq(notificationsTable.userId, userId))
+        .orderBy(sql`${notificationsTable.createdAt} desc`)
+        .limit(3);
+
+    return notifications;
+
+}, "get-notifications-for-user");

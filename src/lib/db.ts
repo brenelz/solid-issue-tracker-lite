@@ -35,6 +35,7 @@ export const notificationsTable = sqliteTable('notifications', {
   id: integer('id', { mode: 'number' }).primaryKey({ autoIncrement: true }),
   userId: text('userId').notNull(),
   issueId: text('issueId'),
+  title: text('title'),
   createdAt: text("timestamp").default(sql`(CURRENT_TIMESTAMP)`),
   readAt: text("timestamp")
 });
