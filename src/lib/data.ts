@@ -192,8 +192,7 @@ export const getNotificationsForUser = cache(async (userId: string) => {
     const notifications = await db.select().from(notificationsTable)
         .innerJoin(issuesTable, eq(issuesTable.id, notificationsTable.issueId))
         .where(eq(notificationsTable.userId, userId))
-        .orderBy(sql`${notificationsTable.createdAt} desc`)
-        .limit(3);
+        .orderBy(sql`${notificationsTable.createdAt} desc`);
 
     return notifications;
 

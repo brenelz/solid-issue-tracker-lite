@@ -1,7 +1,7 @@
-import { action, json } from "@solidjs/router";
+import { action, json, redirect } from "@solidjs/router";
 import { db, issuesTable, notificationsTable } from "./db";
 import { auth } from "clerk-solidjs/server";
-import { eq, inArray, sql } from "drizzle-orm";
+import { eq, inArray, not, sql } from "drizzle-orm";
 import { fakeIssues } from "./fakeIssues";
 
 export const generateFakeIssues = action(async () => {
@@ -57,3 +57,17 @@ export const assignIssueTo = action(async (issueId: number, id: string) => {
     return json({ success: true });
 
 }, "assign-issue-to");
+
+export const clearNotifications = action(async () => {
+    "use server";
+    const authObject = auth();
+
+    if (!authObject.userId) {
+        return redirect('/');
+    }
+
+    await db.delete(notificationsTable).where(eq(notificationsTable.userId, authObject.userId))
+
+    return json({ success: true });
+
+}, "clear-notifications");
