@@ -47,6 +47,9 @@ importers:
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
+      drizzle-kit:
+        specifier: ^0.24.2
+        version: 0.24.2
       drizzle-orm:
         specifier: ^0.33.0
         version: 0.33.0(@libsql/client@0.14.0)(react@18.3.1)
@@ -56,6 +59,9 @@ importers:
       postcss:
         specifier: ^8.4.47
         version: 8.4.47
+      shiki:
+        specifier: ^1.21.0
+        version: 1.21.0
       solid-icons:
         specifier: ^1.1.0
         version: 1.1.0(solid-js@1.9.1)
@@ -80,13 +86,6 @@ importers:
       vinxi:
         specifier: ^0.4.3
         version: 0.4.3(@libsql/client@0.14.0)(@types/node@22.7.4)(drizzle-orm@0.33.0(@libsql/client@0.14.0)(react@18.3.1))(ioredis@5.4.1)(terser@5.34.1)
-    devDependencies:
-      drizzle-kit:
-        specifier: ^0.24.2
-        version: 0.24.2
-      shiki:
-        specifier: ^1.21.0
-        version: 1.21.0
 
 packages:
 

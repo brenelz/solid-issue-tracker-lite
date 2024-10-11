@@ -9,21 +9,21 @@ export default function OnlineUsers() {
     const [users, setUsers] = createSignal<User<JsonObject, BaseUserMeta>[]>([]);
 
     onMount(() => {
-        // const { room } = client.enterRoom("solid-issue-tracker-lite", {
-        //     initialPresence: {
-        //         name: clerk.user()?.fullName,
-        //         avatar: clerk.user()?.imageUrl
-        //     }
-        // });
+        const { room } = client.enterRoom("solid-issue-tracker-lite", {
+            initialPresence: {
+                name: clerk.user()?.fullName,
+                avatar: clerk.user()?.imageUrl
+            }
+        });
 
-        // const unsubscribeOthers = room.subscribe("others", (others) => {
-        //     const othersWithPresence = others.filter((user) => user?.presence);
-        //     setUsers(othersWithPresence);
-        // });
+        const unsubscribeOthers = room.subscribe("others", (others) => {
+            const othersWithPresence = others.filter((user) => user?.presence);
+            setUsers(othersWithPresence);
+        });
 
-        // onCleanup(() => {
-        //     unsubscribeOthers();
-        // });
+        onCleanup(() => {
+            unsubscribeOthers();
+        });
     });
 
     return (

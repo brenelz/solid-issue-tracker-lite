@@ -6,7 +6,9 @@ export default function NotFound() {
     <>
       <Title>Not Found</Title>
       <HttpStatusCode code={404} />
-      <h2>Page Not Found</h2>
+      <div class="flex items-center justify-between space-y-2">
+        <h2 class="text-3xl font-bold tracking-tight">Page Not Found</h2>
+      </div>
     </>
   );
 }

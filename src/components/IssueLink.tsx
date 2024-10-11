@@ -2,9 +2,10 @@ import { Checkbox } from "./ui/checkbox";
 import { IssueRow } from "~/lib/db";
 import { cn } from "~/lib/utils";
 import IssueDetail from "./IssueDetail";
+import { IssueWithAssignedUser } from "~/lib/data";
 
 type IssueProps = {
-    issue: IssueRow;
+    issue: IssueWithAssignedUser;
     toggleSelect: (id: number) => void;
     checked: boolean;
 }

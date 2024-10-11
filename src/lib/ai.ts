@@ -11,8 +11,6 @@ export const getAiDescription = cache(async (issueId: number) => {
         return redirect('/');
     }
 
-    return 'AI response here';
-
     const issue = await getIssueFromDb(authObj.userId, issueId)
 
     const openai = new OpenAI();

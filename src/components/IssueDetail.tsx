@@ -1,18 +1,12 @@
 import { For, Show } from "solid-js";
 import { cn, timeAgo } from "~/lib/utils";
 import { Button } from "./ui/button";
-import { createAsync, RouteDefinition, useAction, useSubmission } from "@solidjs/router";
+import { createAsync, useAction, useSubmission } from "@solidjs/router";
 import { assignIssueTo, resolveIssues, unresolveIssues } from "~/lib/actions";
 import Avatar from "./Avatar";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { getUsers, IssueWithAssignedUser } from "~/lib/data";
 import { toast } from "solid-sonner";
-
-export const route = {
-    preload() {
-        void getUsers();
-    }
-} satisfies RouteDefinition;
 
 type IssueDetailsProps = {
     issue: IssueWithAssignedUser
@@ -70,7 +64,7 @@ export default function IssueDetail(props: IssueDetailsProps) {
                             { 'opacity-50': assignIssueToSubmission.pending }
                         }>
                             <span class="hidden sm:inline-block text-sm mr-6">Assign to:</span>
-                            <For each={users()?.filter(user => user.id !== props.issue.assignedUser?.id)}>
+                            <For each={users()}>
                                 {(user) => (
                                     <Avatar
                                         onClick={async () => {

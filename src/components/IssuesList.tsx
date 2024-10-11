@@ -14,9 +14,10 @@ import {
     PaginationNext,
     PaginationPrevious
 } from "~/components/ui/pagination"
+import { IssueWithAssignedUser } from "~/lib/data";
 
 type IssuesListProps = {
-    issues?: IssueRow[];
+    issues: IssueWithAssignedUser[];
     type: 'resolved' | 'unresolved';
     onDateFilterChange: (date: string) => void;
 }
@@ -71,7 +72,7 @@ export default function IssuesList(props: IssuesListProps) {
             <Suspense fallback="Loading issues...">
                 <div classList={{ 'opacity-50': pending() }}>
                     <div class="mb-2 text-sm">
-                        {props.issues?.length || 0} Issues
+                        {props.issues.length || 0} Issues
                     </div>
 
                     <Show when={props.issues && props.issues.length > 0} fallback={<div class={cn(

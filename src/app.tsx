@@ -2,10 +2,11 @@ import { MetaProvider, Title } from "@solidjs/meta";
 import { Router } from "@solidjs/router";
 import { FileRoutes } from "@solidjs/start/router";
 import { Suspense } from "solid-js";
-import "./app.css";
-import "@fontsource/inter"
 import { ClerkProvider } from "clerk-solidjs";
 import MainLayout from "./layouts/MainLayout";
+
+import "@fontsource/inter"
+import "./app.css";
 
 export default function App() {
   return (

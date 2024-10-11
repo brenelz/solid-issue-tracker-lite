@@ -5,7 +5,7 @@ import IssuesList from "./IssuesList";
 import { IssueWithAssignedUser } from "~/lib/data";
 
 type IssueTabsProps = {
-    issues?: {
+    issues: {
         resolved: IssueWithAssignedUser[];
         unresolved: IssueWithAssignedUser[];
     },

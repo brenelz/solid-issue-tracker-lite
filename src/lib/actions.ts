@@ -1,7 +1,7 @@
 import { action, json, redirect } from "@solidjs/router";
 import { db, issuesTable, notificationsTable } from "./db";
 import { auth } from "clerk-solidjs/server";
-import { eq, inArray, not, sql } from "drizzle-orm";
+import { eq, inArray, sql } from "drizzle-orm";
 import { fakeIssues } from "./fakeIssues";
 
 export const generateFakeIssues = action(async () => {

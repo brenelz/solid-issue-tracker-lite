@@ -1,17 +1,15 @@
-import { createEffect, For, Show } from "solid-js";
+import { For, Show } from "solid-js";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { AiOutlineInbox } from 'solid-icons/ai'
 import { createAsync, useAction } from "@solidjs/router";
 import { getNotificationsForUser } from "~/lib/data";
-import { useAuth } from "clerk-solidjs";
 import { timeAgo } from "~/lib/utils";
 import { AiOutlineBell } from 'solid-icons/ai'
 import { Button } from "./ui/button";
 import { clearNotifications } from "~/lib/actions";
 
 export default function InboxNotifications() {
-    const auth = useAuth()
-    const inboxNotifications = createAsync(() => getNotificationsForUser(String(auth.userId())));
+    const inboxNotifications = createAsync(() => getNotificationsForUser());
     const clearNotificationsAction = useAction(clearNotifications);
 
     return (
