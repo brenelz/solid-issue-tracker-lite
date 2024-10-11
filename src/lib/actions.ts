@@ -6,13 +6,17 @@ import { fakeIssues } from "./fakeIssues";
 
 export const generateFakeIssues = action(async () => {
     "use server";
-    const user = auth();
+    const authObject = auth();
+
+    if (!authObject.userId) {
+        return redirect('/');
+    }
 
     for (let i = 0; i < 10; i++) {
         const fakeIssue = fakeIssues[Math.floor(Math.random() * fakeIssues.length)];
 
         await db.insert(issuesTable).values({
-            ownerId: String(user.userId),
+            ownerId: authObject.userId,
             assignedId: null,
             parentIssueId: null,
             title: fakeIssue.title,
