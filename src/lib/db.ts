@@ -1,7 +1,7 @@
 import { drizzle } from 'drizzle-orm/libsql';
 import { createClient } from '@libsql/client';
 import { text, integer, sqliteTable } from "drizzle-orm/sqlite-core";
-import { sql } from "drizzle-orm";
+import { and, eq, isNotNull, isNull, or, sql } from "drizzle-orm";
 
 const client = createClient({
   url: process.env.TURSO_CONNECTION_URL!,
@@ -43,3 +43,35 @@ export const notificationsTable = sqliteTable('notifications', {
 export type IssueRow = typeof issuesTable.$inferSelect;
 export type NotificationRow = typeof notificationsTable.$inferSelect;
 export type UserRow = typeof usersTable.$inferSelect;
+
+export const getIssueFromDb = async (userId: string, issueId: number) => {
+  "use server";
+
+  const issues = await db.select().from(issuesTable).where(
+    and(
+      eq(issuesTable.id, issueId),
+      or(
+        eq(issuesTable.assignedId, userId), eq(issuesTable.ownerId, userId)
+      ),
+    ));
+
+  return issues[0];
+}
+
+export const getIssuesFromDb = async (props: { userId: string, date?: string, assigned?: boolean, resolved?: boolean }) => {
+  "use server";
+
+  const query = await db.select().from(issuesTable).where(and(
+    ...(props.date ? [eq(sql`DATE(${issuesTable.createdAt})`, props.date)] : []),
+    eq(props.assigned ? issuesTable.assignedId : issuesTable.ownerId, props.userId),
+    props.resolved ? isNotNull(issuesTable.resolvedAt) : isNull(issuesTable.resolvedAt)
+  )).leftJoin(usersTable, eq(usersTable.id, issuesTable.assignedId))
+    .orderBy(sql`${issuesTable.createdAt} desc`);
+
+  const queryWithAssignedUser = query.map(query => ({
+    ...query.issues,
+    assignedUser: query.users
+  }));
+
+  return queryWithAssignedUser;
+}

@@ -1,6 +1,6 @@
 import { cache, redirect } from "@solidjs/router";
-import { db, IssueRow, issuesTable, notificationsTable, UserRow, usersTable } from "./db";
-import { and, eq, isNotNull, isNull, or, sql } from "drizzle-orm";
+import { db, getIssueFromDb, getIssuesFromDb, IssueRow, issuesTable, notificationsTable, UserRow, usersTable } from "./db";
+import { eq, sql } from "drizzle-orm";
 import { codeToHtml } from 'shiki'
 import { auth } from "clerk-solidjs/server";
 
@@ -17,29 +17,17 @@ export const getAllUserIssues = cache(async (date?: string) => {
         return redirect('/');
     }
 
-    const unresolvedQuery = await db.select().from(issuesTable).where(and(
-        ...(date ? [eq(issuesTable.createdAt, date)] : []),
-        eq(issuesTable.ownerId, authObject.userId),
-        isNull(issuesTable.resolvedAt)
-    )).leftJoin(usersTable, eq(usersTable.id, issuesTable.assignedId))
-        .orderBy(sql`${issuesTable.createdAt} desc`);
+    const unresolved = await getIssuesFromDb({
+        userId: authObject.userId,
+        date,
+        resolved: false
+    });
 
-    const resolvedQuery = await db.select().from(issuesTable).where(and(
-        ...(date ? [eq(issuesTable.createdAt, date)] : []),
-        eq(issuesTable.ownerId, authObject.userId),
-        isNotNull(issuesTable.resolvedAt)
-    )).leftJoin(usersTable, eq(usersTable.id, issuesTable.assignedId))
-        .orderBy(sql`${issuesTable.createdAt} desc`);
-
-    const unresolved = unresolvedQuery.map(query => ({
-        ...query.issues,
-        assignedUser: query.users
-    }));
-
-    const resolved = resolvedQuery.map(query => ({
-        ...query.issues,
-        assignedUser: query.users
-    }));
+    const resolved = await getIssuesFromDb({
+        userId: authObject.userId,
+        date,
+        resolved: true
+    });
 
     return {
         unresolved,
@@ -50,56 +38,33 @@ export const getAllUserIssues = cache(async (date?: string) => {
 
 export const getAllAssignedIssues = cache(async (date?: string) => {
     "use server";
+
     const authObject = auth();
 
     if (!authObject.userId) {
         return redirect('/');
     }
 
-    const unresolvedQuery = await db.select().from(issuesTable).where(and(
-        ...(date ? [eq(issuesTable.createdAt, date)] : []),
-        eq(issuesTable.assignedId, authObject.userId),
-        isNull(issuesTable.resolvedAt)
-    )).innerJoin(usersTable, eq(usersTable.id, issuesTable.assignedId))
-        .orderBy(sql`${issuesTable.createdAt} desc`);
+    const unresolved = await getIssuesFromDb({
+        userId: authObject.userId,
+        date,
+        resolved: false,
+        assigned: true
+    });
 
-    const resolvedQuery = await db.select().from(issuesTable).where(and(
-        ...(date ? [eq(issuesTable.createdAt, date)] : []),
-        eq(issuesTable.assignedId, authObject.userId),
-        isNotNull(issuesTable.resolvedAt)
-    )).innerJoin(usersTable, eq(usersTable.id, issuesTable.assignedId))
-        .orderBy(sql`${issuesTable.createdAt} desc`);
-
-    const unresolved = unresolvedQuery.map(query => ({
-        ...query.issues,
-        assignedUser: query.users
-    }));
-
-    const resolved = resolvedQuery.map(query => ({
-        ...query.issues,
-        assignedUser: query.users
-    }));
+    const resolved = await getIssuesFromDb({
+        userId: authObject.userId,
+        date,
+        resolved: true,
+        assigned: true
+    });
 
     return {
         unresolved,
-        resolved,
+        resolved
     };
 
 }, "get-all-assigned-issues");
-
-export const getIssueFromDb = async (userId: string, issueId: number) => {
-    "use server";
-
-    const issues = await db.select().from(issuesTable).where(
-        and(
-            eq(issuesTable.id, issueId),
-            or(
-                eq(issuesTable.assignedId, userId), eq(issuesTable.ownerId, userId)
-            ),
-        ));
-
-    return issues[0];
-}
 
 export const getIssue = cache(async (issueId: number) => {
     "use server";

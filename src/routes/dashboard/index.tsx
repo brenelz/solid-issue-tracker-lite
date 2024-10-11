@@ -26,6 +26,7 @@ export default function Dashboard() {
             <Show when={issues()}>
                 {issues => (
                     <IssueTabs issues={issues()} onDateFilterChange={(date) => {
+                        console.log(date)
                         setDateFilter(date)
                     }} />
                 )}

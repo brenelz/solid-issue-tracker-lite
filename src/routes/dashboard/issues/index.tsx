@@ -1,6 +1,5 @@
 import { Title } from "@solidjs/meta";
 import { createAsyncStore, RouteDefinition, useAction } from "@solidjs/router";
-import { useAuth } from "clerk-solidjs";
 import { createSignal, Show } from "solid-js";
 import { toast } from "solid-sonner";
 import IssueTabs from "~/components/IssueTabs";
