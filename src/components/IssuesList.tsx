@@ -1,9 +1,8 @@
-import { createSignal, For, Show, Suspense, useTransition } from "solid-js";
+import { createMemo, createSignal, For, Show, Suspense, useTransition } from "solid-js";
 import { Button } from "./ui/button";
-import { useAction } from "@solidjs/router";
+import { useAction, useSubmissions } from "@solidjs/router";
 import { resolveIssues, unresolveIssues } from "~/lib/actions";
 import IssueLink from "./IssueLink";
-import { IssueRow } from "~/lib/db";
 import { cn, paginate } from "~/lib/utils";
 import IssueDatePicker from "./IssueDatePicker";
 import {
@@ -30,6 +29,14 @@ export default function IssuesList(props: IssuesListProps) {
     const [selected, setSelected] = createSignal<number[]>([]);
     const [pending, startTransition] = useTransition();
     const [page, setPage] = createSignal(1);
+    const resolveIssuesSubmissions = useSubmissions(resolveIssues);
+    const unresolveIssuesSubmissions = useSubmissions(unresolveIssues);
+    const optimisticIssues = createMemo(() => {
+        const resolvingIds = [...resolveIssuesSubmissions.values(), ...unresolveIssuesSubmissions.values()]
+            .filter(submission => submission.pending)
+            .flatMap(submission => submission.input[0]);
+        return props.issues.filter(issue => !resolvingIds.includes(issue.id));
+    });
 
     const toggleSelect = (id: number) => {
         const idExist = selected().find(sel => sel === id);
@@ -72,17 +79,17 @@ export default function IssuesList(props: IssuesListProps) {
             <Suspense fallback="Loading issues...">
                 <div classList={{ 'opacity-50': pending() }}>
                     <div class="mb-2 text-sm">
-                        {props.issues.length || 0} Issues
+                        {optimisticIssues().length || 0} Issues
                     </div>
 
-                    <Show when={props.issues && props.issues.length > 0} fallback={<div class={cn(
+                    <Show when={optimisticIssues() && optimisticIssues().length > 0} fallback={<div class={cn(
                         "flex flex-row items-center gap-6 rounded-lg border p-3 text-left text-sm w-full font-semibold",
                     )}>
                         No issues found
                     </div>}>
 
                         <Pagination
-                            count={Math.ceil(props.issues!.length / ITEMS_PER_PAGE)}
+                            count={Math.ceil(optimisticIssues()!.length / ITEMS_PER_PAGE)}
                             fixedItems
                             itemComponent={(props) => <PaginationItem page={props.page}>{props.page}</PaginationItem>}
                             ellipsisComponent={() => <PaginationEllipsis />}
@@ -95,13 +102,13 @@ export default function IssuesList(props: IssuesListProps) {
                             <PaginationItems />
                             <PaginationNext />
                         </Pagination>
-                        <For each={paginate(props.issues!, page(), ITEMS_PER_PAGE)}>
+                        <For each={paginate(optimisticIssues()!, page(), ITEMS_PER_PAGE)}>
                             {(issue) => (
                                 <IssueLink issue={issue} checked={selected().includes(issue.id)} toggleSelect={toggleSelect} />
                             )}
                         </For>
                         <Pagination
-                            count={Math.ceil(props.issues!.length / ITEMS_PER_PAGE)}
+                            count={Math.ceil(optimisticIssues()!.length / ITEMS_PER_PAGE)}
                             fixedItems
                             itemComponent={(props) => <PaginationItem page={props.page}>{props.page}</PaginationItem>}
                             ellipsisComponent={() => <PaginationEllipsis />}
