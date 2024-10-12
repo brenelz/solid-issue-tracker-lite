@@ -10,7 +10,6 @@ import { getAllUserIssues, getUsers } from "~/lib/data";
 export const route = {
     preload() {
         void getAllUserIssues();
-        void getUsers();
     }
 } satisfies RouteDefinition;
 

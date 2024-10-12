@@ -9,7 +9,6 @@ import { getIssue, getUsers, renderCode } from "~/lib/data";
 
 export const route = {
     preload: async ({ params }) => {
-        void getUsers();
         void getIssue(+params.id);
     }
 } satisfies RouteDefinition;
