@@ -5,7 +5,7 @@ import AiDescription from "~/components/AiDescription";
 import IssueDetail from "~/components/IssueDetail";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "~/components/ui/accordion";
 import { Button } from "~/components/ui/button";
-import { getIssue, getUsers, renderCode } from "~/lib/data";
+import { getIssue, renderCode } from "~/lib/data";
 
 export const route = {
     preload: async ({ params }) => {

@@ -2,7 +2,7 @@ import { Title } from "@solidjs/meta";
 import { createAsyncStore, RouteDefinition } from "@solidjs/router";
 import { createSignal, Show } from "solid-js";
 import IssueTabs from "~/components/IssueTabs";
-import { getAllAssignedIssues, getUsers } from "~/lib/data";
+import { getAllAssignedIssues } from "~/lib/data";
 
 export const route = {
     preload() {

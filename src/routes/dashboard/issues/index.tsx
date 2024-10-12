@@ -5,7 +5,7 @@ import { toast } from "solid-sonner";
 import IssueTabs from "~/components/IssueTabs";
 import { Button } from "~/components/ui/button";
 import { generateFakeIssues } from "~/lib/actions";
-import { getAllUserIssues, getUsers } from "~/lib/data";
+import { getAllUserIssues } from "~/lib/data";
 
 export const route = {
     preload() {
