@@ -9,9 +9,9 @@ export default function Home() {
           <SignIn />
         </div>
       </SignedOut>
-      <SignedIn>
+      {/* <SignedIn>
         <Navigate href="/dashboard/" />
-      </SignedIn>
+      </SignedIn> */}
     </>
   );
 }
