@@ -30,6 +30,7 @@
     "openai": "^4.67.2",
     "postcss": "^8.4.47",
     "shiki": "^1.21.0",
+    "solid-confetti-explosion": "^1.1.8",
     "solid-icons": "^1.1.0",
     "solid-js": "^1.9.1",
     "solid-sonner": "^0.2.8",

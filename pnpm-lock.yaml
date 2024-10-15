@@ -68,6 +68,9 @@ importers:
       shiki:
         specifier: ^1.21.0
         version: 1.21.0
+      solid-confetti-explosion:
+        specifier: ^1.1.8
+        version: 1.1.8(solid-js@1.9.1)
       solid-icons:
         specifier: ^1.1.0
         version: 1.1.0(solid-js@1.9.1)
@@ -80,12 +83,6 @@ importers:
       svix:
         specifier: ^1.37.0
         version: 1.37.0
-      swapy:
-        specifier: ^0.4.2
-        version: 0.4.2
-      swapy-solid:
-        specifier: ^0.1.0
-        version: 0.1.0
       tailwind-merge:
         specifier: ^2.5.2
         version: 2.5.2
@@ -3362,6 +3359,11 @@ packages:
     resolution: {integrity: sha512-YTywJG93yxwHLgrYLZjlC75moVEX04LZM4FHfihjHe1FCXm+QaLOFfSf535aXOAd0ArVQMWUAe8ZPm4VtWyXaA==}
     engines: {node: '>=12'}
 
+  solid-confetti-explosion@1.1.8:
+    resolution: {integrity: sha512-12NF74moHhy6sUts4+5+a5dz0+NLtBx9rViFmChfJYb6xaKPRgbs+zTv/9jT1rNRa5ZhEgEiuUCzoBdcBE64/Q==}
+    peerDependencies:
+      solid-js: ^1.6.9
+
   solid-icons@1.1.0:
     resolution: {integrity: sha512-IesTfr/F1ElVwH2E1110s2RPXH4pujKfSs+koT8rwuTAdleO5s26lNSpqJV7D1+QHooJj18mcOiz2PIKs0ic+A==}
     peerDependencies:
@@ -3488,12 +3490,6 @@ packages:
 
   svix@1.37.0:
     resolution: {integrity: sha512-zXtHLEN54ajW/qLreLLWbAyjHQVrpUnULIZY7WgneBVS/LdWVc3xR5vqLKzGVA4XWl/B9GXrs4+OL8EoFNWfIQ==}
-
-  swapy-solid@0.1.0:
-    resolution: {integrity: sha512-2q8iQ1WZbxbOGHtPlZC+yghJcUDyuW9++n8UZjsBkXAK7I+wib8VfQK+wBTZqt6euTp4Zii31h1ZplIrbegdsA==}
-
-  swapy@0.4.2:
-    resolution: {integrity: sha512-vxs9OjXCfaQRXUxUBZb7KAWSAJeWlOYsG8N6lJBseEaQZ3XfxW6uIvJo/ebyxQ3mdFxNHEWhxPSbfrfCvevh6Q==}
 
   swr@2.2.5:
     resolution: {integrity: sha512-QtxqyclFeAsxEUeZIYmsaQ0UjimSq1RZ9Un7I68/0ClKK/U3LoyQunwkQfJZr2fc22DfIXLNDc2wFyTEikCUpg==}
@@ -7449,6 +7445,10 @@ snapshots:
       snake-case: 3.0.4
       type-fest: 2.19.0
 
+  solid-confetti-explosion@1.1.8(solid-js@1.9.1):
+    dependencies:
+      solid-js: 1.9.1
+
   solid-icons@1.1.0(solid-js@1.9.1):
     dependencies:
       solid-js: 1.9.1
@@ -7592,10 +7592,6 @@ snapshots:
       url-parse: 1.5.10
     transitivePeerDependencies:
       - encoding
-
-  swapy-solid@0.1.0: {}
-
-  swapy@0.4.2: {}
 
   swr@2.2.5(react@18.3.1):
     dependencies:
