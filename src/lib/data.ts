@@ -1,6 +1,6 @@
 import { cache, redirect } from "@solidjs/router";
 import { db, getIssueFromDb, getIssuesFromDb, IssueRow, issuesTable, notificationsTable, UserRow, usersTable } from "./db";
-import { eq, sql } from "drizzle-orm";
+import { and, eq, sql } from "drizzle-orm";
 import { codeToHtml } from 'shiki'
 import { auth } from "clerk-solidjs/server";
 
@@ -127,3 +127,53 @@ export const getNotificationsForUser = cache(async () => {
     return notifications;
 
 }, "get-notifications-for-user");
+
+export const getIssuesGraphData = cache(async () => {
+    "use server";
+
+    const authObject = auth();
+
+    if (!authObject.userId) {
+        return redirect('/');
+    }
+
+    const issuesResolved = await db
+        .select({
+            resolvedAt: sql`DATE(${issuesTable.resolvedAt})`,
+            issuesResolved: sql`COUNT(*)`
+        })
+        .from(issuesTable)
+        .where(and(
+            sql`${issuesTable.resolvedAt} IS NOT NULL`,
+            eq(issuesTable.ownerId, authObject.userId)
+        ))
+        .groupBy(sql`DATE(${issuesTable.resolvedAt})`)
+        .orderBy(sql`resolvedAt DESC`)
+        .limit(10) as { resolvedAt: string, issuesResolved: number }[]
+
+    const issuesUnResolved = await db
+        .select({
+            createdAt: sql`DATE(${issuesTable.createdAt})`,
+            issuesResolved: sql`COUNT(*)`
+        })
+        .from(issuesTable)
+        .where(and(
+            sql`${issuesTable.resolvedAt} IS NULL`,
+            eq(issuesTable.ownerId, authObject.userId)
+        ))
+        .groupBy(sql`DATE(${issuesTable.createdAt})`)
+        .orderBy(sql`resolvedAt DESC`)
+        .limit(10) as { createdAt: string, issuesResolved: number }[]
+
+    return {
+        resolved: {
+            labels: issuesResolved.map(row => row.resolvedAt),
+            data: issuesResolved.map(row => row.issuesResolved)
+        },
+        unresolved: {
+            labels: issuesUnResolved.map(row => row.createdAt),
+            data: issuesUnResolved.map(row => row.issuesResolved)
+        },
+    };
+
+}, 'get-issues-graph-data')
