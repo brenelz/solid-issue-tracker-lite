@@ -46,6 +46,7 @@ export default function IssueDetail(props: IssueDetailsProps) {
                 class={cn(
                     "text-xs",
                     "text-muted-foreground",
+                    "shrink-0"
                 )}
             >
                 {timeAgo(new Date(String(props.issue.createdAt + ' UTC')))}

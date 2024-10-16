@@ -137,20 +137,6 @@ export const getIssuesGraphData = cache(async () => {
         return redirect('/');
     }
 
-    const issuesResolvedPerDay = await db
-        .select({
-            resolvedAt: sql`DATE(${issuesTable.resolvedAt})`,
-            issuesResolved: sql`COUNT(*)`
-        })
-        .from(issuesTable)
-        .where(and(
-            sql`${issuesTable.resolvedAt} IS NOT NULL`,
-            eq(issuesTable.ownerId, authObject.userId)
-        ))
-        .groupBy(sql`DATE(${issuesTable.resolvedAt})`)
-        .orderBy(sql`resolvedAt ASC`)
-        .limit(10) as { resolvedAt: string, issuesResolved: number }[];
-
     const issuesCreatedPerDay = await db
         .select({
             createdAt: sql`DATE(${issuesTable.createdAt})`,
@@ -164,10 +150,42 @@ export const getIssuesGraphData = cache(async () => {
         .orderBy(sql`${issuesTable.createdAt} ASC`)
         .limit(10) as { createdAt: string, createdCount: number }[];
 
+    const totalIssuesResolved = await db
+        .select({
+            resolvedCount: sql`COUNT(*)`
+        })
+        .from(issuesTable)
+        .where(and(
+            eq(issuesTable.ownerId, authObject.userId),
+            sql`${issuesTable.resolvedAt} IS NOT NULL`
+        )) as { resolvedCount: number }[];
+
+    const issuesResolvedToday = await db
+        .select({
+            resolvedCount: sql`COUNT(*)`
+        })
+        .from(issuesTable)
+        .where(and(
+            eq(issuesTable.ownerId, authObject.userId),
+            sql`DATE(${issuesTable.resolvedAt}) = DATE('now')`
+        )) as { resolvedCount: number }[];
+
+
+    const issuesResolvedYesterday = await db
+        .select({
+            resolvedCount: sql`COUNT(*)`
+        })
+        .from(issuesTable)
+        .where(and(
+            eq(issuesTable.ownerId, authObject.userId),
+            sql`DATE(${issuesTable.resolvedAt}) = DATE('now','-1 day')`
+        )) as { resolvedCount: number }[];
+
     return {
-        issuesResolvedPerDay: {
-            labels: issuesResolvedPerDay.map(row => row.resolvedAt),
-            data: issuesResolvedPerDay.map(row => row.issuesResolved)
+        numbers: {
+            totalIssuesResolved: totalIssuesResolved[0].resolvedCount,
+            issuesResolvedToday: issuesResolvedToday[0].resolvedCount,
+            issuesResolvedYesterday: issuesResolvedYesterday[0].resolvedCount,
         },
         issuesCreatedPerDay: {
             labels: issuesCreatedPerDay.map(row => row.createdAt),
@@ -176,3 +194,9 @@ export const getIssuesGraphData = cache(async () => {
     };
 
 }, 'get-issues-graph-data')
+
+export type PossibleNumbers = {
+    totalIssuesResolved: number
+    issuesResolvedToday: number
+    issuesResolvedYesterday: number;
+}

@@ -4,11 +4,14 @@ import { createMemo, createSignal, Show } from "solid-js";
 import IssueTabs from "~/components/IssueTabs";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import { BarChart } from "~/components/ui/charts";
-import { getAllAssignedIssues, getIssuesGraphData } from "~/lib/data";
+import { getAllAssignedIssues, getIssuesGraphData, PossibleNumbers } from "~/lib/data";
+import NumberFlow from 'solid-number-flow';
+import { Badge } from "~/components/ui/badge";
 
 export const route = {
     preload() {
         void getAllAssignedIssues();
+        void getIssuesGraphData();
     }
 } satisfies RouteDefinition;
 
@@ -16,16 +19,7 @@ export default function Dashboard() {
     const [dateFilter, setDateFilter] = createSignal<string>();
     const issues = createAsyncStore(() => getAllAssignedIssues(dateFilter()));
     const issuesGraphData = createAsyncStore(() => getIssuesGraphData());
-
-    const chartDataIssuesResolvedPerDay = createMemo(() => ({
-        labels: issuesGraphData()?.issuesResolvedPerDay.labels!,
-        datasets: [
-            {
-                label: "Issues resolved",
-                data: issuesGraphData()?.issuesResolvedPerDay.data!
-            }
-        ]
-    }));
+    const [currentNumber, setCurrentNumber] = createSignal<keyof PossibleNumbers>('totalIssuesResolved');
 
     const chartDataIssuesCreatedPerDay = createMemo(() => ({
         labels: issuesGraphData()?.issuesCreatedPerDay.labels!,
@@ -44,44 +38,67 @@ export default function Dashboard() {
                 <h2 class="text-3xl font-bold tracking-tight">Dashboard</h2>
             </div>
 
-            <div class="grid grid-cols-3 grid-rows-2 gap-4">
-                <div class="row-span-2 col-span-2 grow">
-                    <Card>
-                        <CardHeader>
-                            <CardTitle>Your Assigned Issues</CardTitle>
-                        </CardHeader>
-                        <CardContent>
-                            <Show when={issues()}>
-                                {issues => (
-                                    <IssueTabs issues={issues()} onDateFilterChange={(date) => {
-                                        console.log(date)
-                                        setDateFilter(date)
-                                    }} />
-                                )}
-                            </Show>
-                        </CardContent>
-                    </Card>
+            <div class="flex gap-4">
+                <div class="w-2/3">
+                    <div>
+                        <Card>
+                            <CardHeader>
+                                <CardTitle>Your Assigned Issues</CardTitle>
+                            </CardHeader>
+                            <CardContent>
+                                <Show when={issues()}>
+                                    {issues => (
+                                        <IssueTabs issues={issues()} onDateFilterChange={(date) => {
+                                            setDateFilter(date)
+                                        }} />
+                                    )}
+                                </Show>
+                            </CardContent>
+                        </Card>
+                    </div>
                 </div>
                 <div>
-                    <Card>
-                        <CardHeader>
-                            <CardTitle>Issues resolved per day</CardTitle>
-                        </CardHeader>
-                        <CardContent class="h-64 w-[500px] max-w-full">
-                            <BarChart data={chartDataIssuesResolvedPerDay()} />
-                        </CardContent>
-                    </Card></div>
-                <div>
-                    <Card>
-                        <CardHeader>
-                            <CardTitle>Issues created per day</CardTitle>
-                        </CardHeader>
-                        <CardContent class="h-64 w-[500px] max-w-full">
-                            <BarChart data={chartDataIssuesCreatedPerDay()} />
-                        </CardContent>
-                    </Card>
-                </div>
-            </div>
+                    <div class="flex gap-4 items-center justify-center">
+                        <Show when={issuesGraphData()}>
+                            {issuesGraphData => (
+                                <div class="flex flex-col items-center mb-4">
+                                    <span class="text-base">Issues Resolved</span>
+                                    <NumberFlow
+                                        class="text-6xl"
+                                        value={issuesGraphData().numbers[currentNumber()]}
+                                        format={{ notation: 'compact' }}
+                                        locales="en-US"
+                                    />
+                                    <div class="flex items-center gap-2">
+                                        <Badge variant={currentNumber() !== 'issuesResolvedToday' ? 'secondary' : 'default'}
+                                            onClick={() => {
+                                                setCurrentNumber('issuesResolvedToday')
+                                            }}>Today</Badge>
+                                        <Badge variant={currentNumber() !== 'issuesResolvedYesterday' ? 'secondary' : 'default'}
+                                            onClick={() => {
+                                                setCurrentNumber('issuesResolvedYesterday')
+                                            }}>Yesterday</Badge>
+                                        <Badge variant={currentNumber() !== 'totalIssuesResolved' ? 'secondary' : 'default'}
+                                            onClick={() => {
+                                                setCurrentNumber('totalIssuesResolved')
+                                            }}>All-Time</Badge>
+                                    </div>
+                                </div>
+                            )}
+                        </Show>
+                    </div>
+                    <div>
+                        <Card>
+                            <CardHeader>
+                                <CardTitle>Issues created per day</CardTitle>
+                            </CardHeader>
+                            <CardContent class="h-64 w-[500px] max-w-full">
+                                <BarChart data={chartDataIssuesCreatedPerDay()} />
+                            </CardContent>
+                        </Card>
+                    </div>
+                </div >
+            </div >
         </>
     );
 }
