@@ -3,7 +3,7 @@ import { createAsyncStore, RouteDefinition } from "@solidjs/router";
 import { createMemo, createSignal, Show } from "solid-js";
 import IssueTabs from "~/components/IssueTabs";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
-import { LineChart } from "~/components/ui/charts";
+import { BarChart } from "~/components/ui/charts";
 import { getAllAssignedIssues, getIssuesGraphData } from "~/lib/data";
 
 export const route = {
@@ -17,22 +17,22 @@ export default function Dashboard() {
     const issues = createAsyncStore(() => getAllAssignedIssues(dateFilter()));
     const issuesGraphData = createAsyncStore(() => getIssuesGraphData());
 
-    const chartDataResolved = createMemo(() => ({
-        labels: issuesGraphData()?.resolved.labels!,
+    const chartDataIssuesResolvedPerDay = createMemo(() => ({
+        labels: issuesGraphData()?.issuesResolvedPerDay.labels!,
         datasets: [
             {
-                label: "Issues Resolved",
-                data: issuesGraphData()?.resolved.data!
+                label: "Issues resolved",
+                data: issuesGraphData()?.issuesResolvedPerDay.data!
             }
         ]
     }));
 
-    const chartDataUnResolved = createMemo(() => ({
-        labels: issuesGraphData()?.unresolved.labels!,
+    const chartDataIssuesCreatedPerDay = createMemo(() => ({
+        labels: issuesGraphData()?.issuesCreatedPerDay.labels!,
         datasets: [
             {
-                label: "Issues Unresolved",
-                data: issuesGraphData()?.unresolved.data!
+                label: "Issues created",
+                data: issuesGraphData()?.issuesCreatedPerDay.data!
             }
         ]
     }));
@@ -68,16 +68,16 @@ export default function Dashboard() {
                             <CardTitle>Issues resolved per day</CardTitle>
                         </CardHeader>
                         <CardContent class="h-64 w-[500px] max-w-full">
-                            <LineChart data={chartDataResolved()} />
+                            <BarChart data={chartDataIssuesResolvedPerDay()} />
                         </CardContent>
                     </Card></div>
                 <div>
                     <Card>
                         <CardHeader>
-                            <CardTitle>Issues unresolved over time</CardTitle>
+                            <CardTitle>Issues created per day</CardTitle>
                         </CardHeader>
                         <CardContent class="h-64 w-[500px] max-w-full">
-                            <LineChart data={chartDataUnResolved()} />
+                            <BarChart data={chartDataIssuesCreatedPerDay()} />
                         </CardContent>
                     </Card>
                 </div>

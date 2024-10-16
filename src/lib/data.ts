@@ -137,7 +137,7 @@ export const getIssuesGraphData = cache(async () => {
         return redirect('/');
     }
 
-    const issuesResolved = await db
+    const issuesResolvedPerDay = await db
         .select({
             resolvedAt: sql`DATE(${issuesTable.resolvedAt})`,
             issuesResolved: sql`COUNT(*)`
@@ -148,31 +148,30 @@ export const getIssuesGraphData = cache(async () => {
             eq(issuesTable.ownerId, authObject.userId)
         ))
         .groupBy(sql`DATE(${issuesTable.resolvedAt})`)
-        .orderBy(sql`resolvedAt DESC`)
-        .limit(10) as { resolvedAt: string, issuesResolved: number }[]
+        .orderBy(sql`resolvedAt ASC`)
+        .limit(10) as { resolvedAt: string, issuesResolved: number }[];
 
-    const issuesUnResolved = await db
+    const issuesCreatedPerDay = await db
         .select({
             createdAt: sql`DATE(${issuesTable.createdAt})`,
-            issuesResolved: sql`COUNT(*)`
+            createdCount: sql`COUNT(*)`
         })
         .from(issuesTable)
         .where(and(
-            sql`${issuesTable.resolvedAt} IS NULL`,
             eq(issuesTable.ownerId, authObject.userId)
         ))
         .groupBy(sql`DATE(${issuesTable.createdAt})`)
-        .orderBy(sql`resolvedAt DESC`)
-        .limit(10) as { createdAt: string, issuesResolved: number }[]
+        .orderBy(sql`${issuesTable.createdAt} ASC`)
+        .limit(10) as { createdAt: string, createdCount: number }[];
 
     return {
-        resolved: {
-            labels: issuesResolved.map(row => row.resolvedAt),
-            data: issuesResolved.map(row => row.issuesResolved)
+        issuesResolvedPerDay: {
+            labels: issuesResolvedPerDay.map(row => row.resolvedAt),
+            data: issuesResolvedPerDay.map(row => row.issuesResolved)
         },
-        unresolved: {
-            labels: issuesUnResolved.map(row => row.createdAt),
-            data: issuesUnResolved.map(row => row.issuesResolved)
+        issuesCreatedPerDay: {
+            labels: issuesCreatedPerDay.map(row => row.createdAt),
+            data: issuesCreatedPerDay.map(row => row.createdCount)
         },
     };
 
