@@ -1,13 +1,13 @@
 import { For, Match, Show, Switch } from "solid-js";
 import { cn, timeAgo } from "~/lib/utils";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 import { createAsync, useAction, useSubmission } from "@solidjs/router";
 import { assignIssueTo, resolveIssues, setPriority, unresolveIssues } from "~/lib/actions";
-import Avatar from "./Avatar";
-import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
-import { getUsers, IssueWithAssignedUser } from "~/lib/data";
+import Avatar from "../Avatar";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import { getUsers, IssueWithAssignedUser } from "~/lib/queries";
 import { toast } from "solid-sonner";
-import { Badge } from "./ui/badge";
+import { Badge } from "../ui/badge";
 
 type IssueDetailsProps = {
     issue: IssueWithAssignedUser

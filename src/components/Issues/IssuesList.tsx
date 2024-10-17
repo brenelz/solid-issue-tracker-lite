@@ -1,10 +1,10 @@
 import { createMemo, createSignal, For, Show, Suspense, useTransition } from "solid-js";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 import { useAction, useSubmissions } from "@solidjs/router";
 import { resolveIssues, unresolveIssues } from "~/lib/actions";
 import IssueLink from "./IssueLink";
 import { cn, paginate } from "~/lib/utils";
-import IssueDatePicker from "./IssueDatePicker";
+import DatePickerWrapper from "../DatePickerWrapper";
 import {
     Pagination,
     PaginationEllipsis,
@@ -13,7 +13,7 @@ import {
     PaginationNext,
     PaginationPrevious
 } from "~/components/ui/pagination"
-import { IssueWithAssignedUser } from "~/lib/data";
+import { IssueWithAssignedUser } from "~/lib/queries";
 
 type IssuesListProps = {
     issues: IssueWithAssignedUser[];
@@ -63,7 +63,7 @@ export default function IssuesList(props: IssuesListProps) {
             <div class="flex gap-4 mb-4 mt-4">
                 <Button onClick={toggleSelectAll}>{selected().length > 0 ? 'Deselect' : 'Select'} All</Button>
                 <div class="ml-auto flex gap-4">
-                    <IssueDatePicker onValueChange={(details) => {
+                    <DatePickerWrapper onValueChange={(details) => {
                         startTransition(() => {
                             props.onDateFilterChange(details.valueAsString[0]);
                             setPage(1);

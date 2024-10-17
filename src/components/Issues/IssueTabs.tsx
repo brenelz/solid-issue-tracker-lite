@@ -1,14 +1,14 @@
 
 
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs"
 import IssuesList from "./IssuesList";
-import { IssueWithAssignedUser } from "~/lib/data";
+import { IssueWithAssignedUser } from "~/lib/queries";
 import { clientOnly } from '@solidjs/start';
-import { createEffect, Show } from "solid-js";
+import { Show } from "solid-js";
 import { useSubmission } from "@solidjs/router";
 import { resolveIssues } from "~/lib/actions";
 
-const ConfettiExplosion = clientOnly(() => import('../components/ConfettiExplosion'));
+const ConfettiExplosion = clientOnly(() => import('../../components/ConfettiExplosion'));
 
 type IssueTabsProps = {
     issues: {

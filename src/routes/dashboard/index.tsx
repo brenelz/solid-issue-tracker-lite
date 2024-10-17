@@ -1,10 +1,10 @@
 import { Title } from "@solidjs/meta";
 import { createAsyncStore, RouteDefinition } from "@solidjs/router";
 import { createMemo, createSignal, Show } from "solid-js";
-import IssueTabs from "~/components/IssueTabs";
+import IssueTabs from "~/components/Issues/IssueTabs";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import { BarChart } from "~/components/ui/charts";
-import { getAllAssignedIssues, getIssuesGraphData, PossibleNumbers } from "~/lib/data";
+import { getAllAssignedIssues, getIssuesGraphData, PossibleNumbers } from "~/lib/queries";
 import NumberFlow from 'solid-number-flow';
 import { Badge } from "~/components/ui/badge";
 
@@ -17,9 +17,10 @@ export const route = {
 
 export default function Dashboard() {
     const [dateFilter, setDateFilter] = createSignal<string>();
+    const [currentNumber, setCurrentNumber] = createSignal<keyof PossibleNumbers>('totalIssuesResolved');
+
     const issues = createAsyncStore(() => getAllAssignedIssues(dateFilter()));
     const issuesGraphData = createAsyncStore(() => getIssuesGraphData());
-    const [currentNumber, setCurrentNumber] = createSignal<keyof PossibleNumbers>('totalIssuesResolved');
 
     const chartDataIssuesCreatedPerDay = createMemo(() => ({
         labels: issuesGraphData()?.issuesCreatedPerDay.labels!,
@@ -61,29 +62,31 @@ export default function Dashboard() {
                     <div class="flex gap-4 items-center justify-center">
                         <Show when={issuesGraphData()}>
                             {issuesGraphData => (
-                                <div class="flex flex-col items-center mb-4">
-                                    <span class="text-base">Issues Resolved</span>
-                                    <NumberFlow
-                                        class="text-6xl"
-                                        value={issuesGraphData().numbers[currentNumber()]}
-                                        format={{ notation: 'compact' }}
-                                        locales="en-US"
-                                    />
-                                    <div class="flex items-center gap-2">
-                                        <Badge variant={currentNumber() !== 'issuesResolvedToday' ? 'secondary' : 'default'}
-                                            onClick={() => {
-                                                setCurrentNumber('issuesResolvedToday')
-                                            }}>Today</Badge>
-                                        <Badge variant={currentNumber() !== 'issuesResolvedYesterday' ? 'secondary' : 'default'}
-                                            onClick={() => {
-                                                setCurrentNumber('issuesResolvedYesterday')
-                                            }}>Yesterday</Badge>
-                                        <Badge variant={currentNumber() !== 'totalIssuesResolved' ? 'secondary' : 'default'}
-                                            onClick={() => {
-                                                setCurrentNumber('totalIssuesResolved')
-                                            }}>All-Time</Badge>
+                                <Card class="w-full p-4 mb-4">
+                                    <div class="flex flex-col items-center mb-4">
+                                        <span class="text-base">Issues Resolved</span>
+                                        <NumberFlow
+                                            class="text-6xl"
+                                            value={issuesGraphData().numbers[currentNumber()]}
+                                            format={{ notation: 'compact' }}
+                                            locales="en-US"
+                                        />
+                                        <div class="flex items-center gap-2">
+                                            <Badge variant={currentNumber() !== 'issuesResolvedToday' ? 'secondary' : 'default'}
+                                                onClick={() => {
+                                                    setCurrentNumber('issuesResolvedToday')
+                                                }}>Today</Badge>
+                                            <Badge variant={currentNumber() !== 'issuesResolvedYesterday' ? 'secondary' : 'default'}
+                                                onClick={() => {
+                                                    setCurrentNumber('issuesResolvedYesterday')
+                                                }}>Yesterday</Badge>
+                                            <Badge variant={currentNumber() !== 'totalIssuesResolved' ? 'secondary' : 'default'}
+                                                onClick={() => {
+                                                    setCurrentNumber('totalIssuesResolved')
+                                                }}>All-Time</Badge>
+                                        </div>
                                     </div>
-                                </div>
+                                </Card>
                             )}
                         </Show>
                     </div>

@@ -2,10 +2,10 @@ import { Title } from "@solidjs/meta";
 import { createAsyncStore, RouteDefinition, useAction } from "@solidjs/router";
 import { createSignal, Show } from "solid-js";
 import { toast } from "solid-sonner";
-import IssueTabs from "~/components/IssueTabs";
+import IssueTabs from "~/components/Issues/IssueTabs";
 import { Button } from "~/components/ui/button";
 import { generateFakeIssues } from "~/lib/actions";
-import { getAllUserIssues } from "~/lib/data";
+import { getAllUserIssues } from "~/lib/queries";
 
 export const route = {
     preload() {

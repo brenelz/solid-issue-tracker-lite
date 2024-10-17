@@ -2,7 +2,7 @@ import { For, Show } from "solid-js";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { AiOutlineInbox } from 'solid-icons/ai'
 import { createAsync, useAction } from "@solidjs/router";
-import { getNotificationsForUser } from "~/lib/data";
+import { getNotificationsForUser } from "~/lib/queries";
 import { timeAgo } from "~/lib/utils";
 import { AiOutlineBell } from 'solid-icons/ai'
 import { Button } from "./ui/button";

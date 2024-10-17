@@ -1,8 +1,7 @@
-import { Checkbox } from "./ui/checkbox";
-import { IssueRow } from "~/lib/db";
+import { Checkbox } from "../ui/checkbox";
 import { cn } from "~/lib/utils";
 import IssueDetail from "./IssueDetail";
-import { IssueWithAssignedUser } from "~/lib/data";
+import { IssueWithAssignedUser } from "~/lib/queries";
 
 type IssueProps = {
     issue: IssueWithAssignedUser;

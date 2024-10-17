@@ -23,7 +23,7 @@ type IssueDatePickerProps = {
     onValueChange: (details: DatePickerValueChangeDetails) => void
 }
 
-export default function IssueDatePicker(props: IssueDatePickerProps) {
+export default function DatePickerWrapper(props: IssueDatePickerProps) {
     return (
         <DatePicker onValueChange={props.onValueChange}>
             <DatePickerInput placeholder="Filter by date" />
