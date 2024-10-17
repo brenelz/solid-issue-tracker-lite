@@ -1,12 +1,13 @@
-import { For, Show } from "solid-js";
+import { For, Match, Show, Switch } from "solid-js";
 import { cn, timeAgo } from "~/lib/utils";
 import { Button } from "./ui/button";
 import { createAsync, useAction, useSubmission } from "@solidjs/router";
-import { assignIssueTo, resolveIssues, unresolveIssues } from "~/lib/actions";
+import { assignIssueTo, resolveIssues, setPriority, unresolveIssues } from "~/lib/actions";
 import Avatar from "./Avatar";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { getUsers, IssueWithAssignedUser } from "~/lib/data";
 import { toast } from "solid-sonner";
+import { Badge } from "./ui/badge";
 
 type IssueDetailsProps = {
     issue: IssueWithAssignedUser
@@ -18,10 +19,12 @@ export default function IssueDetail(props: IssueDetailsProps) {
     const resolveIssuesAction = useAction(resolveIssues);
     const unresolveIssuesAction = useAction(unresolveIssues);
     const assignIssueToAction = useAction(assignIssueTo);
+    const setPriorityAction = useAction(setPriority);
 
     const resolveIssuesSubmission = useSubmission(resolveIssues);
     const unresolveIssuesSubmission = useSubmission(unresolveIssues);
     const assignIssueToSubmission = useSubmission(assignIssueTo);
+    const setPrioritySubmission = useSubmission(setPriority);
 
     return (
         <div class="flex flex-row items-center gap-6 w-full"
@@ -42,6 +45,38 @@ export default function IssueDetail(props: IssueDetailsProps) {
                     </div>
                 </div>
             </a>
+            <div class="hidden shrink-0 md:block">
+                <Popover>
+                    <PopoverTrigger>
+                        <Switch>
+                            <Match when={props.issue.priority === 'low'}>
+                                <Badge variant="outline">low priority</Badge>
+                            </Match>
+                            <Match when={props.issue.priority === 'medium'}>
+                                <Badge variant="default">medium priority</Badge>
+                            </Match>
+                            <Match when={props.issue.priority === 'high'}>
+                                <Badge variant="destructive">high priority</Badge>
+                            </Match>
+                        </Switch>
+                    </PopoverTrigger>
+                    <PopoverContent>
+                        <div class="flex items-center gap-4 justify-center" classList={
+                            { 'opacity-50': setPrioritySubmission.pending }
+                        }>
+                            <Badge variant="outline" onClick={() => {
+                                setPriorityAction(props.issue.id, 'low');
+                            }}>low</Badge>
+                            <Badge variant="default" onClick={() => {
+                                setPriorityAction(props.issue.id, 'medium');
+                            }}>medium</Badge>
+                            <Badge variant="destructive" onClick={() => {
+                                setPriorityAction(props.issue.id, 'high');
+                            }}>high</Badge>
+                        </div>
+                    </PopoverContent>
+                </Popover>
+            </div>
             <div
                 class={cn(
                     "text-xs",
@@ -52,7 +87,7 @@ export default function IssueDetail(props: IssueDetailsProps) {
                 {timeAgo(new Date(String(props.issue.createdAt + ' UTC')))}
             </div>
 
-            <div>
+            <div class="hidden md:block">
                 <Popover>
                     <PopoverTrigger>
                         <Avatar

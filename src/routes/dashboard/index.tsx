@@ -38,8 +38,8 @@ export default function Dashboard() {
                 <h2 class="text-3xl font-bold tracking-tight">Dashboard</h2>
             </div>
 
-            <div class="flex gap-4">
-                <div class="w-2/3">
+            <div class="flex gap-4 flex-wrap lg:flex-nowrap">
+                <div class="w-full lg:w-2/3">
                     <div>
                         <Card>
                             <CardHeader>
@@ -57,7 +57,7 @@ export default function Dashboard() {
                         </Card>
                     </div>
                 </div>
-                <div>
+                <div class="w-full lg:w-1/3">
                     <div class="flex gap-4 items-center justify-center">
                         <Show when={issuesGraphData()}>
                             {issuesGraphData => (

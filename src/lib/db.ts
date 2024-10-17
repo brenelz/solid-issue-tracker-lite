@@ -27,6 +27,7 @@ export const issuesTable = sqliteTable('issues', {
   title: text('title'),
   description: text('description'),
   stacktrace: text('stacktrace'),
+  priority: text('priority').default("low"),
   createdAt: text("createdAt").default(sql`(CURRENT_TIMESTAMP)`),
   resolvedAt: text("resolvedAt")
 });

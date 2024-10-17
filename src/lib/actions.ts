@@ -75,3 +75,12 @@ export const clearNotifications = action(async () => {
     return json({ success: true });
 
 }, "clear-notifications");
+
+export const setPriority = action(async (issueId: number, priority: string) => {
+    "use server";
+
+    await db.update(issuesTable).set({ priority }).where(eq(issuesTable.id, issueId));
+
+    return json({ success: true });
+
+}, "set-priority");
