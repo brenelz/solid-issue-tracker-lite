@@ -45,6 +45,15 @@ export default function IssueDetail(props: IssueDetailsProps) {
                     </div>
                 </div>
             </a>
+            <div
+                class={cn(
+                    "text-xs",
+                    "text-muted-foreground",
+                    "shrink-0"
+                )}
+            >
+                {timeAgo(new Date(String(props.issue.createdAt + ' UTC')))}
+            </div>
             <div class="hidden shrink-0 md:block">
                 <Popover>
                     <PopoverTrigger>
@@ -77,16 +86,6 @@ export default function IssueDetail(props: IssueDetailsProps) {
                     </PopoverContent>
                 </Popover>
             </div>
-            <div
-                class={cn(
-                    "text-xs",
-                    "text-muted-foreground",
-                    "shrink-0"
-                )}
-            >
-                {timeAgo(new Date(String(props.issue.createdAt + ' UTC')))}
-            </div>
-
             <div class="hidden md:block">
                 <Popover>
                     <PopoverTrigger>

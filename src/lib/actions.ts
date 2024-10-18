@@ -30,6 +30,34 @@ export const generateFakeIssues = action(async () => {
 
 }, "generate-fake-issues");
 
+export const addNewIssue = action(async (formData: FormData) => {
+    "use server";
+    const authObject = auth();
+
+    if (!authObject.userId) {
+        return redirect('/');
+    }
+
+    const title = String(formData.get('title'));
+    const description = String(formData.get('description'));
+    const priority = String(formData.get('priority') || 'low');
+    const assignedId = String(formData.get('assignedId'));
+
+    await db.insert(issuesTable).values({
+        ownerId: authObject.userId,
+        assignedId,
+        parentIssueId: null,
+        title,
+        description,
+        stacktrace: '',
+        resolvedAt: null,
+        priority,
+    });
+
+    return json({ success: true })
+
+}, "add-new-issue");
+
 export const resolveIssues = action(async (issueIds: number[]) => {
     "use server";
 

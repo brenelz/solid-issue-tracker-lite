@@ -17,7 +17,7 @@ export default function Issues(props: RouteSectionProps) {
     const [showAiDescription, setShowAiDescription] = createSignal(false);
     const issue = createAsyncStore(() => getIssue(+props.params.id));
     const code = createAsync(async () => {
-        if (issue()) {
+        if (issue() && issue()?.stacktrace) {
             return renderCode(String(issue()?.stacktrace))
         }
     });
@@ -52,7 +52,9 @@ export default function Issues(props: RouteSectionProps) {
 
             </Suspense>
             <Suspense fallback={<div class="flex items-center gap-2"><div class="font-semibold">Loading Code...</div></div>}>
-                <div innerHTML={code()} />
+                <Show when={code()}>
+                    <div innerHTML={code()} />
+                </Show>
             </Suspense>
         </>
     );
