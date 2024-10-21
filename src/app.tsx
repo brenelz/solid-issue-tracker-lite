@@ -1,4 +1,4 @@
-import { MetaProvider, Title } from "@solidjs/meta";
+import { Meta, MetaProvider, Title } from "@solidjs/meta";
 import { Router } from "@solidjs/router";
 import { FileRoutes } from "@solidjs/start/router";
 import { Suspense } from "solid-js";
@@ -17,6 +17,7 @@ export default function App() {
         >
           <MetaProvider>
             <Title>Solid Issue Tracker Lite - Brenelz</Title>
+            <Meta name="description" content="Solid Issue Tracker Lite is a same project build with SolidStart for SolidHack2024." />
             <MainLayout>
               <Suspense>
                 {props.children}
