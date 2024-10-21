@@ -1,26 +1,34 @@
 import { Title } from "@solidjs/meta";
-import { createAsync, createAsyncStore, RouteDefinition, RouteSectionProps } from "@solidjs/router";
+import { createAsync, RouteDefinition, RouteSectionProps, useAction, useSubmission } from "@solidjs/router";
+import { useAuth } from "clerk-solidjs";
 import { createSignal, Show, Suspense } from "solid-js";
 import AiDescription from "~/components/Issues/AiDescription";
 import IssueDetail from "~/components/Issues/IssueDetail";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "~/components/ui/accordion";
 import { Button } from "~/components/ui/button";
-import { getIssue, renderCode } from "~/lib/queries";
+import { deleteIssue } from "~/lib/actions";
+import { getIssue, getUsers, renderCode } from "~/lib/queries";
 
 export const route = {
     preload: async ({ params }) => {
         void getIssue(+params.id);
+        void getUsers();
     }
 } satisfies RouteDefinition;
 
 export default function Issues(props: RouteSectionProps) {
+    const auth = useAuth();
     const [showAiDescription, setShowAiDescription] = createSignal(false);
-    const issue = createAsyncStore(() => getIssue(+props.params.id));
+    const issue = createAsync(() => getIssue(+props.params.id));
+    const users = createAsync(() => getUsers());
     const code = createAsync(async () => {
         if (issue() && issue()?.stacktrace) {
             return renderCode(String(issue()?.stacktrace))
         }
     });
+
+    const deleteIssueAction = useAction(deleteIssue);
+    const deleteIssueSubmission = useSubmission(deleteIssue);
 
     return (
         <>
@@ -31,14 +39,14 @@ export default function Issues(props: RouteSectionProps) {
             <Suspense fallback={<div class="flex items-center gap-2"><div class="font-semibold">Loading Issue...</div></div>}>
                 <div class="flex flex-row items-center gap-6 text-left text-sm w-full">
                     <Show when={issue()}>
-                        {issue => <IssueDetail issue={issue()} />}
+                        {issue => <IssueDetail users={users()} issue={issue()} />}
                     </Show>
                 </div>
 
                 <Accordion multiple={false} collapsible>
                     <AccordionItem value="item-1">
-                        <AccordionTrigger>
-                            <Button onClick={() => setShowAiDescription(true)}>Ask AI</Button>
+                        <AccordionTrigger class="h-6">
+                            <Button class="absolute" onClick={() => setShowAiDescription(true)}>Ask AI</Button>
                         </AccordionTrigger>
                         <AccordionContent>
                             <Suspense fallback="Asking AI...">
@@ -49,13 +57,15 @@ export default function Issues(props: RouteSectionProps) {
                         </AccordionContent>
                     </AccordionItem>
                 </Accordion>
-
             </Suspense>
             <Suspense fallback={<div class="flex items-center gap-2"><div class="font-semibold">Loading Code...</div></div>}>
                 <Show when={code()}>
                     <div innerHTML={code()} />
                 </Show>
             </Suspense>
+            <Show when={issue() && issue()?.ownerId === auth.userId()}>
+                <Button disabled={deleteIssueSubmission.pending} variant="destructive" onClick={() => deleteIssueAction(issue()!.id)}>Delete</Button>
+            </Show>
         </>
     );
 }

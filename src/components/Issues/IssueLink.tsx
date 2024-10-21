@@ -2,11 +2,13 @@ import { Checkbox } from "../ui/checkbox";
 import { cn } from "~/lib/utils";
 import IssueDetail from "./IssueDetail";
 import { IssueWithAssignedUser } from "~/lib/queries";
+import { UserRow } from "~/lib/db";
 
 type IssueProps = {
     issue: IssueWithAssignedUser;
     toggleSelect: (id: number) => void;
     checked: boolean;
+    users?: UserRow[]
 }
 
 export default function IssueLink(props: IssueProps) {
@@ -21,7 +23,7 @@ export default function IssueLink(props: IssueProps) {
                 <div>
                     <Checkbox checked={props.checked} onClick={handleClick} />
                 </div>
-                <IssueDetail issue={props.issue} />
+                <IssueDetail users={props.users} issue={props.issue} />
             </div>
         </>
     )

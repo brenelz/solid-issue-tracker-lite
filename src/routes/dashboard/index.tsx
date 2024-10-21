@@ -1,25 +1,31 @@
 import { Title } from "@solidjs/meta";
-import { createAsyncStore, RouteDefinition } from "@solidjs/router";
+import { createAsync, createAsyncStore, RouteDefinition } from "@solidjs/router";
 import { createMemo, createSignal, Show } from "solid-js";
 import IssueTabs from "~/components/Issues/IssueTabs";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import { BarChart } from "~/components/ui/charts";
-import { getAllAssignedIssues, getIssuesGraphData, PossibleNumbers } from "~/lib/queries";
+import { getAllUserIssues, getIssuesGraphData, getUsers, PossibleNumbers } from "~/lib/queries";
 import NumberFlow from 'solid-number-flow';
 import { Badge } from "~/components/ui/badge";
+import { useAuth } from "clerk-solidjs";
 
 export const route = {
     preload() {
-        void getAllAssignedIssues();
+        void getAllUserIssues(undefined);
         void getIssuesGraphData();
+        void getUsers();
     }
 } satisfies RouteDefinition;
 
 export default function Dashboard() {
+    const auth = useAuth();
     const [dateFilter, setDateFilter] = createSignal<string>();
     const [currentNumber, setCurrentNumber] = createSignal<keyof PossibleNumbers>('totalIssuesResolved');
 
-    const issues = createAsyncStore(() => getAllAssignedIssues(dateFilter()));
+    const issues = createAsync(() => getAllUserIssues(dateFilter()));
+    const assignedIssues = createMemo(() => {
+        return issues()?.filter(issue => issue.assignedId === auth.userId()) || [];
+    });
     const issuesGraphData = createAsyncStore(() => getIssuesGraphData());
 
     const chartDataIssuesCreatedPerDay = createMemo(() => ({
@@ -47,7 +53,7 @@ export default function Dashboard() {
                                 <CardTitle>Your Assigned Issues</CardTitle>
                             </CardHeader>
                             <CardContent>
-                                <Show when={issues()}>
+                                <Show when={assignedIssues()}>
                                     {issues => (
                                         <IssueTabs issues={issues()} onDateFilterChange={(date) => {
                                             setDateFilter(date)

@@ -1,6 +1,6 @@
 import { cache, redirect } from "@solidjs/router";
-import { db, getIssueFromDb, getIssuesFromDb, IssueRow, issuesTable, notificationsTable, UserRow, usersTable } from "./db";
-import { and, eq, sql } from "drizzle-orm";
+import { db, getIssueFromDb, IssueRow, issuesTable, notificationsTable, UserRow, usersTable } from "./db";
+import { and, eq, or, sql } from "drizzle-orm";
 import { codeToHtml } from 'shiki'
 import { auth } from "clerk-solidjs/server";
 
@@ -17,54 +17,23 @@ export const getAllUserIssues = cache(async (date?: string) => {
         return redirect('/');
     }
 
-    const unresolved = await getIssuesFromDb({
-        userId: authObject.userId,
-        date,
-        resolved: false
-    });
+    const query = await db.select().from(issuesTable).where(and(
+        ...(date ? [eq(sql`DATE(${issuesTable.createdAt})`, date)] : []),
+        or(
+            eq(issuesTable.assignedId, authObject.userId),
+            eq(issuesTable.ownerId, authObject.userId)
+        )
+    )).leftJoin(usersTable, eq(usersTable.id, issuesTable.assignedId))
+        .orderBy(sql`${issuesTable.createdAt} desc`);
 
-    const resolved = await getIssuesFromDb({
-        userId: authObject.userId,
-        date,
-        resolved: true
-    });
+    const issuesWithAssignedUser = query.map(query => ({
+        ...query.issues,
+        assignedUser: query.users
+    }));
 
-    return {
-        unresolved,
-        resolved
-    };
+    return issuesWithAssignedUser;
 
 }, "get-all-user-issues");
-
-export const getAllAssignedIssues = cache(async (date?: string) => {
-    "use server";
-
-    const authObject = auth();
-
-    if (!authObject.userId) {
-        return redirect('/');
-    }
-
-    const unresolved = await getIssuesFromDb({
-        userId: authObject.userId,
-        date,
-        resolved: false,
-        assigned: true
-    });
-
-    const resolved = await getIssuesFromDb({
-        userId: authObject.userId,
-        date,
-        resolved: true,
-        assigned: true
-    });
-
-    return {
-        unresolved,
-        resolved
-    };
-
-}, "get-all-assigned-issues");
 
 export const getIssue = cache(async (issueId: number) => {
     "use server";

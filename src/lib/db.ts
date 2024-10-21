@@ -58,21 +58,3 @@ export const getIssueFromDb = async (userId: string, issueId: number) => {
 
   return issues[0];
 }
-
-export const getIssuesFromDb = async (props: { userId: string, date?: string, assigned?: boolean, resolved?: boolean }) => {
-  "use server";
-
-  const query = await db.select().from(issuesTable).where(and(
-    ...(props.date ? [eq(sql`DATE(${issuesTable.createdAt})`, props.date)] : []),
-    eq(props.assigned ? issuesTable.assignedId : issuesTable.ownerId, props.userId),
-    props.resolved ? isNotNull(issuesTable.resolvedAt) : isNull(issuesTable.resolvedAt)
-  )).leftJoin(usersTable, eq(usersTable.id, issuesTable.assignedId))
-    .orderBy(sql`${issuesTable.createdAt} desc`);
-
-  const queryWithAssignedUser = query.map(query => ({
-    ...query.issues,
-    assignedUser: query.users
-  }));
-
-  return queryWithAssignedUser;
-}

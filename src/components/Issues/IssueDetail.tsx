@@ -1,21 +1,21 @@
 import { For, Match, Show, Switch } from "solid-js";
 import { cn, timeAgo } from "~/lib/utils";
 import { Button } from "../ui/button";
-import { createAsync, useAction, useSubmission } from "@solidjs/router";
+import { useAction, useSubmission } from "@solidjs/router";
 import { assignIssueTo, resolveIssues, setPriority, unresolveIssues } from "~/lib/actions";
 import Avatar from "../Avatar";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-import { getUsers, IssueWithAssignedUser } from "~/lib/queries";
+import { IssueWithAssignedUser } from "~/lib/queries";
 import { toast } from "solid-sonner";
 import { Badge } from "../ui/badge";
+import { UserRow } from "~/lib/db";
 
 type IssueDetailsProps = {
     issue: IssueWithAssignedUser
+    users?: UserRow[]
 }
 
 export default function IssueDetail(props: IssueDetailsProps) {
-    const users = createAsync(() => getUsers());
-
     const resolveIssuesAction = useAction(resolveIssues);
     const unresolveIssuesAction = useAction(unresolveIssues);
     const assignIssueToAction = useAction(assignIssueTo);
@@ -99,11 +99,11 @@ export default function IssueDetail(props: IssueDetailsProps) {
                             { 'opacity-50': assignIssueToSubmission.pending }
                         }>
                             <span class="hidden sm:inline-block text-sm mr-6">Assign to:</span>
-                            <For each={users()}>
+                            <For each={props.users}>
                                 {(user) => (
                                     <Avatar
                                         onClick={async () => {
-                                            await assignIssueToAction(props.issue.id, user.id!);
+                                            await assignIssueToAction(props.issue.id, user);
                                             toast(`Issue has been assigned to ${user.firstName}`)
                                         }}
                                         src={user.avatar}
@@ -128,6 +128,6 @@ export default function IssueDetail(props: IssueDetailsProps) {
                     }}>Unresolve</Button>
                 </Show>
             </div>
-        </div>
+        </div >
     )
 }

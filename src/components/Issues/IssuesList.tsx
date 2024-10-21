@@ -1,6 +1,6 @@
 import { createMemo, createSignal, For, Show, Suspense, useTransition } from "solid-js";
 import { Button } from "../ui/button";
-import { useAction, useSubmissions } from "@solidjs/router";
+import { createAsync, useAction, useSubmissions } from "@solidjs/router";
 import { resolveIssues, unresolveIssues } from "~/lib/actions";
 import IssueLink from "./IssueLink";
 import { cn, paginate } from "~/lib/utils";
@@ -13,12 +13,14 @@ import {
     PaginationNext,
     PaginationPrevious
 } from "~/components/ui/pagination"
-import { IssueWithAssignedUser } from "~/lib/queries";
+import { getUsers, IssueWithAssignedUser } from "~/lib/queries";
+import { UserRow } from "~/lib/db";
 
 type IssuesListProps = {
     issues: IssueWithAssignedUser[];
     type: 'resolved' | 'unresolved';
     onDateFilterChange: (date: string) => void;
+    users?: UserRow[]
 }
 
 const ITEMS_PER_PAGE = 25;
@@ -104,7 +106,7 @@ export default function IssuesList(props: IssuesListProps) {
                         </Pagination>
                         <For each={paginate(optimisticIssues()!, page(), ITEMS_PER_PAGE)}>
                             {(issue) => (
-                                <IssueLink issue={issue} checked={selected().includes(issue.id)} toggleSelect={toggleSelect} />
+                                <IssueLink users={props.users} issue={issue} checked={selected().includes(issue.id)} toggleSelect={toggleSelect} />
                             )}
                         </For>
                         <Pagination

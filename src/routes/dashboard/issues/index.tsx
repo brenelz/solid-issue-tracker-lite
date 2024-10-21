@@ -1,5 +1,5 @@
 import { Title } from "@solidjs/meta";
-import { createAsyncStore, RouteDefinition, useAction } from "@solidjs/router";
+import { createAsync, RouteDefinition, useAction } from "@solidjs/router";
 import { createSignal, Show } from "solid-js";
 import { toast } from "solid-sonner";
 import IssueTabs from "~/components/Issues/IssueTabs";
@@ -19,7 +19,7 @@ import AddIssueDialogContent from "~/components/Issues/AddIssueDialogContent";
 
 export const route = {
     preload() {
-        void getAllUserIssues();
+        void getAllUserIssues(undefined);
         void getUsers();
     }
 } satisfies RouteDefinition;
@@ -27,7 +27,7 @@ export const route = {
 export default function Issues() {
     const [dateFilter, setDateFilter] = createSignal<string>();
     const [open, setOpen] = createSignal(false);
-    const issues = createAsyncStore(() => getAllUserIssues(dateFilter()));
+    const issues = createAsync(() => getAllUserIssues(dateFilter()));
 
     const generateFakeIssuesAction = useAction(generateFakeIssues);
 
