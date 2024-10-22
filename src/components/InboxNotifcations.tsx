@@ -7,6 +7,7 @@ import { timeAgo } from "~/lib/utils";
 import { AiOutlineBell } from 'solid-icons/ai'
 import { Button } from "./ui/button";
 import { clearNotifications } from "~/lib/actions";
+import { toast } from "solid-sonner";
 
 export default function InboxNotifications() {
     const inboxNotifications = createAsync(() => getNotificationsForUser());
@@ -39,7 +40,10 @@ export default function InboxNotifications() {
                         )}
                     </For>
                     <div class="flex justify-end">
-                        <Button onClick={() => clearNotificationsAction()}>Clear All</Button>
+                        <Button onClick={async () => {
+                            await clearNotificationsAction()
+                            toast("Notifications cleared successfully")
+                        }}>Clear All</Button>
                     </div>
                 </Show>
             </PopoverContent>

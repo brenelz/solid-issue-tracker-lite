@@ -73,14 +73,17 @@ export default function IssueDetail(props: IssueDetailsProps) {
                         <div class="flex items-center gap-4 justify-center" classList={
                             { 'opacity-50': setPrioritySubmission.pending }
                         }>
-                            <Badge variant="outline" onClick={() => {
-                                setPriorityAction(props.issue.id, 'low');
+                            <Badge variant="outline" onClick={async () => {
+                                await setPriorityAction(props.issue.id, 'low');
+                                toast("Issue priority has been set to low");
                             }}>low</Badge>
-                            <Badge variant="default" onClick={() => {
-                                setPriorityAction(props.issue.id, 'medium');
+                            <Badge variant="default" onClick={async () => {
+                                await setPriorityAction(props.issue.id, 'medium');
+                                toast("Issue priority has been set to medium");
                             }}>medium</Badge>
-                            <Badge variant="destructive" onClick={() => {
-                                setPriorityAction(props.issue.id, 'high');
+                            <Badge variant="destructive" onClick={async () => {
+                                await setPriorityAction(props.issue.id, 'high');
+                                toast("Issue priority has been set to high");
                             }}>high</Badge>
                         </div>
                     </PopoverContent>

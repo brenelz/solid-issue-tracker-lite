@@ -44,6 +44,7 @@ export default function Issues() {
                     <DialogContent>
                         <form action={addNewIssue} onSubmit={() => {
                             setOpen(false);
+                            toast("Issue has been added successfully")
                         }} method="post">
                             <DialogHeader>
                                 <DialogTitle>Add Issue</DialogTitle>

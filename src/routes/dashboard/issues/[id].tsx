@@ -2,6 +2,7 @@ import { Title } from "@solidjs/meta";
 import { createAsync, RouteDefinition, RouteSectionProps, useAction, useSubmission } from "@solidjs/router";
 import { useAuth } from "clerk-solidjs";
 import { createSignal, Show, Suspense } from "solid-js";
+import { toast } from "solid-sonner";
 import AiDescription from "~/components/Issues/AiDescription";
 import IssueDetail from "~/components/Issues/IssueDetail";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "~/components/ui/accordion";
@@ -64,8 +65,11 @@ export default function Issues(props: RouteSectionProps) {
                 </Show>
             </Suspense>
             <Show when={issue() && issue()?.ownerId === auth.userId()}>
-                <Button disabled={deleteIssueSubmission.pending} variant="destructive" onClick={() => deleteIssueAction(issue()!.id)}>Delete</Button>
-            </Show>
+                <Button disabled={deleteIssueSubmission.pending} variant="destructive" onClick={async () => {
+                    await deleteIssueAction(issue()!.id);
+                    toast("Issue deleted successfully");
+                }}>Delete</Button>
+            </Show >
         </>
     );
 }
