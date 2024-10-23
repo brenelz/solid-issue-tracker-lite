@@ -8,7 +8,7 @@ type AiDescriptionProps = {
 export default function AiDescription(props: AiDescriptionProps) {
     const aiDescription = createAsync(() => getAiDescription(props.issueId));
     return (
-        <p>
+        <p class="mt-4">
             {aiDescription()}
         </p>
     )

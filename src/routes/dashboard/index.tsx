@@ -1,10 +1,12 @@
 import { Title } from "@solidjs/meta";
-import { RouteDefinition } from "@solidjs/router";
-import { Suspense } from "solid-js";
+import { createAsync, RouteDefinition } from "@solidjs/router";
+import { createMemo, createSignal, Show, Suspense } from "solid-js";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import { getAllUserIssues, getIssuesGraphData, getUsers } from "~/lib/queries";
 import Graphs from "~/components/Issues/Graphs";
 import AssignedIssues from "~/components/Issues/AssignedIssues";
+import { useAuth } from "clerk-solidjs";
+import IssueTabs from "~/components/Issues/IssueTabs";
 
 export const route = {
     preload() {
@@ -15,6 +17,16 @@ export const route = {
 } satisfies RouteDefinition;
 
 export default function Dashboard() {
+    const auth = useAuth();
+    const [dateFilter, setDateFilter] = createSignal<string>();
+
+    const issues = createAsync(() => getAllUserIssues(dateFilter()));
+    const assignedIssues = () => {
+        if (auth.userId()) {
+            return issues()?.filter(issue => issue.assignedId === auth.userId());
+        }
+    };
+
     return (
         <>
             <Title>Dashboard - Solid Issue Tracker Lite - Brenelz</Title>
@@ -31,7 +43,13 @@ export default function Dashboard() {
                             </CardHeader>
                             <CardContent>
                                 <Suspense fallback="Loading Issues...">
-                                    <AssignedIssues />
+                                    <Show when={assignedIssues()}>
+                                        {issues => (
+                                            <IssueTabs issues={issues()} onDateFilterChange={(date) => {
+                                                setDateFilter(date)
+                                            }} />
+                                        )}
+                                    </Show>
                                 </Suspense>
                             </CardContent>
                         </Card>

@@ -4,12 +4,11 @@ import { useAuth } from "clerk-solidjs";
 import { createSignal, Show, Suspense } from "solid-js";
 import { toast } from "solid-sonner";
 import AiDescription from "~/components/Issues/AiDescription";
-import Code from "~/components/Issues/Code";
 import IssueDetail from "~/components/Issues/IssueDetail";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "~/components/ui/accordion";
 import { Button } from "~/components/ui/button";
 import { deleteIssue } from "~/lib/actions";
-import { getIssue, getUsers } from "~/lib/queries";
+import { getIssue, getUsers, renderCode } from "~/lib/queries";
 
 export const route = {
     preload: async ({ params }) => {
@@ -23,6 +22,7 @@ export default function Issues(props: RouteSectionProps) {
     const [showAiDescription, setShowAiDescription] = createSignal(false);
     const issue = createAsync(() => getIssue(+props.params.id), { deferStream: true });
     const users = createAsync(() => getUsers());
+    const code = createAsync(() => renderCode(String(issue()?.stacktrace)));
 
     const deleteIssueAction = useAction(deleteIssue);
     const deleteIssueSubmission = useSubmission(deleteIssue);
@@ -46,7 +46,7 @@ export default function Issues(props: RouteSectionProps) {
                             <Button class="absolute" onClick={() => setShowAiDescription(true)}>Ask AI</Button>
                         </AccordionTrigger>
                         <AccordionContent>
-                            <Suspense fallback="Asking AI...">
+                            <Suspense fallback={<p class="mt-4">Asking AI...</p>}>
                                 <Show when={showAiDescription()}>
                                     <AiDescription issueId={issue()?.id!} />
                                 </Show>
@@ -56,7 +56,9 @@ export default function Issues(props: RouteSectionProps) {
                 </Accordion>
 
                 <Suspense>
-                    <Code stacktrace={issue()?.stacktrace} />
+                    <Show when={issue()?.stacktrace && code()}>
+                        <div innerHTML={code()} />
+                    </Show>
                 </Suspense>
 
                 <Show when={issue() && issue()?.ownerId === auth.userId()}>
