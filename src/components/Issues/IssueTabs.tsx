@@ -4,7 +4,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs"
 import IssuesList from "./IssuesList";
 import { getUsers, IssueWithAssignedUser } from "~/lib/queries";
 import { clientOnly } from '@solidjs/start';
-import { createMemo, Show } from "solid-js";
+import { createEffect, createMemo, Show } from "solid-js";
 import { createAsync, useSubmission } from "@solidjs/router";
 import { resolveIssues } from "~/lib/actions";
 

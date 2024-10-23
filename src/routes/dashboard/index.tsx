@@ -1,13 +1,10 @@
 import { Title } from "@solidjs/meta";
-import { createAsync, createAsyncStore, RouteDefinition } from "@solidjs/router";
-import { createMemo, createSignal, Show } from "solid-js";
-import IssueTabs from "~/components/Issues/IssueTabs";
+import { RouteDefinition } from "@solidjs/router";
+import { Suspense } from "solid-js";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
-import { BarChart } from "~/components/ui/charts";
-import { getAllUserIssues, getIssuesGraphData, getUsers, PossibleNumbers } from "~/lib/queries";
-import NumberFlow from 'solid-number-flow';
-import { Badge } from "~/components/ui/badge";
-import { useAuth } from "clerk-solidjs";
+import { getAllUserIssues, getIssuesGraphData, getUsers } from "~/lib/queries";
+import Graphs from "~/components/Issues/Graphs";
+import AssignedIssues from "~/components/Issues/AssignedIssues";
 
 export const route = {
     preload() {
@@ -18,26 +15,6 @@ export const route = {
 } satisfies RouteDefinition;
 
 export default function Dashboard() {
-    const auth = useAuth();
-    const [dateFilter, setDateFilter] = createSignal<string>();
-    const [currentNumber, setCurrentNumber] = createSignal<keyof PossibleNumbers>('totalIssuesResolved');
-
-    const issues = createAsync(() => getAllUserIssues(dateFilter()));
-    const assignedIssues = createMemo(() => {
-        return issues()?.filter(issue => issue.assignedId === auth.userId()) || [];
-    });
-    const issuesGraphData = createAsyncStore(() => getIssuesGraphData());
-
-    const chartDataIssuesCreatedPerDay = createMemo(() => ({
-        labels: issuesGraphData()?.issuesCreatedPerDay.labels!,
-        datasets: [
-            {
-                label: "Issues created",
-                data: issuesGraphData()?.issuesCreatedPerDay.data!
-            }
-        ]
-    }));
-
     return (
         <>
             <Title>Dashboard - Solid Issue Tracker Lite - Brenelz</Title>
@@ -53,61 +30,19 @@ export default function Dashboard() {
                                 <CardTitle>Your Assigned Issues</CardTitle>
                             </CardHeader>
                             <CardContent>
-                                <Show when={assignedIssues()}>
-                                    {issues => (
-                                        <IssueTabs issues={issues()} onDateFilterChange={(date) => {
-                                            setDateFilter(date)
-                                        }} />
-                                    )}
-                                </Show>
+                                <Suspense fallback="Loading Issues...">
+                                    <AssignedIssues />
+                                </Suspense>
                             </CardContent>
                         </Card>
                     </div>
                 </div>
                 <div class="w-full lg:w-1/3">
-                    <div class="flex gap-4 items-center justify-center">
-                        <Show when={issuesGraphData()}>
-                            {issuesGraphData => (
-                                <Card class="w-full p-4 mb-4">
-                                    <div class="flex flex-col items-center mb-4">
-                                        <span class="text-base">Issues Resolved</span>
-                                        <NumberFlow
-                                            class="text-6xl"
-                                            value={issuesGraphData().numbers[currentNumber()]}
-                                            format={{ notation: 'compact' }}
-                                            locales="en-US"
-                                        />
-                                        <div class="flex items-center gap-2">
-                                            <Badge variant={currentNumber() !== 'issuesResolvedToday' ? 'secondary' : 'default'}
-                                                onClick={() => {
-                                                    setCurrentNumber('issuesResolvedToday')
-                                                }}>Today</Badge>
-                                            <Badge variant={currentNumber() !== 'issuesResolvedYesterday' ? 'secondary' : 'default'}
-                                                onClick={() => {
-                                                    setCurrentNumber('issuesResolvedYesterday')
-                                                }}>Yesterday</Badge>
-                                            <Badge variant={currentNumber() !== 'totalIssuesResolved' ? 'secondary' : 'default'}
-                                                onClick={() => {
-                                                    setCurrentNumber('totalIssuesResolved')
-                                                }}>All-Time</Badge>
-                                        </div>
-                                    </div>
-                                </Card>
-                            )}
-                        </Show>
-                    </div>
-                    <div>
-                        <Card>
-                            <CardHeader>
-                                <CardTitle>Issues created per day</CardTitle>
-                            </CardHeader>
-                            <CardContent class="h-64 w-[500px] max-w-full">
-                                <BarChart data={chartDataIssuesCreatedPerDay()} />
-                            </CardContent>
-                        </Card>
-                    </div>
-                </div >
-            </div >
+                    <Suspense>
+                        <Graphs />
+                    </Suspense>
+                </div>
+            </div>
         </>
     );
 }

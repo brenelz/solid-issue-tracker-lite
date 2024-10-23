@@ -1,6 +1,6 @@
 import { Title } from "@solidjs/meta";
 import { createAsync, RouteDefinition, useAction } from "@solidjs/router";
-import { createSignal, Show } from "solid-js";
+import { createSignal, Show, Suspense } from "solid-js";
 import { toast } from "solid-sonner";
 import IssueTabs from "~/components/Issues/IssueTabs";
 import { Button } from "~/components/ui/button";
@@ -64,15 +64,15 @@ export default function Issues() {
 
             </div>
 
-            <Show when={issues()}>
-                {issues => (
-                    <IssueTabs issues={issues()} onDateFilterChange={(date) => {
-                        setDateFilter(date)
-                    }} />
-                )}
-            </Show>
-
-
+            <Suspense>
+                <Show when={issues()}>
+                    {issues => (
+                        <IssueTabs issues={issues()} onDateFilterChange={(date) => {
+                            setDateFilter(date)
+                        }} />
+                    )}
+                </Show>
+            </Suspense>
         </>
     );
 }

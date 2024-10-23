@@ -10,7 +10,6 @@ export type IssueWithAssignedUser = IssueRow & {
 
 export const getAllUserIssues = cache(async (date?: string) => {
     "use server";
-
     const authObject = auth();
 
     if (!authObject.userId) {

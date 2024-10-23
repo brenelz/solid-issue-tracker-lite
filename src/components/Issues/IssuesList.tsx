@@ -1,4 +1,4 @@
-import { createMemo, createSignal, For, Show, Suspense, useTransition } from "solid-js";
+import { createEffect, createMemo, createSignal, For, Show, Suspense, useTransition } from "solid-js";
 import { Button } from "../ui/button";
 import { createAsync, useAction, useSubmissions } from "@solidjs/router";
 import { resolveIssues, unresolveIssues } from "~/lib/actions";

@@ -4,11 +4,12 @@ import { useAuth } from "clerk-solidjs";
 import { createSignal, Show, Suspense } from "solid-js";
 import { toast } from "solid-sonner";
 import AiDescription from "~/components/Issues/AiDescription";
+import Code from "~/components/Issues/Code";
 import IssueDetail from "~/components/Issues/IssueDetail";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "~/components/ui/accordion";
 import { Button } from "~/components/ui/button";
 import { deleteIssue } from "~/lib/actions";
-import { getIssue, getUsers, renderCode } from "~/lib/queries";
+import { getIssue, getUsers } from "~/lib/queries";
 
 export const route = {
     preload: async ({ params }) => {
@@ -20,13 +21,8 @@ export const route = {
 export default function Issues(props: RouteSectionProps) {
     const auth = useAuth();
     const [showAiDescription, setShowAiDescription] = createSignal(false);
-    const issue = createAsync(() => getIssue(+props.params.id));
+    const issue = createAsync(() => getIssue(+props.params.id), { deferStream: true });
     const users = createAsync(() => getUsers());
-    const code = createAsync(async () => {
-        if (issue() && issue()?.stacktrace) {
-            return renderCode(String(issue()?.stacktrace))
-        }
-    });
 
     const deleteIssueAction = useAction(deleteIssue);
     const deleteIssueSubmission = useSubmission(deleteIssue);
@@ -58,18 +54,18 @@ export default function Issues(props: RouteSectionProps) {
                         </AccordionContent>
                     </AccordionItem>
                 </Accordion>
-            </Suspense>
-            <Suspense fallback={<div class="flex items-center gap-2"><div class="font-semibold">Loading Code...</div></div>}>
-                <Show when={code()}>
-                    <div innerHTML={code()} />
+
+                <Suspense>
+                    <Code stacktrace={issue()?.stacktrace} />
+                </Suspense>
+
+                <Show when={issue() && issue()?.ownerId === auth.userId()}>
+                    <Button disabled={deleteIssueSubmission.pending} variant="destructive" onClick={async () => {
+                        await deleteIssueAction(issue()!.id);
+                        toast("Issue deleted successfully");
+                    }}>Delete</Button>
                 </Show>
             </Suspense>
-            <Show when={issue() && issue()?.ownerId === auth.userId()}>
-                <Button disabled={deleteIssueSubmission.pending} variant="destructive" onClick={async () => {
-                    await deleteIssueAction(issue()!.id);
-                    toast("Issue deleted successfully");
-                }}>Delete</Button>
-            </Show >
         </>
     );
 }
