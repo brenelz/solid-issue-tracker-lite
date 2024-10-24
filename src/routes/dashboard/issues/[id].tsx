@@ -12,8 +12,12 @@ import { getIssue, getUsers, renderCode } from "~/lib/queries";
 
 export const route = {
     preload: async ({ params }) => {
-        void getIssue(+params.id);
         void getUsers();
+
+        const issue = await getIssue(+params.id);
+        if (issue.stacktrace) {
+            void renderCode(String(issue.stacktrace))
+        }
     }
 } satisfies RouteDefinition;
 
@@ -22,7 +26,11 @@ export default function Issues(props: RouteSectionProps) {
     const [showAiDescription, setShowAiDescription] = createSignal(false);
     const issue = createAsync(() => getIssue(+props.params.id), { deferStream: true });
     const users = createAsync(() => getUsers());
-    const code = createAsync(() => renderCode(String(issue()?.stacktrace)));
+    const code = createAsync(async () => {
+        if (issue()?.stacktrace) {
+            return renderCode(String(issue()?.stacktrace))
+        }
+    });
 
     const deleteIssueAction = useAction(deleteIssue);
     const deleteIssueSubmission = useSubmission(deleteIssue);
