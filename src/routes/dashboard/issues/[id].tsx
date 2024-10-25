@@ -1,7 +1,7 @@
 import { Title } from "@solidjs/meta";
 import { createAsync, RouteDefinition, RouteSectionProps, useAction, useSubmission } from "@solidjs/router";
 import { useAuth } from "clerk-solidjs";
-import { createSignal, Show, Suspense } from "solid-js";
+import { createSignal, ErrorBoundary, Show, Suspense } from "solid-js";
 import { toast } from "solid-sonner";
 import AiDescription from "~/components/Issues/AiDescription";
 import IssueDetail from "~/components/Issues/IssueDetail";
@@ -32,39 +32,41 @@ export default function Issues(props: RouteSectionProps) {
             <div class="flex items-center justify-between space-y-2">
                 <h2 class="text-3xl font-bold tracking-tight">Issue Detail</h2>
             </div>
-            <Suspense fallback={<div class="flex items-center gap-2"><div class="font-semibold">Loading Issue...</div></div>}>
-                <div class="flex flex-row items-center gap-6 text-left text-sm w-full">
-                    <Show when={issue()}>
-                        {issue => <IssueDetail users={users()} issue={issue()} />}
+            <ErrorBoundary fallback={<p>An error occurred</p>}>
+                <Suspense fallback={<div class="flex items-center gap-2"><div class="font-semibold">Loading Issue...</div></div>}>
+                    <div class="flex flex-row items-center gap-6 text-left text-sm w-full">
+                        <Show when={issue()}>
+                            {issue => <IssueDetail users={users()} issue={issue()} />}
+                        </Show>
+                    </div>
+
+                    <Accordion multiple={false} collapsible>
+                        <AccordionItem value="item-1">
+                            <AccordionTrigger class="h-6">
+                                <Button class="absolute" onClick={() => setShowAiDescription(true)}>Ask AI</Button>
+                            </AccordionTrigger>
+                            <AccordionContent>
+                                <Suspense fallback={<p class="mt-4">Asking AI...</p>}>
+                                    <Show when={showAiDescription()}>
+                                        <AiDescription issueId={issue()?.id!} />
+                                    </Show>
+                                </Suspense>
+                            </AccordionContent>
+                        </AccordionItem>
+                    </Accordion>
+
+                    <Show when={issue()?.code}>
+                        <div innerHTML={String(issue()?.code)} />
                     </Show>
-                </div>
 
-                <Accordion multiple={false} collapsible>
-                    <AccordionItem value="item-1">
-                        <AccordionTrigger class="h-6">
-                            <Button class="absolute" onClick={() => setShowAiDescription(true)}>Ask AI</Button>
-                        </AccordionTrigger>
-                        <AccordionContent>
-                            <Suspense fallback={<p class="mt-4">Asking AI...</p>}>
-                                <Show when={showAiDescription()}>
-                                    <AiDescription issueId={issue()?.id!} />
-                                </Show>
-                            </Suspense>
-                        </AccordionContent>
-                    </AccordionItem>
-                </Accordion>
-
-                <Show when={issue()?.code}>
-                    <div innerHTML={String(issue()?.code)} />
-                </Show>
-
-                <Show when={issue() && issue()?.ownerId === auth.userId()}>
-                    <Button disabled={deleteIssueSubmission.pending} variant="destructive" onClick={async () => {
-                        await deleteIssueAction(issue()!.id);
-                        toast("Issue deleted successfully");
-                    }}>Delete</Button>
-                </Show>
-            </Suspense>
+                    <Show when={issue() && issue()?.ownerId === auth.userId()}>
+                        <Button disabled={deleteIssueSubmission.pending} variant="destructive" onClick={async () => {
+                            await deleteIssueAction(issue()!.id);
+                            toast("Issue deleted successfully");
+                        }}>Delete</Button>
+                    </Show>
+                </Suspense>
+            </ErrorBoundary>
         </>
     );
 }

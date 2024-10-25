@@ -45,6 +45,10 @@ export const getIssue = cache(async (issueId: number) => {
 
     const issue = await getIssueFromDb(authObject.userId, issueId);
 
+    if (!issue) {
+        throw new Error('Could not find issue');
+    }
+
     let assignedUser = null;
     if (issue.assignedId) {
         const user = await db.select().from(usersTable).where(eq(usersTable.id, issue.assignedId));
