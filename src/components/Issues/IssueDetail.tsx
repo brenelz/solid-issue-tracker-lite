@@ -45,15 +45,13 @@ export default function IssueDetail(props: IssueDetailsProps) {
                     </div>
                 </div>
             </a>
-            <div
-                class={cn(
-                    "text-xs",
-                    "text-muted-foreground",
-                    "shrink-0"
-                )}
-            >
+            <a href={`/dashboard/issues/${props.issue.id}`} class={cn(
+                "text-xs",
+                "text-muted-foreground",
+                "shrink-0"
+            )}>
                 {timeAgo(new Date(String(props.issue.createdAt + ' UTC')))}
-            </div>
+            </a>
             <div class="hidden shrink-0 md:block">
                 <Popover>
                     <PopoverTrigger>

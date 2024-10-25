@@ -62,7 +62,7 @@ export default function IssuesList(props: IssuesListProps) {
 
     return (
         <>
-            <div class="flex gap-4 mb-4 mt-4">
+            <div class="gap-4 mb-4 mt-4 hidden sm:flex">
                 <Button onClick={toggleSelectAll}>{selected().length > 0 ? 'Deselect' : 'Select'} All</Button>
                 <div class="ml-auto flex gap-4">
                     <DatePickerWrapper onValueChange={(details) => {

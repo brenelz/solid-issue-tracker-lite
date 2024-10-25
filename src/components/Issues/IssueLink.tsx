@@ -20,7 +20,7 @@ export default function IssueLink(props: IssueProps) {
             <div class={cn(
                 "flex flex-row items-center gap-6 rounded-lg border p-3 text-left text-sm transition-all hover:bg-[#8ecae633] w-full",
             )}>
-                <div>
+                <div class="hidden sm:block">
                     <Checkbox checked={props.checked} onClick={handleClick} />
                 </div>
                 <IssueDetail users={props.users} issue={props.issue} />
