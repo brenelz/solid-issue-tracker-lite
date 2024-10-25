@@ -15,6 +15,7 @@ import {
 } from "~/components/ui/pagination"
 import { getUsers, IssueWithAssignedUser } from "~/lib/queries";
 import { UserRow } from "~/lib/db";
+import { TextField, TextFieldInput } from "../ui/text-field";
 
 type IssuesListProps = {
     issues: IssueWithAssignedUser[];
@@ -26,6 +27,7 @@ type IssuesListProps = {
 const ITEMS_PER_PAGE = 25;
 
 export default function IssuesList(props: IssuesListProps) {
+    const [searchTerm, setSearchTerm] = createSignal('');
     const resolveIssuesAction = useAction(resolveIssues);
     const unresolveIssuesAction = useAction(unresolveIssues);
     const [selected, setSelected] = createSignal<number[]>([]);
@@ -33,11 +35,14 @@ export default function IssuesList(props: IssuesListProps) {
     const [page, setPage] = createSignal(1);
     const resolveIssuesSubmissions = useSubmissions(resolveIssues);
     const unresolveIssuesSubmissions = useSubmissions(unresolveIssues);
+
+    const filteredIssues = createMemo(() => props.issues?.filter(issue => issue.title?.toLowerCase().startsWith(searchTerm().toLowerCase())));
+
     const optimisticIssues = createMemo(() => {
         const resolvingIds = [...resolveIssuesSubmissions.values(), ...unresolveIssuesSubmissions.values()]
             .filter(submission => submission.pending)
             .flatMap(submission => submission.input[0]);
-        return props.issues.filter(issue => !resolvingIds.includes(issue.id));
+        return filteredIssues().filter(issue => !resolvingIds.includes(issue.id));
     });
 
     const toggleSelect = (id: number) => {
@@ -62,15 +67,24 @@ export default function IssuesList(props: IssuesListProps) {
 
     return (
         <>
-            <div class="gap-4 mb-4 mt-4 hidden sm:flex">
+            <div class="gap-4 mb-4 mt-4 hidden md:flex">
                 <Button onClick={toggleSelectAll}>{selected().length > 0 ? 'Deselect' : 'Select'} All</Button>
                 <div class="ml-auto flex gap-4">
-                    <DatePickerWrapper onValueChange={(details) => {
-                        startTransition(() => {
-                            props.onDateFilterChange(details.valueAsString[0]);
-                            setPage(1);
-                        })
-                    }} />
+                    <TextField class="w-64">
+                        <TextFieldInput placeholder="Search" type="text" id="search" name="search" onInput={(e) => {
+                            const target = e.target as HTMLInputElement;
+                            setSearchTerm(target.value)
+                        }} />
+                    </TextField>
+
+                    <div class="w-64">
+                        <DatePickerWrapper onValueChange={(details) => {
+                            startTransition(() => {
+                                props.onDateFilterChange(details.valueAsString[0]);
+                                setPage(1);
+                            })
+                        }} />
+                    </div>
                     <Show when={props.type === 'resolved'} fallback={
                         <Button onClick={() => resolveIssuesAction(selected())}>Resolve Selected</Button>
                     }>
