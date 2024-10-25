@@ -51,9 +51,18 @@ export const getIssue = cache(async (issueId: number) => {
         assignedUser = user[0];
     }
 
+    let code = null;
+    if (issue.stacktrace) {
+        code = await codeToHtml(issue.stacktrace, {
+            lang: "jsx",
+            theme: "material-theme-ocean",
+        });
+    }
+
     const issueToReturn = {
         ...issue,
-        assignedUser: assignedUser
+        assignedUser: assignedUser,
+        code
     }
 
     return issueToReturn
@@ -68,15 +77,6 @@ export const getUsers = cache(async () => {
     return users;
 
 }, "get-users");
-
-export const renderCode = cache(async (srcCode: string) => {
-    "use server";
-
-    return codeToHtml(srcCode, {
-        lang: "jsx",
-        theme: "material-theme-ocean",
-    });
-}, "render-code");
 
 export const getNotificationsForUser = cache(async () => {
     "use server";

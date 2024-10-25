@@ -13,11 +13,7 @@ import { getIssue, getUsers, renderCode } from "~/lib/queries";
 export const route = {
     preload: async ({ params }) => {
         void getUsers();
-
-        const issue = await getIssue(+params.id);
-        if (issue.stacktrace) {
-            void renderCode(String(issue.stacktrace))
-        }
+        void getIssue(+params.id);
     }
 } satisfies RouteDefinition;
 
@@ -26,11 +22,6 @@ export default function Issues(props: RouteSectionProps) {
     const [showAiDescription, setShowAiDescription] = createSignal(false);
     const issue = createAsync(() => getIssue(+props.params.id), { deferStream: true });
     const users = createAsync(() => getUsers());
-    const code = createAsync(async () => {
-        if (issue()?.stacktrace) {
-            return renderCode(String(issue()?.stacktrace))
-        }
-    });
 
     const deleteIssueAction = useAction(deleteIssue);
     const deleteIssueSubmission = useSubmission(deleteIssue);
@@ -63,11 +54,9 @@ export default function Issues(props: RouteSectionProps) {
                     </AccordionItem>
                 </Accordion>
 
-                <Suspense>
-                    <Show when={issue()?.stacktrace && code()}>
-                        <div innerHTML={code()} />
-                    </Show>
-                </Suspense>
+                <Show when={issue()?.code}>
+                    <div innerHTML={String(issue()?.code)} />
+                </Show>
 
                 <Show when={issue() && issue()?.ownerId === auth.userId()}>
                     <Button disabled={deleteIssueSubmission.pending} variant="destructive" onClick={async () => {
