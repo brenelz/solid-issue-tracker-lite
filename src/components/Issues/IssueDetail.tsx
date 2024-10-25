@@ -27,7 +27,7 @@ export default function IssueDetail(props: IssueDetailsProps) {
     const setPrioritySubmission = useSubmission(setPriority);
 
     return (
-        <div class="flex flex-col sm:flex-row items-center gap-6 w-full"
+        <div class="flex flex-col sm:flex-row flex-start sm:items-center gap-6 w-full"
             classList={
                 { 'opacity-50': resolveIssuesSubmission.pending || unresolveIssuesSubmission.pending || assignIssueToSubmission.pending }
             }>
