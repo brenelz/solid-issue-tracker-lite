@@ -17,7 +17,7 @@ export default function App() {
         >
           <MetaProvider>
             <Title>Solid Issue Tracker Lite - Brenelz</Title>
-            <Meta name="description" content="Solid Issue Tracker Lite is a same project build with SolidStart for SolidHack2024." />
+            <Meta name="description" content="Solid Issue Tracker Lite is a demo project built with SolidStart for SolidHack2024." />
             <MainLayout>
               <Suspense>
                 {props.children}
