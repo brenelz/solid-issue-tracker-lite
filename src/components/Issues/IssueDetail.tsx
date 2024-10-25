@@ -27,7 +27,7 @@ export default function IssueDetail(props: IssueDetailsProps) {
     const setPrioritySubmission = useSubmission(setPriority);
 
     return (
-        <div class="flex flex-row items-center gap-6 w-full"
+        <div class="flex flex-col sm:flex-row items-center gap-6 w-full"
             classList={
                 { 'opacity-50': resolveIssuesSubmission.pending || unresolveIssuesSubmission.pending || assignIssueToSubmission.pending }
             }>
@@ -52,7 +52,7 @@ export default function IssueDetail(props: IssueDetailsProps) {
             )}>
                 {timeAgo(new Date(String(props.issue.createdAt + ' UTC')))}
             </a>
-            <div class="hidden shrink-0 md:block">
+            <div class="hidden shrink-0">
                 <Popover>
                     <PopoverTrigger>
                         <Switch>
