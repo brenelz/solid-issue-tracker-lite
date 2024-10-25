@@ -11,7 +11,7 @@ export default function OnlineUsers() {
     onMount(() => {
         const { room } = client.enterRoom("solid-issue-tracker-lite", {
             initialPresence: {
-                name: clerk.user()?.fullName,
+                name: clerk.user()?.firstName || 'unknown',
                 avatar: clerk.user()?.imageUrl
             }
         });
