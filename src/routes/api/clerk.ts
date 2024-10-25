@@ -1,5 +1,6 @@
 import { json } from "@solidjs/router";
 import type { APIEvent } from "@solidjs/start/server";
+import { eq } from "drizzle-orm";
 import { Webhook } from 'svix';
 import { readRawBody } from "vinxi/http";
 import { db, usersTable } from "~/lib/db";
@@ -60,6 +61,16 @@ const handler = async (event: APIEvent) => {
             firstName: evt.data.first_name,
             lastName: evt.data.last_name,
         })
+    } else if (eventType === 'user.updated') {
+        await db.update(usersTable)
+            .set({
+                username: evt.data.username,
+                email: evt.data.email_addresses[0].email_address,
+                avatar: evt.data.profile_image_url,
+                firstName: evt.data.first_name,
+                lastName: evt.data.last_name,
+            })
+            .where(eq(usersTable.id, evt.data.id));
     }
 
     return json({ success: true });
