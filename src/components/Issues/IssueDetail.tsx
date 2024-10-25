@@ -52,7 +52,7 @@ export default function IssueDetail(props: IssueDetailsProps) {
             )}>
                 {timeAgo(new Date(String(props.issue.createdAt + ' UTC')))}
             </a>
-            <div class="hidden shrink-0">
+            <div class="hidden shrink-0 sm:flex">
                 <Popover>
                     <PopoverTrigger>
                         <Switch>
