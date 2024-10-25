@@ -8,7 +8,7 @@ import IssueDetail from "~/components/Issues/IssueDetail";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "~/components/ui/accordion";
 import { Button } from "~/components/ui/button";
 import { deleteIssue } from "~/lib/actions";
-import { getIssue, getUsers, renderCode } from "~/lib/queries";
+import { getIssue, getUsers } from "~/lib/queries";
 
 export const route = {
     preload: async ({ params }) => {

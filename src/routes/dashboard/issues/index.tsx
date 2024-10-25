@@ -58,8 +58,17 @@ export default function Issues() {
                     </DialogContent>
                 </Dialog >
                 <Button onClick={async () => {
-                    await generateFakeIssuesAction();
-                    toast("Fake issues have been generated")
+                    try {
+                        await generateFakeIssuesAction();
+                        toast("Fake issues have been generated")
+                    } catch (e) {
+                        if (e instanceof Error) {
+                            toast(e.message, {
+                                class: "text-red-500"
+                            });
+                        }
+                    }
+
                 }}>Generate Fake Issues</Button>
 
             </div>
