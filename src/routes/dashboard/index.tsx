@@ -4,7 +4,6 @@ import { createMemo, createSignal, Show, Suspense } from "solid-js";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import { getAllUserIssues, getIssuesGraphData, getUsers } from "~/lib/queries";
 import Graphs from "~/components/Issues/Graphs";
-import AssignedIssues from "~/components/Issues/AssignedIssues";
 import { useAuth } from "clerk-solidjs";
 import IssueTabs from "~/components/Issues/IssueTabs";
 
