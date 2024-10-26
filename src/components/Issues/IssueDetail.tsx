@@ -100,18 +100,20 @@ export default function IssueDetail(props: IssueDetailsProps) {
                             { 'opacity-50': assignIssueToSubmission.pending }
                         }>
                             <span class="hidden sm:inline-block text-sm mr-6">Assign to:</span>
-                            <For each={props.users}>
-                                {(user) => (
-                                    <Avatar
-                                        onClick={async () => {
-                                            await assignIssueToAction(props.issue.id, user);
-                                            toast(`Issue has been assigned to ${user.firstName}`)
-                                        }}
-                                        src={user.avatar}
-                                        name={String(user.firstName || 'unknown')}
-                                    />
-                                )}
-                            </For>
+                            <div class="flex flex-wrap items-center w-64">
+                                <For each={props.users}>
+                                    {(user) => (
+                                        <Avatar
+                                            onClick={async () => {
+                                                await assignIssueToAction(props.issue.id, user);
+                                                toast(`Issue has been assigned to ${user.firstName}`)
+                                            }}
+                                            src={user.avatar}
+                                            name={String(user.firstName || 'unknown')}
+                                        />
+                                    )}
+                                </For>
+                            </div>
                         </div>
                     </PopoverContent>
                 </Popover>
