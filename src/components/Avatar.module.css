@@ -10,6 +10,11 @@
   margin-left: -0.75rem;
 }
 
+.selected {
+  min-width: 48px !important;
+  height: 48px !important;
+}
+
 .avatar.online,
 .avatar_online {
   border: 2px solid #219ebc;

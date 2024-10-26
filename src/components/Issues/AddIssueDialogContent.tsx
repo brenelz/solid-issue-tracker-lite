@@ -29,6 +29,7 @@ export default function AddIssueDialogContent() {
                         name="priority"
                         class="w-full"
                         options={["low", "medium", "high"]}
+                        defaultValue="low"
                         placeholder="Select a priority"
                         itemComponent={(props) => <SelectItem item={props.item}>{props.item.rawValue}</SelectItem>}
                     >
@@ -48,7 +49,7 @@ export default function AddIssueDialogContent() {
                             <For each={users()}>
                                 {(user) => (
                                     <Avatar
-                                        online={newIssueAssignedId() === user.id}
+                                        selected={newIssueAssignedId() === user.id}
                                         onClick={async () => {
                                             setNewIssueAssignedId(user.id)
                                         }}

@@ -8,11 +8,12 @@ type AvatarProps = {
     src: string | null;
     onClick?: () => void;
     online?: boolean;
+    selected?: boolean;
 }
 
 export default function Avatar(props: AvatarProps) {
     return (
-        <div class={cn(styles.avatar, { [styles.avatar_online]: props.online })} data-tooltip={props.name}>
+        <div class={cn(styles.avatar, { [styles.avatar_online]: props.online }, { [styles.selected]: props.selected })} data-tooltip={props.name}>
             <img
                 alt={props.name}
                 src={props.src || 'https://www.gravatar.com/avatar/?d=mp'}
