@@ -36,7 +36,7 @@ export default function IssuesList(props: IssuesListProps) {
     const resolveIssuesSubmissions = useSubmissions(resolveIssues);
     const unresolveIssuesSubmissions = useSubmissions(unresolveIssues);
 
-    const filteredIssues = createMemo(() => props.issues?.filter(issue => issue.title?.toLowerCase().startsWith(searchTerm().toLowerCase())));
+    const filteredIssues = createMemo(() => props.issues?.filter(issue => issue.title?.toLowerCase().includes(searchTerm().toLowerCase())));
 
     const optimisticIssues = createMemo(() => {
         const resolvingIds = [...resolveIssuesSubmissions.values(), ...unresolveIssuesSubmissions.values()]
