@@ -10,7 +10,7 @@ import { clearNotifications } from "~/lib/actions";
 import { toast } from "solid-sonner";
 
 export default function InboxNotifications() {
-    const [inboxNotifications, { refetch }] = createResource(() => getNotificationsForUser());
+    const [inboxNotifications, { refetch, mutate }] = createResource(() => getNotificationsForUser());
     const clearNotificationsAction = useAction(clearNotifications);
 
     createEffect(() => {
@@ -61,6 +61,7 @@ export default function InboxNotifications() {
                     <div class="flex justify-end">
                         <Button onClick={async () => {
                             await clearNotificationsAction()
+                            mutate([]);
                             toast("Notifications cleared successfully")
                         }}>Clear All</Button>
                     </div>

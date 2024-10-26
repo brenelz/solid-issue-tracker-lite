@@ -21,12 +21,6 @@ export default function OnlineUsers() {
             setUsers(othersWithPresence);
         });
 
-        document.addEventListener('visibilitychange', () => {
-            if (document.visibilityState !== 'visible') {
-                unsubscribeOthers();
-            }
-        });
-
         onCleanup(() => {
             unsubscribeOthers();
         });
