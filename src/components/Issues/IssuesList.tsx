@@ -13,7 +13,7 @@ import {
     PaginationNext,
     PaginationPrevious
 } from "~/components/ui/pagination"
-import { getUsers, IssueWithAssignedUser } from "~/lib/queries";
+import { IssueWithAssignedUser } from "~/lib/queries";
 import { UserRow } from "~/lib/db";
 import { TextField, TextFieldInput } from "../ui/text-field";
 
@@ -66,9 +66,9 @@ export default function IssuesList(props: IssuesListProps) {
     }
 
     return (
-        <>
+        <Suspense fallback="Loading issues...">
             <div class="gap-4 mb-4 mt-4 hidden md:flex">
-                <Button onClick={toggleSelectAll}>{selected().length > 0 ? 'Deselect' : 'Select'} All</Button>
+                <Button disabled={optimisticIssues()?.length === 0} onClick={toggleSelectAll}>{selected().length > 0 ? 'Deselect' : 'Select'} All</Button>
                 <div class="ml-auto flex gap-4">
                     <TextField class="w-64">
                         <TextFieldInput placeholder="Search" type="text" id="search" name="search" onInput={(e) => {
@@ -86,60 +86,58 @@ export default function IssuesList(props: IssuesListProps) {
                         }} />
                     </div>
                     <Show when={props.type === 'resolved'} fallback={
-                        <Button onClick={() => resolveIssuesAction(selected())}>Resolve Selected</Button>
+                        <Button disabled={optimisticIssues()?.length === 0} onClick={() => resolveIssuesAction(selected())}>Resolve Selected</Button>
                     }>
-                        <Button onClick={() => unresolveIssuesAction(selected())}>Unresolve Selected</Button>
+                        <Button disabled={optimisticIssues()?.length === 0} onClick={() => unresolveIssuesAction(selected())}>Unresolve Selected</Button>
                     </Show>
                 </div>
             </div>
-            <Suspense fallback="Loading issues...">
-                <div classList={{ 'opacity-50': pending() }}>
-                    <div class="mb-2 text-sm">
-                        {optimisticIssues().length || 0} Issues
-                    </div>
-
-                    <Show when={optimisticIssues() && optimisticIssues().length > 0} fallback={<div class={cn(
-                        "flex flex-row items-center gap-6 rounded-lg border p-3 text-left text-sm w-full font-semibold",
-                    )}>
-                        No issues found
-                    </div>}>
-
-                        <Pagination
-                            count={Math.ceil(optimisticIssues()!.length / ITEMS_PER_PAGE)}
-                            fixedItems
-                            itemComponent={(props) => <PaginationItem page={props.page}>{props.page}</PaginationItem>}
-                            ellipsisComponent={() => <PaginationEllipsis />}
-                            class="mb-4"
-                            onPageChange={(page) => {
-                                setPage(page);
-                            }}
-                        >
-                            <PaginationPrevious />
-                            <PaginationItems />
-                            <PaginationNext />
-                        </Pagination>
-                        <For each={paginate(optimisticIssues()!, page(), ITEMS_PER_PAGE)}>
-                            {(issue) => (
-                                <IssueLink users={props.users} issue={issue} checked={selected().includes(issue.id)} toggleSelect={toggleSelect} />
-                            )}
-                        </For>
-                        <Pagination
-                            count={Math.ceil(optimisticIssues()!.length / ITEMS_PER_PAGE)}
-                            fixedItems
-                            itemComponent={(props) => <PaginationItem page={props.page}>{props.page}</PaginationItem>}
-                            ellipsisComponent={() => <PaginationEllipsis />}
-                            class="mt-4"
-                            onPageChange={(page) => {
-                                setPage(page);
-                            }}
-                        >
-                            <PaginationPrevious />
-                            <PaginationItems />
-                            <PaginationNext />
-                        </Pagination>
-                    </Show>
+            <div classList={{ 'opacity-50': pending() }}>
+                <div class="mb-2 text-sm">
+                    {optimisticIssues().length || 0} Issues
                 </div>
-            </Suspense>
-        </>
+
+                <Show when={optimisticIssues() && optimisticIssues().length > 0} fallback={<div class={cn(
+                    "flex flex-row items-center gap-6 rounded-lg border p-3 text-left text-sm w-full font-semibold",
+                )}>
+                    No issues found
+                </div>}>
+
+                    <Pagination
+                        count={Math.ceil(optimisticIssues()!.length / ITEMS_PER_PAGE)}
+                        fixedItems
+                        itemComponent={(props) => <PaginationItem page={props.page}>{props.page}</PaginationItem>}
+                        ellipsisComponent={() => <PaginationEllipsis />}
+                        class="mb-4"
+                        onPageChange={(page) => {
+                            setPage(page);
+                        }}
+                    >
+                        <PaginationPrevious />
+                        <PaginationItems />
+                        <PaginationNext />
+                    </Pagination>
+                    <For each={paginate(optimisticIssues()!, page(), ITEMS_PER_PAGE)}>
+                        {(issue) => (
+                            <IssueLink users={props.users} issue={issue} checked={selected().includes(issue.id)} toggleSelect={toggleSelect} />
+                        )}
+                    </For>
+                    <Pagination
+                        count={Math.ceil(optimisticIssues()!.length / ITEMS_PER_PAGE)}
+                        fixedItems
+                        itemComponent={(props) => <PaginationItem page={props.page}>{props.page}</PaginationItem>}
+                        ellipsisComponent={() => <PaginationEllipsis />}
+                        class="mt-4"
+                        onPageChange={(page) => {
+                            setPage(page);
+                        }}
+                    >
+                        <PaginationPrevious />
+                        <PaginationItems />
+                        <PaginationNext />
+                    </Pagination>
+                </Show>
+            </div>
+        </Suspense>
     )
 }
