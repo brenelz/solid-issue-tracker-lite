@@ -34,7 +34,7 @@ export default function OnlineUsers() {
                     <Avatar src={String(presence!.avatar)} name={String(presence.name)} online={true} />
                 )}
             </For>
-            <hr class="shrink-0 bg-border w-px mx-2 h-6 bg-secondary" />
+            <hr class="shrink-0 w-px mx-2 h-6 bg-secondary" />
         </Show>
     );
 }

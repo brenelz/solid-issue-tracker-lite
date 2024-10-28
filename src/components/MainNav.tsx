@@ -9,18 +9,10 @@ export function MainNav(props: ComponentProps<"nav">) {
     const [, rest] = splitProps(props, ["class"])
     return (
         <nav class={cn("flex items-center space-x-4 lg:space-x-6", props.class)} {...rest}>
-            <a
-                href="/dashboard/"
-                class="text-sm font-medium transition-colors hover:text-white text-secondary"
-                classList={{ "!text-white border-b leading-7": location.pathname === '/dashboard/' }}
-            >
+            <a href="/dashboard/" class="text-sm font-medium transition-colors hover:text-white text-secondary" classList={{ "!text-white border-b leading-7": location.pathname === '/dashboard/' }}>
                 Dashboard
             </a>
-            <a
-                href="/dashboard/issues"
-                class="text-sm font-medium transition-colors hover:text-white text-secondary"
-                classList={{ "!text-white border-b leading-7": location.pathname === '/dashboard/issues' }}
-            >
+            <a href="/dashboard/issues" class="text-sm font-medium transition-colors hover:text-white text-secondary" classList={{ "!text-white border-b leading-7": location.pathname === '/dashboard/issues' }}>
                 Issues
             </a>
         </nav >

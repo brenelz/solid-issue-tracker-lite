@@ -41,7 +41,7 @@ export default function Issues(props: RouteSectionProps) {
                     </div>
 
                     <Accordion multiple={false} collapsible>
-                        <AccordionItem value="item-1">
+                        <AccordionItem value="ask-ai">
                             <AccordionTrigger class="h-6">
                                 <Button class="absolute" onClick={() => setShowAiDescription(true)}>Ask AI</Button>
                             </AccordionTrigger>

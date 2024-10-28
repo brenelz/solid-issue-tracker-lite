@@ -17,7 +17,6 @@ export default function MainLayout(props: ParentProps) {
                         <SignedIn>
                             <MainNav class="mx-6" />
                             <div class="ml-auto flex items-center space-x-4">
-
                                 <div class="sm:flex items-center hidden">
                                     <OnlineUsers />
                                     <Suspense>

@@ -15,3 +15,4 @@ This is an example issue tracker project built with [SolidStart](https://start.s
 - Clerk
 - Turso
 - Liveblocks
+- OpenAI

@@ -48,12 +48,12 @@ export default function InboxNotifications() {
                 <Show when={inboxNotifications() && inboxNotifications()!.length > 0} fallback="No notifications">
                     <For each={inboxNotifications()}>
                         {notification => (
-                            <div class="-mx-2 flex items-start space-x-4 rounded-md p-2 transition-all hover:bg-accent hover:text-accent-foreground items-center">
+                            <div class="-mx-2 flex space-x-4 rounded-md p-2 transition-all hover:bg-accent hover:text-accent-foreground items-center">
                                 <AiOutlineBell class="mt-px size-5" />
                                 <a href={`/dashboard/issues/${notification.issues.id}`} class="space-y-1 focus:outline-none">
                                     <p class="text-sm font-medium leading-none">{notification.notifications.title}</p>
                                     <p class="text-sm text-muted-foreground">{notification.issues.title}</p>
-                                    <p class="text-sm text-muted-foreground text-xs">{timeAgo(new Date(String(notification.notifications.createdAt + ' UTC')))}</p>
+                                    <p class="text-muted-foreground text-xs">{timeAgo(new Date(String(notification.notifications.createdAt + ' UTC')))}</p>
                                 </a>
                             </div>
                         )}

@@ -1,6 +1,6 @@
 import { Title } from "@solidjs/meta";
 import { createAsync, RouteDefinition } from "@solidjs/router";
-import { createMemo, createSignal, Show, Suspense } from "solid-js";
+import { createSignal, Show, Suspense } from "solid-js";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import { getAllUserIssues, getIssuesGraphData, getUsers } from "~/lib/queries";
 import Graphs from "~/components/Issues/Graphs";
@@ -29,30 +29,27 @@ export default function Dashboard() {
     return (
         <>
             <Title>Dashboard - Solid Issue Tracker Lite - Brenelz</Title>
+
             <div class="flex items-center justify-between space-y-2">
                 <h2 class="text-3xl font-bold tracking-tight">Dashboard</h2>
             </div>
 
             <div class="flex gap-4 flex-wrap lg:flex-nowrap">
                 <div class="w-full lg:w-2/3">
-                    <div>
-                        <Card>
-                            <CardHeader>
-                                <CardTitle>Your Assigned Issues</CardTitle>
-                            </CardHeader>
-                            <CardContent>
-                                <Suspense fallback="Loading Issues...">
-                                    <Show when={assignedIssues()}>
-                                        {issues => (
-                                            <IssueTabs issues={issues()} onDateFilterChange={(date) => {
-                                                setDateFilter(date)
-                                            }} />
-                                        )}
-                                    </Show>
-                                </Suspense>
-                            </CardContent>
-                        </Card>
-                    </div>
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>Your Assigned Issues</CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                            <Suspense fallback="Loading Issues...">
+                                <Show when={assignedIssues()}>
+                                    {assignedIssues => (
+                                        <IssueTabs issues={assignedIssues()} onDateFilterChange={(date) => { setDateFilter(date) }} />
+                                    )}
+                                </Show>
+                            </Suspense>
+                        </CardContent>
+                    </Card>
                 </div>
                 <div class="w-full lg:w-1/3">
                     <Suspense>

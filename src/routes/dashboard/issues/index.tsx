@@ -31,9 +31,23 @@ export default function Issues() {
 
     const generateFakeIssuesAction = useAction(generateFakeIssues);
 
+    const handleGenerateFakeIssues = async () => {
+        try {
+            await generateFakeIssuesAction();
+            toast("Fake issues have been generated")
+        } catch (e) {
+            if (e instanceof Error) {
+                toast(e.message, {
+                    class: "text-red-500"
+                });
+            }
+        }
+    }
+
     return (
         <>
             <Title>Issues - Solid Issue Tracker Lite - Brenelz</Title>
+
             <div class="flex items-center justify-between space-y-2">
                 <h2 class="text-3xl font-bold tracking-tight">Issues</h2>
             </div>
@@ -56,29 +70,15 @@ export default function Issues() {
                             </DialogFooter>
                         </form>
                     </DialogContent>
-                </Dialog >
-                <Button onClick={async () => {
-                    try {
-                        await generateFakeIssuesAction();
-                        toast("Fake issues have been generated")
-                    } catch (e) {
-                        if (e instanceof Error) {
-                            toast(e.message, {
-                                class: "text-red-500"
-                            });
-                        }
-                    }
+                </Dialog>
 
-                }}>Generate Fake Issues</Button>
-
+                <Button onClick={handleGenerateFakeIssues}>Generate Fake Issues</Button>
             </div>
 
-            <Suspense>
+            <Suspense fallback="Loading Issues...">
                 <Show when={issues()}>
                     {issues => (
-                        <IssueTabs issues={issues()} onDateFilterChange={(date) => {
-                            setDateFilter(date)
-                        }} />
+                        <IssueTabs issues={issues()} onDateFilterChange={(date) => { setDateFilter(date) }} />
                     )}
                 </Show>
             </Suspense>
