@@ -41,13 +41,15 @@ export default function Dashboard() {
                             <CardTitle>Your Assigned Issues</CardTitle>
                         </CardHeader>
                         <CardContent>
-                            <Suspense fallback="Loading Issues...">
-                                <Show when={assignedIssues()}>
-                                    {assignedIssues => (
-                                        <IssueTabs issues={assignedIssues()} onDateFilterChange={(date) => { setDateFilter(date) }} />
-                                    )}
-                                </Show>
-                            </Suspense>
+                            <div>
+                                <Suspense fallback="Loading Issues...">
+                                    <Show when={assignedIssues()}>
+                                        {assignedIssues => (
+                                            <IssueTabs issues={assignedIssues()} onDateFilterChange={(date) => { setDateFilter(date) }} />
+                                        )}
+                                    </Show>
+                                </Suspense>
+                            </div>
                         </CardContent>
                     </Card>
                 </div>
