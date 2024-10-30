@@ -48,8 +48,8 @@ importers:
         specifier: ^0.7.0
         version: 0.7.0
       clerk-solidjs:
-        specifier: ^2.0.2
-        version: 2.0.2(@solidjs/router@0.14.10(solid-js@1.9.1))(@solidjs/start@1.0.9(solid-js@1.9.1)(vinxi@0.4.3(@libsql/client@0.14.0)(@types/node@22.7.4)(drizzle-orm@0.33.0(@libsql/client@0.14.0)(react@18.3.1))(ioredis@5.4.1)(terser@5.34.1))(vite@5.4.8(@types/node@22.7.4)(terser@5.34.1)))(react@18.3.1)(solid-js@1.9.1)
+        specifier: ^2.0.6
+        version: 2.0.6(@solidjs/router@0.14.10(solid-js@1.9.1))(@solidjs/start@1.0.9(solid-js@1.9.1)(vinxi@0.4.3(@libsql/client@0.14.0)(@types/node@22.7.4)(drizzle-orm@0.33.0(@libsql/client@0.14.0)(react@18.3.1))(ioredis@5.4.1)(terser@5.34.1))(vite@5.4.8(@types/node@22.7.4)(terser@5.34.1)))(react@18.3.1)(solid-js@1.9.1)
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
@@ -205,12 +205,12 @@ packages:
     resolution: {integrity: sha512-/l42B1qxpG6RdfYf343Uw1vmDjeNhneUXtzhojE7pDgfpEypmRhI6j1kr17XCVv4Cgl9HdAiQY2x0GwKm7rWCw==}
     engines: {node: '>=6.9.0'}
 
-  '@clerk/backend@1.13.6':
-    resolution: {integrity: sha512-aHQZk/qDk4KEJFlEKB27mxm5rhThPJ+hu/cAmvZumrW/XMile44DhGqltV93qq1AiCl9eEprlSOr5KAfXRIAzg==}
+  '@clerk/backend@1.15.1':
+    resolution: {integrity: sha512-yoBCji0bJFn2bUxBOO0+6XmlN6Tb5M2CiW+DAX7V3pFQ7g7DnHjSZ/LVkt9yB0AmqHKPv1ISXWM/NFYSDBRVuA==}
     engines: {node: '>=18.17.0'}
 
-  '@clerk/shared@2.8.4':
-    resolution: {integrity: sha512-I+V05B/YqEWAaXb+SWb9VFCK6WSjChW01gC9OJxpkvjauNiBtDjFVghodZFg2dxcbwQGQNj6sC1hrf+mcBVBqw==}
+  '@clerk/shared@2.10.1':
+    resolution: {integrity: sha512-9dPuCcTd2qaK+YU9BiO5mPPnet9B38ZSp0gutnaUQmve9013qO0p9Lx7ympiPSulwkTG4NAfYxjr/pyIUUFqCQ==}
     engines: {node: '>=18.17.0'}
     peerDependencies:
       react: '>=18 || >=19.0.0-beta'
@@ -221,8 +221,8 @@ packages:
       react-dom:
         optional: true
 
-  '@clerk/types@4.23.0':
-    resolution: {integrity: sha512-xCAPeKXOt/qAEzhlv35sdNYm9ewoveRMUwVEoGsFIDaeF9N1agCNdzKtCMcHjGZFH4ESnopLmEq2n46aRxPFkA==}
+  '@clerk/types@4.28.0':
+    resolution: {integrity: sha512-RPdrUs8HYfhXaZ0MOVBkzy7lilsU9lDVSC88a5o/cEMmTML+BTDfLHMlLG81kgvagSLCKKbl28iocb8y7stm1Q==}
     engines: {node: '>=18.17.0'}
 
   '@cloudflare/kv-asset-handler@0.3.4':
@@ -1259,8 +1259,8 @@ packages:
     peerDependencies:
       solid-js: ^1.6.12
 
-  '@solid-primitives/memo@1.3.9':
-    resolution: {integrity: sha512-OIlGcsEPXr6U23fDaSEm8iqezWDT4SNSjLTekWQVOu4qHostnMPlqU8xo1Jf0I7OgRuqA0wTMQ5cu0bYjeR/ZQ==}
+  '@solid-primitives/memo@1.3.10':
+    resolution: {integrity: sha512-S4cNjjKINVC4KiY3ovP1oagbTVQI77VvSRMNsInFIi7T4hM/N5InJk5k+W0zD4lt+SUYrWF04BMbZyMy17vfUw==}
     peerDependencies:
       solid-js: ^1.6.12
 
@@ -1284,8 +1284,8 @@ packages:
     peerDependencies:
       solid-js: ^1.6.12
 
-  '@solid-primitives/scheduled@1.4.3':
-    resolution: {integrity: sha512-HfWN5w7b7FEc6VPLBKnnE302h90jsLMuR28Fcf7neRGGf8jBj6wm6/UFQ00VlKexHFMR6KQ2u4VBh5a1ZcqM8g==}
+  '@solid-primitives/scheduled@1.4.4':
+    resolution: {integrity: sha512-BTGdFP7t+s7RSak+s1u0eTix4lHP23MrbGkgQTFlt1E+4fmnD/bEx3ZfNW7Grylz3GXgKyXrgDKA7jQ/wuWKgA==}
     peerDependencies:
       solid-js: ^1.6.12
 
@@ -1323,11 +1323,11 @@ packages:
   '@swc/helpers@0.5.13':
     resolution: {integrity: sha512-UoKGxQ3r5kYI9dALKJapMmuK+1zWM/H17Z1+iwnNmzcJRnfFuevZs375TA5rW31pu4BS4NoSy1fRsexDXfWn5w==}
 
-  '@tanstack/query-core@5.59.0':
-    resolution: {integrity: sha512-WGD8uIhX6/deH/tkZqPNcRyAhDUqs729bWKoByYHSogcshXfFbppOdTER5+qY7mFvu8KEFJwT0nxr8RfPTVh0Q==}
+  '@tanstack/query-core@5.59.16':
+    resolution: {integrity: sha512-crHn+G3ltqb5JG0oUv6q+PMz1m1YkjpASrXTU+sYWW9pLk0t2GybUHNRqYPZWhxgjPaVGC4yp92gSFEJgYEsPw==}
 
-  '@tanstack/solid-query@5.59.0':
-    resolution: {integrity: sha512-2yCObsJ9NHpKSKfHJ3R2TRuYbxtU2Hzg8rxlexl3uHm3VIvQQ1KH18/PYdQAR6oXymCl7ls5QZKvTvgJRtX9bg==}
+  '@tanstack/solid-query@5.59.16':
+    resolution: {integrity: sha512-GWUbwAbIj8oLuj7zPEiHTIWp3SB/2+fSlVRpiHlTPpi7iH4Sb5inczxr+F/0y0DBKV6Wq/zo9ju5wdHQGEu31g==}
     peerDependencies:
       solid-js: ^1.6.0
 
@@ -1867,8 +1867,8 @@ packages:
   class-variance-authority@0.7.0:
     resolution: {integrity: sha512-jFI8IQw4hczaL4ALINxqLEXQbWcNjoSkloa4IaufXCJr6QawJyw7tuRysRsrE8w2p/4gGaxKIt/hX3qz/IbD1A==}
 
-  clerk-solidjs@2.0.2:
-    resolution: {integrity: sha512-6j2+KISDNX+7WurIVOnqPz9VM4d0fJuC1icnnNkvr/SHB53fb0kZ9GGKTYLyvRxxNi4enzH/gCP45Q4T6JzvAw==}
+  clerk-solidjs@2.0.6:
+    resolution: {integrity: sha512-ZLJt1qsNSH8nlZTR4APg7hT3BKutBfbKKsRIvWGpXXYTJx6GGVQfPpXYSrT3b0mWE0KbPY81lbDXFdz5y10ekw==}
     engines: {node: '>=18'}
     peerDependencies:
       '@solidjs/router': '>=0.14'
@@ -1959,8 +1959,8 @@ packages:
   cookie-es@1.2.2:
     resolution: {integrity: sha512-+W7VmiVINB+ywl1HGXJXmrqkOhpKrIiVZV6tQuV54ZyQC7MMuBt81Vc336GMLoHBq5hV/F9eXgt5Mnx0Rha5Fg==}
 
-  cookie@0.5.0:
-    resolution: {integrity: sha512-YZ3GUyn/o8gfKJlnlX7g7xq4gyO6OSuhGPKaaGssGB2qgDUS0gPgtTvoyZLTt9Ab6dC4hfc9dV5arkvc/OCmrw==}
+  cookie@0.7.0:
+    resolution: {integrity: sha512-qCf+V4dtlNhSRXGAZatc1TasyFO6GjohcOul807YOb5ik3+kQSnb4d7iajeCL8QHaJ4uZEjCgiCJerKXwdRVlQ==}
     engines: {node: '>= 0.6'}
 
   core-util-is@1.0.3:
@@ -4134,20 +4134,20 @@ snapshots:
       '@babel/helper-validator-identifier': 7.24.7
       to-fast-properties: 2.0.0
 
-  '@clerk/backend@1.13.6(react@18.3.1)':
+  '@clerk/backend@1.15.1(react@18.3.1)':
     dependencies:
-      '@clerk/shared': 2.8.4(react@18.3.1)
-      '@clerk/types': 4.23.0
-      cookie: 0.5.0
+      '@clerk/shared': 2.10.1(react@18.3.1)
+      '@clerk/types': 4.28.0
+      cookie: 0.7.0
       snakecase-keys: 5.4.4
       tslib: 2.4.1
     transitivePeerDependencies:
       - react
       - react-dom
 
-  '@clerk/shared@2.8.4(react@18.3.1)':
+  '@clerk/shared@2.10.1(react@18.3.1)':
     dependencies:
-      '@clerk/types': 4.23.0
+      '@clerk/types': 4.28.0
       glob-to-regexp: 0.4.1
       js-cookie: 3.0.5
       std-env: 3.7.0
@@ -4155,7 +4155,7 @@ snapshots:
     optionalDependencies:
       react: 18.3.1
 
-  '@clerk/types@4.23.0':
+  '@clerk/types@4.28.0':
     dependencies:
       csstype: 3.1.1
 
@@ -4910,9 +4910,9 @@ snapshots:
       '@solid-primitives/utils': 6.2.3(solid-js@1.9.1)
       solid-js: 1.9.1
 
-  '@solid-primitives/memo@1.3.9(solid-js@1.9.1)':
+  '@solid-primitives/memo@1.3.10(solid-js@1.9.1)':
     dependencies:
-      '@solid-primitives/scheduled': 1.4.3(solid-js@1.9.1)
+      '@solid-primitives/scheduled': 1.4.4(solid-js@1.9.1)
       '@solid-primitives/utils': 6.2.3(solid-js@1.9.1)
       solid-js: 1.9.1
 
@@ -4939,7 +4939,7 @@ snapshots:
       '@solid-primitives/utils': 6.2.3(solid-js@1.9.1)
       solid-js: 1.9.1
 
-  '@solid-primitives/scheduled@1.4.3(solid-js@1.9.1)':
+  '@solid-primitives/scheduled@1.4.4(solid-js@1.9.1)':
     dependencies:
       solid-js: 1.9.1
 
@@ -4997,11 +4997,11 @@ snapshots:
     dependencies:
       tslib: 2.7.0
 
-  '@tanstack/query-core@5.59.0': {}
+  '@tanstack/query-core@5.59.16': {}
 
-  '@tanstack/solid-query@5.59.0(solid-js@1.9.1)':
+  '@tanstack/solid-query@5.59.16(solid-js@1.9.1)':
     dependencies:
-      '@tanstack/query-core': 5.59.0
+      '@tanstack/query-core': 5.59.16
       solid-js: 1.9.1
 
   '@types/babel__core@7.20.5':
@@ -5923,16 +5923,16 @@ snapshots:
     dependencies:
       clsx: 2.0.0
 
-  clerk-solidjs@2.0.2(@solidjs/router@0.14.10(solid-js@1.9.1))(@solidjs/start@1.0.9(solid-js@1.9.1)(vinxi@0.4.3(@libsql/client@0.14.0)(@types/node@22.7.4)(drizzle-orm@0.33.0(@libsql/client@0.14.0)(react@18.3.1))(ioredis@5.4.1)(terser@5.34.1))(vite@5.4.8(@types/node@22.7.4)(terser@5.34.1)))(react@18.3.1)(solid-js@1.9.1):
+  clerk-solidjs@2.0.6(@solidjs/router@0.14.10(solid-js@1.9.1))(@solidjs/start@1.0.9(solid-js@1.9.1)(vinxi@0.4.3(@libsql/client@0.14.0)(@types/node@22.7.4)(drizzle-orm@0.33.0(@libsql/client@0.14.0)(react@18.3.1))(ioredis@5.4.1)(terser@5.34.1))(vite@5.4.8(@types/node@22.7.4)(terser@5.34.1)))(react@18.3.1)(solid-js@1.9.1):
     dependencies:
-      '@clerk/backend': 1.13.6(react@18.3.1)
-      '@clerk/shared': 2.8.4(react@18.3.1)
+      '@clerk/backend': 1.15.1(react@18.3.1)
+      '@clerk/shared': 2.10.1(react@18.3.1)
       '@solid-primitives/context': 0.2.3(solid-js@1.9.1)
       '@solid-primitives/destructure': 0.1.17(solid-js@1.9.1)
-      '@solid-primitives/memo': 1.3.9(solid-js@1.9.1)
+      '@solid-primitives/memo': 1.3.10(solid-js@1.9.1)
       '@solidjs/router': 0.14.10(solid-js@1.9.1)
       '@solidjs/start': 1.0.9(solid-js@1.9.1)(vinxi@0.4.3(@libsql/client@0.14.0)(@types/node@22.7.4)(drizzle-orm@0.33.0(@libsql/client@0.14.0)(react@18.3.1))(ioredis@5.4.1)(terser@5.34.1))(vite@5.4.8(@types/node@22.7.4)(terser@5.34.1))
-      '@tanstack/solid-query': 5.59.0(solid-js@1.9.1)
+      '@tanstack/solid-query': 5.59.16(solid-js@1.9.1)
       solid-js: 1.9.1
     transitivePeerDependencies:
       - react
@@ -6006,7 +6006,7 @@ snapshots:
 
   cookie-es@1.2.2: {}
 
-  cookie@0.5.0: {}
+  cookie@0.7.0: {}
 
   core-util-is@1.0.3: {}
 

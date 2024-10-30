@@ -2,6 +2,8 @@
 
 This is an example issue tracker project built with [SolidStart](https://start.solidjs.com) for [SolidHack2024](https://hack.solidjs.com/).
 
+https://solid-issue-tracker-lite.brenelz.com/
+
 ## Technologies Used
 
 - SolidStart
