@@ -10,8 +10,9 @@ import PriorityBadges from "./PriorityBadges";
 import AssignTo from "./AssignTo";
 
 type IssueDetailsProps = {
-    issue: IssueWithAssignedUser
-    users?: UserRow[]
+    issue: IssueWithAssignedUser;
+    users?: UserRow[];
+    fullDescription?: boolean;
 }
 
 export default function IssueDetail(props: IssueDetailsProps) {
@@ -35,7 +36,7 @@ export default function IssueDetail(props: IssueDetailsProps) {
                                 <div class="font-semibold">{props.issue.title}</div>
                             </div>
                         </div>
-                        <div class="line-clamp-2 text-xs mt-1 text-muted-foreground">
+                        <div class="text-xs mt-1 text-muted-foreground" classList={{ 'line-clamp-4': !props.fullDescription }}>
                             {props.issue.description}
                         </div>
                     </div>

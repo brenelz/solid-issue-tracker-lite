@@ -44,21 +44,19 @@ export default function AddIssueDialogContent() {
                 <TextField class="grid w-full items-center gap-2.5">
                     <TextFieldLabel for="assignTo">Assign to:</TextFieldLabel>
                     <input type="hidden" name="assignedId" value={String(newIssueAssignedId())} />
-                    <div class="ml-3">
-                        <div class="flex items-center">
-                            <For each={users()}>
-                                {(user) => (
-                                    <Avatar
-                                        selected={newIssueAssignedId() === user.id}
-                                        onClick={async () => {
-                                            setNewIssueAssignedId(user.id)
-                                        }}
-                                        src={user.avatar}
-                                        name={String(user.firstName || 'unknown')}
-                                    />
-                                )}
-                            </For>
-                        </div>
+                    <div class="ml-3 flex flex-wrap items-center w-full">
+                        <For each={users()}>
+                            {(user) => (
+                                <Avatar
+                                    selected={newIssueAssignedId() === user.id}
+                                    onClick={async () => {
+                                        setNewIssueAssignedId(user.id)
+                                    }}
+                                    src={user.avatar}
+                                    name={String(user.firstName || 'unknown')}
+                                />
+                            )}
+                        </For>
                     </div>
                 </TextField>
             </div>

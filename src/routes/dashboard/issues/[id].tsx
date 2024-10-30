@@ -36,7 +36,7 @@ export default function Issues(props: RouteSectionProps) {
                 <Suspense fallback={<div class="flex items-center gap-2"><div class="font-semibold">Loading Issue...</div></div>}>
                     <div class="flex flex-row items-center gap-6 text-left text-sm w-full">
                         <Show when={issue()}>
-                            {issue => <IssueDetail users={users()} issue={issue()} />}
+                            {issue => <IssueDetail fullDescription={true} users={users()} issue={issue()} />}
                         </Show>
                     </div>
 
