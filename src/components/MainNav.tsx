@@ -1,4 +1,5 @@
 import { useLocation } from "@solidjs/router"
+import { AiOutlineGithub } from "solid-icons/ai";
 import type { ComponentProps } from "solid-js"
 import { splitProps } from "solid-js"
 
@@ -14,6 +15,9 @@ export function MainNav(props: ComponentProps<"nav">) {
             </a>
             <a href="/dashboard/issues" class="text-sm font-medium transition-colors hover:text-white text-secondary" classList={{ "!text-white border-b leading-7": location.pathname === '/dashboard/issues' }}>
                 Issues
+            </a>
+            <a href="https://github.com/brenelz/solid-issue-tracker-lite" target="_blank" rel="noopener" class="text-sm font-medium transition-colors hover:text-white text-secondary">
+                <AiOutlineGithub size={24} />
             </a>
         </nav >
     )
