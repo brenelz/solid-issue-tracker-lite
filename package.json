@@ -1,5 +1,8 @@
 {
   "name": "solid-issue-tracker-lite",
+  "description": "This is an example issue tracker project built with SolidStart",
+  "author": "Brenley Dueck",
+  "license": "MIT",
   "type": "module",
   "scripts": {
     "dev": "vinxi dev",
