@@ -11,7 +11,7 @@ export default function MainLayout(props: ParentProps) {
     return (
         <div class="flex-col md:flex">
             <div class="border-b">
-                <div class="flex flex-wrap justify-center sm:flex-auto sm:h-autos m:text-left h-24 sm:h-16 items-center px-4 bg-primary text-white">
+                <div class="flex flex-wrap justify-center sm:justify-start sm:h-autos sm:text-left h-24 sm:h-16 px-4 bg-primary text-white sm:items-center pt-4 sm:pt-0">
                     <a href="/" class="font-bold sm:inline-block">Solid Issue Tracker Lite</a>
                     <ClerkLoaded>
                         <SignedIn>
