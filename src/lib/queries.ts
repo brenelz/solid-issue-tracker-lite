@@ -1,4 +1,4 @@
-import { cache, redirect } from "@solidjs/router";
+import { query, redirect } from "@solidjs/router";
 import { db, getIssueFromDb, IssueRow, issuesTable, notificationsTable, UserRow, usersTable } from "./db";
 import { and, eq, or, sql } from "drizzle-orm";
 import { codeToHtml } from 'shiki'
@@ -8,7 +8,7 @@ export type IssueWithAssignedUser = IssueRow & {
     assignedUser: UserRow | null
 }
 
-export const getAllUserIssues = cache(async (date?: string) => {
+export const getAllUserIssues = query(async (date?: string) => {
     "use server";
     const authObject = auth();
 
@@ -34,7 +34,7 @@ export const getAllUserIssues = cache(async (date?: string) => {
 
 }, "get-all-user-issues");
 
-export const getIssue = cache(async (issueId: number) => {
+export const getIssue = query(async (issueId: number) => {
     "use server";
 
     const authObject = auth();
@@ -73,7 +73,7 @@ export const getIssue = cache(async (issueId: number) => {
 
 }, "get-issue");
 
-export const getUsers = cache(async () => {
+export const getUsers = query(async () => {
     "use server";
 
     const users = await db.select().from(usersTable);
@@ -82,7 +82,7 @@ export const getUsers = cache(async () => {
 
 }, "get-users");
 
-export const getNotificationsForUser = cache(async () => {
+export const getNotificationsForUser = query(async () => {
     "use server";
 
     const authObject = auth();
@@ -100,7 +100,7 @@ export const getNotificationsForUser = cache(async () => {
 
 }, "get-notifications-for-user");
 
-export const getIssuesGraphData = cache(async () => {
+export const getIssuesGraphData = query(async () => {
     "use server";
 
     const authObject = auth();

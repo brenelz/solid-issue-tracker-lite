@@ -1,9 +1,9 @@
-import { cache, redirect } from "@solidjs/router";
+import { query, redirect } from "@solidjs/router";
 import OpenAI from "openai";
 import { auth } from "clerk-solidjs/server";
 import { getIssueFromDb } from "./db";
 
-export const getAiDescription = cache(async (issueId: number) => {
+export const getAiDescription = query(async (issueId: number) => {
     "use server";
     const authObj = auth();
 
