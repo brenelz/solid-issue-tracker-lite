@@ -2,6 +2,7 @@ import { Navigate, RouteDefinition } from "@solidjs/router";
 import { SignedOut } from "clerk-solidjs";
 import { ParentProps } from "solid-js";
 import { getNotificationsForUser, getUsers } from "~/lib/queries";
+import { Routes } from "~/RouteManifest";
 
 export const route = {
     preload() {
@@ -14,7 +15,7 @@ export default function Dashboard(props: ParentProps) {
     return (
         <>
             <SignedOut>
-                <Navigate href="/" />
+                <Navigate href={Routes().dashboard.index} />
             </SignedOut>
             {props.children}
         </>

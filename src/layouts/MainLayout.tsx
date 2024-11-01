@@ -6,13 +6,14 @@ import styles from '~/components/Avatar.module.css';
 import { Toaster } from "solid-sonner";
 import { cn } from "~/lib/utils";
 import InboxNotifications from "~/components/InboxNotifcations";
+import { Routes } from "~/RouteManifest";
 
 export default function MainLayout(props: ParentProps) {
     return (
         <div class="flex-col md:flex">
             <div class="border-b">
                 <div class="flex flex-wrap justify-center sm:justify-start sm:h-autos sm:text-left h-24 sm:h-16 px-4 bg-primary text-white sm:items-center pt-4 sm:pt-0">
-                    <a href="/" class="font-bold sm:inline-block">Solid Issue Tracker Lite</a>
+                    <a href={Routes().index} class="font-bold sm:inline-block">Solid Issue Tracker Lite</a>
                     <ClerkLoaded>
                         <SignedIn>
                             <MainNav class="mx-6" />

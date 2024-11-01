@@ -8,6 +8,7 @@ import { AiOutlineBell } from 'solid-icons/ai'
 import { Button } from "./ui/button";
 import { clearNotifications } from "~/lib/actions";
 import { toast } from "solid-sonner";
+import { Routes } from "~/RouteManifest";
 
 export default function InboxNotifications() {
     const [inboxNotifications, { refetch, mutate }] = createResource(() => getNotificationsForUser());
@@ -50,7 +51,7 @@ export default function InboxNotifications() {
                         {notification => (
                             <div class="-mx-2 flex space-x-4 rounded-md p-2 transition-all hover:bg-accent hover:text-accent-foreground items-center">
                                 <AiOutlineBell class="mt-px size-5" />
-                                <a href={`/dashboard/issues/${notification.issues.id}`} class="space-y-1 focus:outline-none">
+                                <a href={Routes().dashboard.issues.id(notification.issues.id).index} class="space-y-1 focus:outline-none">
                                     <p class="text-sm font-medium leading-none">{notification.notifications.title}</p>
                                     <p class="text-sm text-muted-foreground">{notification.issues.title}</p>
                                     <p class="text-muted-foreground text-xs">{timeAgo(new Date(String(notification.notifications.createdAt + ' UTC')))}</p>

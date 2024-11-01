@@ -1,5 +1,6 @@
 import { Navigate } from "@solidjs/router";
 import { SignedIn, SignedOut, SignIn } from "clerk-solidjs";
+import { Routes } from "~/RouteManifest";
 
 export default function Home() {
   return (
@@ -10,7 +11,7 @@ export default function Home() {
         </div>
       </SignedOut>
       <SignedIn>
-        <Navigate href="/dashboard/" />
+        <Navigate href={Routes().dashboard.index} />
       </SignedIn>
     </>
   );

@@ -6,6 +6,7 @@ dist
 .netlify
 .vinxi
 app.config.timestamp_*.js
+src/RouteManifest/
 
 # Environment
 .env

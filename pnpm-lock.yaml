@@ -83,6 +83,9 @@ importers:
       solid-sonner:
         specifier: ^0.2.8
         version: 0.2.8(solid-js@1.9.3)
+      solid-start-typesafe-routes-plugin:
+        specifier: ^0.1.6
+        version: 0.1.6(solid-js@1.9.3)(vinxi@0.4.3(@libsql/client@0.14.0)(@types/node@22.7.4)(drizzle-orm@0.33.0(@libsql/client@0.14.0)(react@18.3.1))(ioredis@5.4.1)(terser@5.34.1))
       svix:
         specifier: ^1.37.0
         version: 1.37.0
@@ -3418,6 +3421,13 @@ packages:
     resolution: {integrity: sha512-EQ2EIznvHHpAmkYh2CTu0AdCgmPJRJWLGFRWygE8j+vMEfvIV2wotHU5qgWzqzVTG1SODGsay2Lwq6ENWx/rPA==}
     peerDependencies:
       solid-js: ^1.6.0
+
+  solid-start-typesafe-routes-plugin@0.1.6:
+    resolution: {integrity: sha512-JEt3od+waTWwc9Lph+zkPEJ5O8/DSvR9Qia1hkS9qI6tssBT0UffKww6Q5Q+knp67YDToQ4BMAjO9XQvz42oYA==}
+    engines: {node: '>=18', pnpm: '>=9.0.0'}
+    peerDependencies:
+      solid-js: ^1.6.0
+      vinxi: ^0.4.3
 
   solid-use@0.9.0:
     resolution: {integrity: sha512-8TGwB4m3qQ7qKo8Lg0pi/ZyyGVmQIjC4sPyxRCH7VPds0BzSsT734PhP3jhR6zMJxoYHM+uoivjq0XdpzXeOJg==}
@@ -7529,6 +7539,11 @@ snapshots:
   solid-sonner@0.2.8(solid-js@1.9.3):
     dependencies:
       solid-js: 1.9.3
+
+  solid-start-typesafe-routes-plugin@0.1.6(solid-js@1.9.3)(vinxi@0.4.3(@libsql/client@0.14.0)(@types/node@22.7.4)(drizzle-orm@0.33.0(@libsql/client@0.14.0)(react@18.3.1))(ioredis@5.4.1)(terser@5.34.1)):
+    dependencies:
+      solid-js: 1.9.3
+      vinxi: 0.4.3(@libsql/client@0.14.0)(@types/node@22.7.4)(drizzle-orm@0.33.0(@libsql/client@0.14.0)(react@18.3.1))(ioredis@5.4.1)(terser@5.34.1)
 
   solid-use@0.9.0(solid-js@1.9.3):
     dependencies:
