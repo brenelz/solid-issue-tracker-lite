@@ -8,6 +8,7 @@ import { toast } from "solid-sonner";
 import { UserRow } from "~/lib/db";
 import PriorityBadges from "./PriorityBadges";
 import AssignTo from "./AssignTo";
+import { Routes } from "~/RouteManifest";
 
 type IssueDetailsProps = {
     issue: IssueWithAssignedUser;
@@ -28,7 +29,7 @@ export default function IssueDetail(props: IssueDetailsProps) {
             classList={
                 { 'opacity-50': resolveIssuesSubmission.pending || unresolveIssuesSubmission.pending || assignIssueToSubmission.pending }
             }>
-            <a href={`/dashboard/issues/${props.issue.id}`} class="flex-grow">
+            <a href={Routes().dashboard.issues.id(props.issue.id).index} class="flex-grow">
                 <div>
                     <div class="flex flex-grow w-full flex-col gap-1">
                         <div class="flex items-center">
@@ -42,7 +43,7 @@ export default function IssueDetail(props: IssueDetailsProps) {
                     </div>
                 </div>
             </a>
-            <a href={`/dashboard/issues/${props.issue.id}`} class={cn("text-xs", "text-muted-foreground", "shrink-0")}>
+            <a href={Routes().dashboard.issues.id(props.issue.id).index} class={cn("text-xs", "text-muted-foreground", "shrink-0")}>
                 {timeAgo(new Date(String(props.issue.createdAt + ' UTC')))}
             </a>
             <div class="hidden shrink-0 sm:flex">
