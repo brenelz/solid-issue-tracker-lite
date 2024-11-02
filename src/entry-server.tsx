@@ -18,4 +18,4 @@ export default createHandler(() => (
       </html>
     )}
   />
-));
+), (event) => ({ nonce: `nonce-${event.locals.nonce}` }));
