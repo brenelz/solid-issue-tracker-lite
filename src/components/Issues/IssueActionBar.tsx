@@ -25,7 +25,7 @@ export default function IssueActionBar(props: IssueActionBarProps) {
         <>
             <Button disabled={props.issues?.length === 0} onClick={props.toggleSelectAll}>{props.selected.length > 0 ? 'Deselect' : 'Select'} All</Button>
             <div class="ml-auto flex gap-4">
-                <TextField class="w-64">
+                <TextField class="w-64 hidden xl:block">
                     <TextFieldInput placeholder="Search" type="text" id="search" name="search" onInput={(e) => {
                         const target = e.target as HTMLInputElement;
                         props.updateSearchTerm(target.value)
