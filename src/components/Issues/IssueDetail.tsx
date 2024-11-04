@@ -20,14 +20,12 @@ export default function IssueDetail(props: IssueDetailsProps) {
     const resolveIssuesAction = useAction(resolveIssues);
     const unresolveIssuesAction = useAction(unresolveIssues);
 
-    const resolveIssuesSubmission = useSubmission(resolveIssues);
-    const unresolveIssuesSubmission = useSubmission(unresolveIssues);
     const assignIssueToSubmission = useSubmission(assignIssueTo);
 
     return (
         <div class="flex flex-col sm:flex-row flex-start sm:items-center gap-6 w-full"
             classList={
-                { 'opacity-50': resolveIssuesSubmission.pending || unresolveIssuesSubmission.pending || assignIssueToSubmission.pending }
+                { 'opacity-50': assignIssueToSubmission.pending }
             }>
             <a href={Routes().dashboard.issues.id(props.issue.id).index} class="flex-grow">
                 <div>

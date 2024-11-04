@@ -19,7 +19,6 @@ export default function IssuesList(props: IssuesListProps) {
     const [page, setPage] = createSignal(1);
     const [selected, setSelected] = createSignal<number[]>([]);
 
-    const [pending] = useTransition();
     const resolveIssuesSubmissions = useSubmissions(resolveIssues);
     const unresolveIssuesSubmissions = useSubmissions(unresolveIssues);
 
@@ -77,7 +76,7 @@ export default function IssuesList(props: IssuesListProps) {
                     type={props.type}
                 />
             </div>
-            <div classList={{ 'opacity-50': pending() }}>
+            <div>
                 <div class="mb-2 text-sm">
                     {optimisticIssues().length || 0} Issues
                 </div>
