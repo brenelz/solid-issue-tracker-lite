@@ -44,7 +44,7 @@ export default function IssueDetail(props: IssueDetailsProps) {
                 </div>
             </a>
             <a href={Routes().dashboard.issues.id(props.issue.id).index} class={cn("text-xs", "text-muted-foreground", "shrink-0")}>
-                {new Date(String(props.issue.createdAt + ' UTC')).toDateString()}
+                {timeAgo(new Date(String(props.issue.createdAt + ' UTC')))}
             </a>
             <div class="hidden shrink-0 sm:flex">
                 <PriorityBadges issue={props.issue} />
